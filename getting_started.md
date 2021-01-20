@@ -124,7 +124,7 @@ analysis platform.
 
 [Hail]: https://hail.is
 
-# TODO: installation (Through CPG Bioconda channel?)
+TODO: installation (Through CPG Bioconda channel?)
 
 The Hail [documentation] is a good starting point. In particular, the
 [tutorials] are worth looking into.
