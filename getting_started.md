@@ -157,6 +157,9 @@ completed:
 hailctl dataproc start --max-age 2h --region australia-southeast1 my-cluster
 ```
 
+**TODO(@lgruen): Add note about network egress costs and public / requester
+pays buckets (unless noted in the How To guide already).**
+
 There's also a [workshop recording] that contains a lot of useful tips, although
 not everything is applicable to the Centre.
 
@@ -177,6 +180,19 @@ If you're interested in the Hail internals, this developer focussed
 
 # Hail Batch
 
-*TODO(lgruen): add content: sign-up, deployment config, login*
+[Hail Batch] is a generic job scheduling system for GCP. You describe a
+workflow using Python API as a series of Docker container commands, input and
+output files, and job interdependencies.
+
+[Hail Batch]: https://hail.is/docs/batch/service.html
+
+In the near future, Hail Batch will integrate nicely with the Hail Query
+component, which means that you won't need to run a Dataproc cluster anymore.
+Instead, you'll be able to run scalable Hail analyses directly from Batch,
+using a shared pool of worker VMs that also process your other jobs.
+
+**TODO(@lgruen): add content: sign-up, deployment config, login**
 
 # Cromwell
+
+**TODO(@lgruen): add repo link**
