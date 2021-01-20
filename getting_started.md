@@ -124,7 +124,15 @@ analysis platform.
 
 [Hail]: https://hail.is
 
-TODO: installation (Through CPG Bioconda channel?)
+To install Hail, use the package in the CPG's Bioconda channel:
+1.  Install [Miniconda].
+1.  Run the following to create a Conda environment called `hail`:
+    ```bash
+    conda create --name hail -c cpg -c bioconda -c conda-forge hail
+    conda activate hail
+    ```
+
+[Miniconda]: https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
 
 The Hail [documentation] is a good starting point. In particular, the
 [tutorials] are worth looking into.
@@ -135,6 +143,19 @@ The Hail [documentation] is a good starting point. In particular, the
 Don't feel discouraged if the "lazy evaluation" model of Hail feels
 unintuitive at first. It takes some time getting used to, but it's extremely
 powerful.
+
+To understand how Hail works on GCP, read the [How to Cloud with Hail] guide.
+
+[How to Cloud with Hail]: https://github.com/danking/hail-cloud-docs/blob/master/how-to-cloud-with-hail.md
+
+At the moment, using Hail requires launching a Dataproc (Spark) cluster.
+Please always set a maximum age for the cluster (`--max-age` below), to avoid
+accidental spending in case you forget to stop the cluster after your job has
+completed:
+
+```bash
+hailctl dataproc start --max-age 2h --region australia-southeast1 my-cluster
+```
 
 There's also a [workshop recording] that contains a lot of useful tips, although
 not everything is applicable to the Centre.
@@ -149,15 +170,6 @@ Finally, there's also an official [discussion forum].
 [Zulip chat]: https://hail.zulipchat.com
 [discussion forum]: https://discuss.hail.is/
 
-At the moment, using Hail requires launching a Dataproc (Spark) cluster.
-Please always set a maximum age for the cluster (`--max-age` below), to avoid
-accidental spending in case you forget to stop the cluster after your job has
-completed:
-
-```bash
-hailctl dataproc start --max-age 2h --region australia-southeast1 my-cluster
-```
-
 If you're interested in the Hail internals, this developer focussed
 [overview] is very helpful.
 
@@ -166,3 +178,5 @@ If you're interested in the Hail internals, this developer focussed
 # Hail Batch
 
 *TODO(lgruen): add content: sign-up, deployment config, login*
+
+# Cromwell
