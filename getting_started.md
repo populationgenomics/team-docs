@@ -118,7 +118,7 @@ non-public genomic data is highly sensitive.
 # Hail
 
 [Hail] is an amazing open source library and platform for genomic data
-analysis, developed at the Broad Institute. Given it's proven scalability and
+analysis, developed at the Broad Institute. Given its proven scalability and
 our good relationship with the Hail development team, it's the Centre's main
 analysis platform.
 
