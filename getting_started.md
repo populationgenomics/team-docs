@@ -149,14 +149,14 @@ analysis platform.
 
 [Hail]: https://hail.is
 
-To install Hail, use the package in the CPG's Bioconda channel:
+To install Hail, use the package in the CPG's [conda channel]:
 1.  Install [Miniconda].
-1.  Run the following to create a Conda environment called `hail`:
+1.  Run the following to create a conda environment called `hail`:
     ```bash
     conda create --name hail -c cpg -c bioconda -c conda-forge hail google-cloud-sdk
     conda activate hail
     ```
-
+[conda channel]: https://anaconda.org/cpg
 [Miniconda]: https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
 
 The Hail [documentation] is a good starting point. In particular, the
