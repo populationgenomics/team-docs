@@ -136,9 +136,9 @@ buckets, we don't get charged for the egress traffic.
 [Requester Pays]: https://cloud.google.com/storage/docs/requester-pays
 
 Please avoid storing any non-public data on your laptop, as that increases the
-risk of data breaches significantly. Keep in mind that any non-public genomic
-data is highly sensitive. Keeping the data in the cloud also avoids incurring
-any egress costs that apply when downloading the data.
+risk of data breaches. Keep in mind that any non-public genomic data is
+highly sensitive. Keeping the data in the cloud also avoids incurring any
+egress costs that apply when downloading the data.
 
 # Hail
 
@@ -149,14 +149,14 @@ analysis platform.
 
 [Hail]: https://hail.is
 
-To install Hail, use the package in the CPG's [conda channel]:
+To install Hail, use the package in [CPG's conda channel]:
 1.  Install [Miniconda].
 1.  Run the following to create a conda environment called `hail`:
     ```bash
     conda create --name hail -c cpg -c bioconda -c conda-forge hail google-cloud-sdk
     conda activate hail
     ```
-[conda channel]: https://anaconda.org/cpg
+[CPG's conda channel]: https://anaconda.org/cpg
 [Miniconda]: https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
 
 The Hail [documentation] is a good starting point. In particular, the
@@ -215,14 +215,64 @@ Instead, you'll be able to run scalable Hail analyses directly from Batch,
 using a shared pool of worker VMs that also process your other jobs.
 
 To avoid network egress costs, we run our own Hail Batch deployment in
-Australia, which means the worker VMs are colocated with the data buckets.
+Australia using the `hail.populationgenomics.org.au` domain. Consequently,
+the worker VMs are located in the `australia-southeast1` region, which is
+typically colocated with the buckets that store our datasets.
 
-Visit the [sign-up] page to create your Hail Batch account.
+The `hailctl` tool you've installed previously can also be used to interact
+with Hail Batch. To point it at the correct domain, you have to set up a
+deployment configuration:
 
-[sign-up]: https://auth.hail.populationgenomics.org.au/signup
+```bash
+mkdir ~/.hail
 
-**TODO(@lgruen): add content: sign-up, deployment config, login**
+echo '{"location": "external", "default_namespace": "default", "service_namespace": {}, "domain": "hail.populationgenomics.org.au"}' > ~/.hail/deploy-config.json
+```
 
-# Cromwell
+To create a Hail Batch account, visit the [sign-up page] using your
+@populationgenomics.org.au Google Workspace account. Ignore the redirect to
+the notebook page, which currently isn't running. Instead, navigate to the
+[user page] to see your account details.
 
-**TODO(@lgruen): add repo link**
+[sign-up page]: https://auth.hail.populationgenomics.org.au/signup
+[user page]: https://auth.hail.populationgenomics.org.au/user
+
+You should now be able to authenticate from the commandline:
+
+```bash
+hailctl auth login
+```
+
+To get familiar with the Hail Batch API, check out the [tutorial]. There's
+also a [workshop recording] that explains how to run workflows in Hail Batch.
+
+[tutorial]: https://hail.is/docs/batch/tutorial.html
+[workshop recording]: https://drive.google.com/file/d/1_Uo_OlKw6dJsBsa6bH5NwMinfLahDX6U/view?usp=sharing
+
+Note that billing projects in Hail are distinct from GCP projects. Initially,
+you're assigned a small trial project. Let the software team know in case
+your user needs to have access to an existing billing project or if you need
+to create a new billing project.
+
+At the moment, you can submit jobs to Hail Batch by running the "driver"
+program (which defines the batch) locally. However, since that's problematic
+in terms of reproducibility, we're currently looking into ways to run the
+driver itself on Hail Batch, too.
+
+# Terra / Cromwell
+
+While Hail Batch is a very powerful way to define workflows especially when
+using Hail Query functionality, a lot of existing genomic pipelines (like
+Broad's GATK Best Practices Workflows) run on Cromwell.
+
+While [Terra] is a great way to run such workflows, there are still a few
+features missing that would allow us to run production workflows in
+Australia.
+
+[Terra]: https://terra.bio/
+
+For now, the best way to run workflows written in CWL or WDL is therefore to
+set up your own Cromwell server, which is fairly straightforward using our
+[config templates].
+
+[config templates]: https://github.com/populationgenomics/cromwell-configs
