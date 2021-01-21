@@ -94,6 +94,14 @@ sizes, we run all analyses at the Centre in a cloud computing environment.
 For now, we're using Google Cloud Platform (GCP), since projects like Terra
 and Hail so far work best on GCP.
 
+To install the Google Cloud SDK:
+1.  Install [Miniconda].
+1.  Run the following to create a Conda environment called `gcp`:
+    ```bash
+    conda create --name gcp -c conda-forge google-cloud-sdk
+    conda activate gcp
+    ```
+
 If you're new to GCP, read the excellent [How to Cloud] guide first.
 
 [How to Cloud]: https://github.com/danking/hail-cloud-docs/blob/master/how-to-cloud.md
@@ -111,9 +119,26 @@ a look at our [storage policies] for a much more detailed description.
 
 [storage policies]: https://github.com/populationgenomics/storage-policies
 
+It's very important to avoid [network egress traffic] whenever possible: for
+example, copying 1 TB of data from the US to Australia costs 190 USD. To
+avoid these costs, always make sure that the GCP buckets that store your data
+are colocated with the machines that access the data (typically in the
+`australia-southeast1` region).
+
+[network egress traffic]: https://cloud.google.com/vpc/network-pricing#internet_egress
+
+The exception to this rule are public buckets that don't have the [Requester
+Pays] feature enabled, such as `gs://genomics-public-data`,
+`gs://gcp-public-data--broad-references`, or `gs://gcp-public-data--gnomad`.
+Even though data is copied from the US to Australia when accessing these
+buckets, we don't get charged for the egress traffic.
+
+[Requester Pays]: https://cloud.google.com/storage/docs/requester-pays
+
 Please avoid storing any non-public data on your laptop, as that increases the
-risk of accidental data breaches significantly. Keep in mind that any
-non-public genomic data is highly sensitive.
+risk of data breaches significantly. Keep in mind that any non-public genomic
+data is highly sensitive. Keeping the data in the cloud also avoids incurring
+any egress costs that apply when downloading the data.
 
 # Hail
 
@@ -128,7 +153,7 @@ To install Hail, use the package in the CPG's Bioconda channel:
 1.  Install [Miniconda].
 1.  Run the following to create a Conda environment called `hail`:
     ```bash
-    conda create --name hail -c cpg -c bioconda -c conda-forge hail
+    conda create --name hail -c cpg -c bioconda -c conda-forge hail google-cloud-sdk
     conda activate hail
     ```
 
@@ -157,9 +182,6 @@ completed:
 hailctl dataproc start --max-age 2h --region australia-southeast1 my-cluster
 ```
 
-**TODO(@lgruen): Add note about network egress costs and public / requester
-pays buckets (unless noted in the How To guide already).**
-
 There's also a [workshop recording] that contains a lot of useful tips, although
 not everything is applicable to the Centre.
 
@@ -180,16 +202,24 @@ If you're interested in the Hail internals, this developer focussed
 
 # Hail Batch
 
-[Hail Batch] is a generic job scheduling system for GCP. You describe a
-workflow using Python API as a series of Docker container commands, input and
-output files, and job interdependencies.
+[Hail Batch] is a generic job scheduling system: you describe a workflow
+using a Python API as a series of jobs consisting of Docker container
+commands, input and output files, and job interdependencies. Hail Batch then
+runs that workflow in GCP using a dynamically scaled pool of workers.
 
 [Hail Batch]: https://hail.is/docs/batch/service.html
 
-In the near future, Hail Batch will integrate nicely with the Hail Query
+In the near future, Hail Batch will integrate nicely with the Hail *Query*
 component, which means that you won't need to run a Dataproc cluster anymore.
 Instead, you'll be able to run scalable Hail analyses directly from Batch,
 using a shared pool of worker VMs that also process your other jobs.
+
+To avoid network egress costs, we run our own Hail Batch deployment in
+Australia, which means the worker VMs are colocated with the data buckets.
+
+Visit the [sign-up] page to create your Hail Batch account.
+
+[sign-up]: https://auth.hail.populationgenomics.org.au/signup
 
 **TODO(@lgruen): add content: sign-up, deployment config, login**
 
