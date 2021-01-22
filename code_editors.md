@@ -7,7 +7,7 @@ Pylance for code navigation. As Hail requires a non-trivial `PYTHONPATH` to
 resolve all modules, this is a little tricky to set up.
 
 Add a `.env` file to the main Hail directory, which can be used to set up
-environment variables. Unfortunately, environment variables substitutions
+environment variables. Unfortunately, environment variable substitutions
 like `$HOME` don't work in this file, so you'll have to use absolute paths.
 Add the following line, adjusted accordingly for your system and user name:
 
