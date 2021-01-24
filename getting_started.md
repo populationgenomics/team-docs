@@ -227,7 +227,7 @@ deployment configuration:
 ```bash
 mkdir ~/.hail
 
-echo '{"location": "external", "default_namespace": "default", "service_namespace": {}, "domain": "hail.populationgenomics.org.au"}' > ~/.hail/deploy-config.json
+echo '{"location": "external", "default_namespace": "default", "domain": "hail.populationgenomics.org.au"}' > ~/.hail/deploy-config.json
 ```
 
 To create a Hail Batch account, visit the [sign-up page] using your
