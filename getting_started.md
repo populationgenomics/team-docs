@@ -153,7 +153,8 @@ To install Hail, use the package in [CPG's conda channel]:
 1.  Install [Miniconda].
 1.  Run the following to create a conda environment called `hail`:
     ```bash
-    conda create --name hail -c cpg -c bioconda -c conda-forge hail google-cloud-sdk
+    conda create --name hail -c cpg -c bioconda -c conda-forge hail google-cloud-sdk google-api-core google-cloud-storage
+
     conda activate hail
     ```
 [CPG's conda channel]: https://anaconda.org/cpg
