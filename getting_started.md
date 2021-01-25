@@ -147,7 +147,9 @@ genomic data analysis, developed at the Broad Institute. Given its proven
 scalability and our good relationship with the Hail development team, it's the
 Centre's main analysis platform.
 
-To install Hail, use the [package](https://github.com/populationgenomics/hail/tree/main/conda) in CPG's conda channel:
+To install Hail, use the 
+[package](https://github.com/populationgenomics/hail/tree/main/conda) 
+in CPG's conda channel:
 
 1.  Install
     [Miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
