@@ -147,15 +147,15 @@ genomic data analysis, developed at the Broad Institute. Given its proven
 scalability and our good relationship with the Hail development team, it's the
 Centre's main analysis platform.
 
-To install Hail, use the package in [CPG's conda
-channel](https://anaconda.org/cpg):
+To install Hail, use the 
+[package](https://github.com/populationgenomics/hail/tree/main/conda) 
+in CPG's conda channel:
 
 1.  Install
     [Miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 2.  Run the following to create a conda environment called `hail`:
     ```bash
-    conda create --name hail -c cpg -c bioconda -c conda-forge hail google-cloud-sdk google-api-core google-cloud-storage
-
+    conda create --name hail -c cpg -c bioconda -c conda-forge hail
     conda activate hail
     ```
 
