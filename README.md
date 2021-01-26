@@ -10,6 +10,7 @@ request.
 If you need help more urgently, don't hesitate to ask directly on Slack (e.g.
 in the `#team-software` or `#team-analysis` channels).
 
--   [Getting started](getting_started.md)
--   [Setting up code editors](code_editors.md)
--   **TODO(@vladsaveliev):** Python style guide, pylintrc
+- [Getting started](getting_started.md)
+- [Reproducible analyses](reproducible_analyses.md)
+- [Setting up code editors](code_editors.md)
+- **TODO(@vladsaveliev):** Python style guide, pylintrc
