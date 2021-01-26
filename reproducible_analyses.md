@@ -1,11 +1,11 @@
 We'd like to be able to reproduce analysis results easily. While that's not
 always fully achievable, the strategies below help significantly. Note that
-this only about analyses run on *production* data, not the development and
+this is only about analyses run on *production* data, not the development and
 testing of new code.
 
 1.  *Only run code that has been committed to a repository.*
 
-    If locally changed code is used to produce analyses results, those
+    If locally changed code is used to produce analysis results, those
     results can't be reproduced if the local changes get lost. To avoid this
     problem, the [analysis runner](https://github.com/populationgenomics/analysis-runner)
     fetches pipelines from GitHub repositories only.
