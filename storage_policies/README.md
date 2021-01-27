@@ -1,9 +1,8 @@
 # Storage policies
 
 This document describes where our production datasets are stored, how [object
-lifecycles] are configured, and how access permissions are managed.
-
-[object lifecycles]: https://cloud.google.com/storage/docs/lifecycle
+lifecycles](https://cloud.google.com/storage/docs/lifecycle)
+are configured, and how access permissions are managed.
 
 We are trying to strike a balance between:
 
@@ -226,10 +225,11 @@ Buckets and permission groups can be brought up using Pulumi.
 
 1. Create a new GCP project for the stack, corresponding to `$PROJECT` below.
 1. Configure the Pulumi stack options:
-   - See this [issue] regarding the use of the `user_project_override` and
-     `billing_project` options below.
+   - See this [issue](https://github.com/hashicorp/terraform-provider-google/issues/7477)
+     regarding the use of the `user_project_override` and `billing_project`
+     options below.
    - You can find your organization's `$CUSTOMER_ID` (used for creating Cloud
-     Identity IAM groups) using [Resource Manager].
+     Identity IAM groups) using [Resource Manager](https://cloud.google.com/resource-manager/reference/rest/v1/organizations/search).
 
    ```shell
    cd stack
@@ -261,6 +261,3 @@ Buckets and permission groups can be brought up using Pulumi.
    pip3 install -r requirements.txt
    pulumi up
    ```
-
-[issue]: https://github.com/hashicorp/terraform-provider-google/issues/7477
-[Resource Manager]: https://cloud.google.com/resource-manager/reference/rest/v1/organizations/search
