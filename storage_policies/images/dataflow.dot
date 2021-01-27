@@ -1,0 +1,28 @@
+digraph dataflow {
+    node [colorscheme=pastel28, style=filled, fillcolor=white];
+
+    upstream_pipeline [label="upstream pipeline"]
+    downstream_pipeline [label="downstream pipeline", fillcolor=5]
+    test_pipeline [label="test pipeline", fillcolor=3]
+    upload_processor [label="upload processor"]
+    reference [shape=box]
+    upload [shape=box]
+    archive [shape=box]
+    main [shape=box, fillcolor=5]
+    test [shape=box, fillcolor=3]
+    temporary [shape=box, fillcolor=6]
+    analysis [shape=box, fillcolor=5]
+    release [shape=box]
+    
+    reference -> upstream_pipeline
+    upstream_pipeline -> upload
+    upload -> upload_processor
+    upload_processor -> archive
+    upload_processor -> main
+    main -> downstream_pipeline
+    downstream_pipeline -> temporary [dir=both]
+    downstream_pipeline -> analysis [dir=both]
+    downstream_pipeline -> release
+    test -> test_pipeline
+    test_pipeline -> temporary [dir=both]
+}

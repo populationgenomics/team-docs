@@ -23,12 +23,12 @@ to that using the "Python: Insiders Channel" command.
 Finally, you'll have to set up a Python environment. Open a terminal in Visual
 Studio Code and run the following to install the required dependencies:
 
-```bash
-conda create --name hail-dev python=3.7.7
-conda activate hail-dev
-pip3 install -r hail/python/requirements.txt
-pip3 install -r docker/requirements.txt
-```
+    ```bash
+    conda create --name hail-dev python=3.7.7
+    conda activate hail-dev
+    pip3 install -r hail/python/requirements.txt
+    pip3 install -r docker/requirements.txt
+    ```
 
 Switch Visual Studio Code to this conda environment using the "Python: Select
 Interpreter" command. You might also want to disable the [inheritEnv
