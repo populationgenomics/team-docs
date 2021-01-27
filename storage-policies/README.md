@@ -6,11 +6,13 @@ lifecycles] are configured, and how access permissions are managed.
 [object lifecycles]: https://cloud.google.com/storage/docs/lifecycle
 
 We are trying to strike a balance between:
+
 - Quick development iterations and unlimited ad-hoc data exploration.
 - Robust, reproducible pipelines, using only strictly necessary cloud
   resources.
 
 This motivates two somewhat unusual principles in the design:
+
 - Quick development iterations and testing only happens on a small (but
   representative) subset of the data (blue highlight in the graph below). The
   full dataset is only accessible through code that has been reviewed and
@@ -21,11 +23,11 @@ This motivates two somewhat unusual principles in the design:
   immutable results generally shouldn't cause a lot of churn or resource
   usage.
 
-# Typical data flow
+## Typical data flow
 
 ![data flow](images/dataflow.svg)
 
-# Buckets
+## Buckets
 
 In this context, a stack corresponds to a particular project / effort, e.g.
 *TOB-WGS* or *RDNow*, with separate buckets and permission groups. Below,
@@ -166,7 +168,7 @@ Files stay in Standard Storage indefinitely.
 Human users only get viewer permissions, to reduce the risk of accidental
 modification / deletion of files.
 
-# Deletion
+## Deletion
 
 By default, human users can't delete objects in any bucket except for the
 *temporary* bucket. This avoids accidental deletion of results and makes sure
@@ -178,7 +180,7 @@ All buckets retain one noncurrent object version for 30 days, after which
 noncurrent files get deleted. This allows "undelete" recovery in case of
 accidental deletion.
 
-# Access permissions
+## Access permissions
 
 Permissions are managed through IAM, using access groups.
 
@@ -196,7 +198,7 @@ Permissions are managed through IAM, using access groups.
   must use Google accounts. Membership should usually expire after a year,
   after which continued access will require a membership renewal.
 
-# Analysis runner
+## Analysis runner
 
 To encourage reproducible workflows and code getting reviewed before it's run
 on "production data", viewer permissions to the *main* bucket and creator
@@ -212,13 +214,13 @@ runner. The typical workflow looks like this:
    pipeline on your behalf and store additional metadata.
 
 For more detailed instructions and examples, look at the
-[runner subdirectory](/runner).
+[analysis runner repository](https://github.com/populationgenomics/analysis-runner).
 
 If this causes too much friction in your daily work, please don't work around
 the restrictions. Instead, reach out to the software team, so we can work
 on process improvements together.
 
-# Automation
+## Automation
 
 Buckets and permission groups can be brought up using Pulumi.
 
@@ -226,8 +228,9 @@ Buckets and permission groups can be brought up using Pulumi.
 1. Configure the Pulumi stack options:
    - See this [issue] regarding the use of the `user_project_override` and
      `billing_project` options below.
-   -  You can find your organization's `$CUSTOMER_ID` (used for creating Cloud
-      Identity IAM groups) using [Resource Manager].
+   - You can find your organization's `$CUSTOMER_ID` (used for creating Cloud
+     Identity IAM groups) using [Resource Manager].
+
    ```shell
    cd stack
    pulumi stack init $STACK
@@ -236,15 +239,21 @@ Buckets and permission groups can be brought up using Pulumi.
    pulumi config set gcp:user_project_override true
    pulumi config set customer_id $CUSTOMER_ID
    ```
+
    - If you want to create a release bucket and access group:
+
      ```shell
      pulumi config set enable_release true
      ```
+
    - If you want to customize the archival age in days:
+
      ```shell
      pulumi config set archive_age 90
      ```
+
 1. Deploy the stack:
+
    ```shell
    gcloud auth application-default login
    python3 -m venv venv
