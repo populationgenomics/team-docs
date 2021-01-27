@@ -33,4 +33,4 @@ testing of new code.
 
    If you overwrite (or delete) outputs, any data that has previously been
    derived from those outputs gets implicitly invalidated. By default we
-   therefore only allow creating new data in our [storage policies](../storage-policies).
+   therefore only allow creating new data in our [storage policies](../storage_policies).
