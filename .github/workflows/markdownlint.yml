@@ -1,0 +1,20 @@
+name: markdownlint
+on: [pull_request]
+
+jobs:
+  markdownlint:
+    name: markdownlint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: md-lint
+        uses: reviewdog/action-markdownlint@v0.1
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            reporter: github-pr-review
+      - name: md-link-check
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+            use-verbose-mode: 'yes'
