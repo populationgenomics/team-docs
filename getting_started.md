@@ -77,6 +77,11 @@ If there are items for the author to address, then submit your review with
 "Request Changes". Otherwise, once you are happy with the changes and all
 comments have been addressed, you can "Approve" the PR.
 
+By default, the reviewer should also merge the PR, unless asked explicitly not
+to during the review. Preferably use "squash merging" to keep the history
+clean; the exception to this are upstream merges where you want to keep all
+commits.
+
 If you are the person whose code is being reviewed and your PR is in the
 "Request Changes" state, then you’ll need to address their comments by pushing
 new commit changes or answering questions. Once you are done, then you can
