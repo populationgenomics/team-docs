@@ -22,6 +22,14 @@ variable-rgx=[a-z_][a-z0-9_]{0,30}$
 
 # Maximum number of characters on a single line
 max-line-length=80
+
+# Set the linting for string quotes (for the plugin https://pypi.org/project/pylint-quotes/)
+string-quote=single
+triple-quote=double
+docstring-quote=double
+
+[MASTER]
+load-plugins=pylint_quotes
 ```
 
 You may want to disable additional inspections if pylint hits a false positive. For example, it might fail to recognise imports of third-party libraries, in which case can add E0401 ("Unable to import") to the comma-separated list:
@@ -45,7 +53,7 @@ jobs:
       - uses: actions/setup-python@v2
 
       - name: Install pylint
-        run: pip install pylint
+        run: pip install pylint pylint-quotes
 
       - name: Run pylint
         run: pylint **/*.py
@@ -61,7 +69,7 @@ This will make GitHub run Pylint on every push and pull request, and display che
 To install Pylint into your environment, run:
 
 ```
-pip install pylint
+pip install pylint pylint-quotes
 ```
 
 It's also available on conda-forge under the same name.
