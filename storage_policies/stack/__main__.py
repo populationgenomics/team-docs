@@ -231,7 +231,7 @@ repo_member = gcp.artifactregistry.RepositoryIamMember(
     'artifact-registry-reader',
     project='analysis-runner',
     location=REGION,
-    repository = 'images',
+    repository='images',
     role='roles/artifactregistry.reader',
     member=f'serviceAccount:service-{project_number}@serverless-robot-prod.iam.gserviceaccount.com')
 
