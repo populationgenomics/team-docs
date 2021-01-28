@@ -45,11 +45,11 @@ For code reviews to work well, it's helpful to follow a few general guidelines:
   reviewer, feel free to "ping" them on Slack.
 - In order for people to respond quickly to reviews, individual pull requests
   (PRs) need to be small. Don't send thousands of lines of code for review:
-  that's not fun for the reviewer and it's unlikely you'll get good review
+  that's not fun for the reviewer, and it's unlikely you'll get good review
   feedback. Instead, send small PRs frequently, so the reviewer can really
   focus on the change.
 - If a reviewer doesn't understand the code or has a question about it, it's
-  likely that a future maintainer will have a similar problem. Therefore
+  likely that a future maintainer will have a similar problem. Therefore,
   don't just respond to the question using the review comment UI, but think
   about how to make the code more readable. Should there be a clarifying code
   comment, could you change the structure of the code, or rename a function
@@ -63,7 +63,7 @@ For code reviews to work well, it's helpful to follow a few general guidelines:
   concrete suggestions on how to improve the code.
 
 It's okay to spend a lot of time on reviews! This is a big part of your
-responsibilities and we really care about high code quality.
+responsibilities, and we really care about high code quality.
 
 To review someone else’s PR, click on "Files changed". This will show the diff
 between the old code and the new proposed changes. You can make comments on
@@ -77,12 +77,15 @@ If there are items for the author to address, then submit your review with
 "Request Changes". Otherwise, once you are happy with the changes and all
 comments have been addressed, you can "Approve" the PR.
 
-By default, the reviewer should also merge the PR, unless asked explicitly not
-to during the review. Preferably use "squash merging" to keep the history
-clean; the exception to this are upstream merges where you want to keep all
-commits.
+After approving, you can also merge the PR. Unless you added any feedback
+(even minor one: thoughts, minor suggestions, pointers to something related) -
+in this case, it's preferrable to leave merging to the author in case the
+author wants to act on your feedback.
 
-If you are the person whose code is being reviewed and your PR is in the
+When merging, preferably use "squash merging" to keep the history clean; the
+exception to this are upstream merges where you want to keep all commits.
+
+If you are the person whose code is being reviewed, and your PR is in the
 "Request Changes" state, then you’ll need to address their comments by pushing
 new commit changes or answering questions. Once you are done, then you can
 dismiss their review towards the bottom of the Conversation page.
