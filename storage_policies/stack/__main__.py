@@ -250,7 +250,8 @@ analysis_runner_server = gcp.cloudrun.Service(
     ),
     opts=pulumi.resource.ResourceOptions(depends_on=[cloudrun, repo_member]))
 
-pulumi.export('analysis-runner-server URL', analysis_runner_server.statuses[0].url)
+pulumi.export('analysis-runner-server URL',
+              analysis_runner_server.statuses[0].url)
 
 # Restrict Cloud Run invokers to the restricted access group.
 gcp.cloudrun.IamMember(
