@@ -9,7 +9,7 @@ analysis for potential programming errors.
 When creating a new repository that contains Python code, please add into the
 repository root folder a file named `.pylintrc` with the following contents:
 
-```
+```sh
 [MESSAGES CONTROL]
 # We disable the following inspections:
 # 1. f-string-without-interpolation (we allow f-strings that don't do any 
@@ -41,7 +41,7 @@ You may want to disable additional inspections if pylint hits a false positive.
 For example, it might fail to recognise imports of third-party libraries, in
 which case can add E0401 ("Unable to import") to the comma-separated list:
 
-```
+```sh
 disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,E0401
 ```
 
@@ -49,7 +49,7 @@ In addition to `.pylintrc`, please create a GitHub Actions CI workflow under
 `.github/workflows/main.yaml` with the following contents (or just append the
 job called `lint`, if you have an exsting workflow):
 
-```
+```yaml
 name: CI
 on: [push, pull_request]
 
@@ -77,7 +77,7 @@ checks in the web interface.
 
 To install Pylint into your environment, run:
 
-```
+```bash
 pip install pylint pylint-quotes
 ```
 
@@ -85,7 +85,7 @@ It's also available on conda-forge under the same name.
 
 To run Pylint manually, you can use:
 
-```
+```bash
 pylint **/*.py
 ```
 
