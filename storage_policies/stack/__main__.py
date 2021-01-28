@@ -116,11 +116,11 @@ def add_bucket_permissions(name: str,
 restricted_access_group = create_group(group_mail('restricted-access'))
 
 listing_role = gcp.projects.IAMCustomRole(
-    "storage-listing-role",
-    description="Allows listing of storage objects",
-    permissions=["storage.objects.list"],
-    role_id="storageObjectLister",
-    title="Storage Object Lister",
+    'storage-listing-role',
+    description='Allows listing of storage objects',
+    permissions=['storage.objects.list'],
+    role_id='storageObjectLister',
+    title='Storage Object Lister',
     opts=pulumi.resource.ResourceOptions(depends_on=[cloudidentity]))
 
 add_bucket_permissions('restricted-access-main-lister',
@@ -214,7 +214,7 @@ hail_token_secret = gcp.secretmanager.Secret(
             ],
         ),
     ),
-    secret_id="hail-token",
+    secret_id='hail-token',
     opts=pulumi.resource.ResourceOptions(depends_on=[secretmanager]))
 
 # The analysis-runner server needs to read the Hail token secret.
