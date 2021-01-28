@@ -83,12 +83,14 @@ Visual Studio Code auto-detects a .pylintrc file in the project root and asks th
 1. Make sure you have pylint installed with pip or conda.
 
 2. Install a PyCharm "Pylint" plugin ([Preferences] > [Plugins] > search for "Pylint"). It will automatically find the pylint executable. A new tool window called Pylint will be added. You can use it to scan the project:
-   <img src="assets/pycharm_pylint_tool_window.png" width="700"/>
+   
+<img src="assets/pycharm_pylint_tool_window.png" width="700"/>
 
 3. You can also enable real-time inspections by going to:
    Go to Preferences > Editor > Inspections > enable "Pylint real-time scan". However, it's not recommended as it's has a negative impact on system performance.
 
 4. Pylint has a pre-commit hook integrated into a Pycharm commit modal window (cmd+K). Make sure the "Scan with Pylint" checkbox is enabled:
-   <img src="assets/pycharm_pylint_pre_commit.png" width="700"/>
+   
+<img src="assets/pycharm_pylint_pre_commit.png" width="700"/>
 
 Note that PyCharm comes with very useful and advanced built-in inspections out of the box; however, they don't fully overlap with pylint, so it's useful to have both.
