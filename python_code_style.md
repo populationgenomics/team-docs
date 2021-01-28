@@ -11,7 +11,7 @@ When creating a new repository that contains Python code, please add this
 pylint configuration file into the repository root folder:
 
 ```
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint/pylintrc.yaml \
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint/pylintrc \
    -O .pylintrc
 ```
 
