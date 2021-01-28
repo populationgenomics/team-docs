@@ -7,12 +7,12 @@ programming errors.
 
 ## Setting up a new project
 
-When creating a new repository that contains Python code, please add this 
+When creating a new repository that contains Python code, please add this
 pylint configuration file into the repository root folder:
 
-```
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint/pylintrc \
-   -O .pylintrc
+```sh
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/\
+pylint/pylintrc -O .pylintrc
 ```
 
 You may want to disable additional inspections if pylint hits a false positive.
@@ -24,13 +24,13 @@ disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,
 ```
 
 In addition to `.pylintrc`, create a GitHub Actions CI workflow under
-`.github/workflows/main.yaml` with the following contents (or add the `lint` 
+`.github/workflows/main.yaml` with the following contents (or add the `lint`
 job to an exsting workflow):
 
 ```sh
 mkdir -p .github/workflows
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint/github-workflow.yaml \
-  -O .github/workflows/main.yaml
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint\
+/github-workflow.yaml -O .github/workflows/main.yaml
 ```
 
 This will make GitHub run Pylint on every push and pull request, and display
@@ -46,8 +46,8 @@ To install Pylint into your environment, run:
 pip install pylint pylint-quotes
 ```
 
-`pylint-quotes` is a plugin to Pylint that adds checks of the consistency 
-of quotes (we stick to single quotes, with the only reason to prefer them 
+`pylint-quotes` is a plugin to Pylint that adds checks of the consistency
+of quotes (we stick to single quotes, with the only reason to prefer them
 over double quotes being the visual noise).
 
 To run Pylint manually, you can use:
