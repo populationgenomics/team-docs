@@ -3,7 +3,7 @@ import pulumi
 import pulumi_gcp as gcp
 
 DOMAIN = 'populationgenomics.org.au'
-BUCKET_REGION = 'australia-southeast1'
+REGION = 'australia-southeast1'
 
 # Fetch configuration.
 config = pulumi.Config()
@@ -21,7 +21,7 @@ def create_bucket(name: str, **kwargs) -> gcp.storage.Bucket:
     return gcp.storage.Bucket(
         name,
         name=name,
-        location=BUCKET_REGION,
+        location=REGION,
         versioning=gcp.storage.BucketVersioningArgs(enabled=True),
         labels={'bucket': name},
         **kwargs)
@@ -186,3 +186,56 @@ if enable_release:
                            release_access_group,
                            release_bucket,
                            'roles/storage.objectViewer')
+
+# Cloud Run is used for the server component of the analysis-runner.
+cloudrun = gcp.projects.Service('cloudrun-service',
+                                service='run.googleapis.com',
+                                disable_on_destroy=False)
+
+analysis_runner_service_account = gcp.serviceaccount.Account(
+    'analysis-runner-service-account',
+    account_id='analysis-runner-server',
+    display_name='analysis-runner service account',
+    opts=pulumi.resource.ResourceOptions(depends_on=[cloudidentity]))
+
+# The analysis-runner server needs to read the Hail token secret.
+project = gcp.projects.IAMMember(
+    'analysis-runner-service-account-secret-reader',
+    member=pulumi.Output.concat('serviceAccount:', analysis_runner_service_account.email),
+    role='roles/secretmanager.secretAccessor')
+
+project_number = gcp.organizations.get_project().number
+
+# Allow the Cloud Run Service Agent to pull the image.
+repo_member = gcp.artifactregistry.RepositoryIamMember(
+    'artifact-registry-reader',
+    project='analysis-runner',
+    location=REGION,
+    repository = 'images',
+    role='roles/artifactregistry.reader',
+    member=f'serviceAccount:service-{project_number}@serverless-robot-prod.iam.gserviceaccount.com')
+
+analysis_runner_server = gcp.cloudrun.Service(
+    'analysis-runner-server',
+    location=REGION,
+    autogenerate_revision_name=True,
+    template=gcp.cloudrun.ServiceTemplateArgs(
+        spec=gcp.cloudrun.ServiceTemplateSpecArgs(
+            containers=[gcp.cloudrun.ServiceTemplateSpecContainerArgs(
+                envs=[{'name': 'DATASET', 'value': dataset}],
+                image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:06dd37129625'
+            )],
+            service_account_name=analysis_runner_service_account.email,
+        ),
+    ),
+    opts=pulumi.resource.ResourceOptions(depends_on=[cloudrun, repo_member]))
+
+pulumi.export('analysis-runner-server URL', analysis_runner_server.statuses[0].url)
+
+# Restrict Cloud Run invokers to the restricted access group.
+gcp.cloudrun.IamMember(
+    'analysis-runner-invoker',
+    service=analysis_runner_server.name,
+    location=REGION,
+    role='roles/run.invoker',
+    member=pulumi.Output.concat('group:', restricted_access_group.group_key.id))
