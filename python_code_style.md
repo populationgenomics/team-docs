@@ -7,66 +7,30 @@ programming errors.
 
 ## Setting up a new project
 
-When creating a new repository that contains Python code, please add into the
-repository root folder a file named `.pylintrc` with the following contents:
+When creating a new repository that contains Python code, please add this 
+pylint configuration file into the repository root folder:
 
-```sh
-[MESSAGES CONTROL]
-# We disable the following inspections:
-# 1. f-string-without-interpolation (we allow f-strings that don't do any 
-#    formatting for consistent looks and for future safety)
-# 2. inherit-non-class ("Inheriting 'NamedTuple', which is not a class" false 
-#    positive, see: https://github.com/PyCQA/pylint/issues/3876)
-# 3. too-few-public-methods (produces false positives)
-disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods
-
-# Overriding these to allow short 1- or 2-letter variable names
-attr-rgx=[a-z_][a-z0-9_]{0,30}$
-argument-rgx=[a-z_][a-z0-9_]{0,30}$
-variable-rgx=[a-z_][a-z0-9_]{0,30}$
-
-# Maximum number of characters on a single line
-max-line-length=80
-
-# Set the linting for string quotes (for the plugin 
-# https://pypi.org/project/pylint-quotes/)
-string-quote=single
-triple-quote=double
-docstring-quote=double
-
-[MASTER]
-load-plugins=pylint_quotes
+```
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint/pylintrc.yaml \
+   -O .pylintrc
 ```
 
 You may want to disable additional inspections if pylint hits a false positive.
 For example, it might fail to recognise imports of third-party libraries, in
-which case can add E0401 ("Unable to import") to the comma-separated list:
+which case you can add E0401 ("Unable to import") to the comma-separated list:
 
 ```sh
 disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,E0401
 ```
 
-In addition to `.pylintrc`, please create a GitHub Actions CI workflow under
-`.github/workflows/main.yaml` with the following contents (or just append the
-job called `lint`, if you have an exsting workflow):
+In addition to `.pylintrc`, create a GitHub Actions CI workflow under
+`.github/workflows/main.yaml` with the following contents (or add the `lint` 
+job to an exsting workflow):
 
-```yaml
-name: CI
-on: [push, pull_request]
-
-jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
-
-      - uses: actions/setup-python@v2
-
-      - name: Install pylint
-        run: pip install pylint pylint-quotes
-
-      - name: Run pylint
-        run: pylint **/*.py
+```sh
+mkdir -p .github/workflows
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint/github-workflow.yaml \
+  -O .github/workflows/main.yaml
 ```
 
 This will make GitHub run Pylint on every push and pull request, and display
@@ -82,7 +46,9 @@ To install Pylint into your environment, run:
 pip install pylint pylint-quotes
 ```
 
-It's also available on conda-forge under the same name.
+`pylint-quotes` is a plugin to Pylint that adds checks of the consistency 
+of quotes (we stick to single quotes, with the only reason to prefer them 
+over double quotes being the visual noise).
 
 To run Pylint manually, you can use:
 
