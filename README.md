@@ -14,4 +14,4 @@ in the `#team-software` or `#team-analysis` channels).
 - [Reproducible analyses](reproducible_analyses.md)
 - [Storage policies](storage_policies)
 - [Setting up code editors](code_editors.md)
-- **TODO(@vladsaveliev):** Python style guide, pylintrc
+- [Python code style](python_code_style.md)
