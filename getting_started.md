@@ -77,9 +77,10 @@ If there are items for the author to address, then submit your review with
 "Request Changes". Otherwise, once you are happy with the changes and all
 comments have been addressed, you can "Approve" the PR.
 
-After approving, you can also merge the PR, unless you left any feedback 
-during the latest round (even minor one): in this case, it's preferrable to
-leave merging to the author in case the author wants to act on your feedback.
+After approving, you can also merge the PR. Unless you added any feedback
+(even minor one: thoughts, minor suggestions, pointers to something related) -
+in this case, it's preferrable to leave merging to the author in case the
+author wants to act on your feedback.
 
 When merging, preferably use "squash merging" to keep the history clean; the
 exception to this are upstream merges where you want to keep all commits.
