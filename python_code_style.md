@@ -1,8 +1,9 @@
 # Python Code Style
 
 We use [pylint](https://www.pylint.org/) to perform automatic code checks on our
-repositories. It helps enforce code standard, and also does some static code
-analysis for potential programming errors.
+repositories. It helps us in implementing a consistent coding style throughout
+our code base, and also does some static code analysis to catch potential
+programming errors.
 
 ## Setting up a new project
 
