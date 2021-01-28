@@ -77,6 +77,11 @@ If there are items for the author to address, then submit your review with
 "Request Changes". Otherwise, once you are happy with the changes and all
 comments have been addressed, you can "Approve" the PR.
 
+By default, the reviewer should also merge the PR, unless asked explicitly not
+to during the review. Preferably use "squash merging" to keep the history
+clean; the exception to this are upstream merges where you want to keep all
+commits.
+
 If you are the person whose code is being reviewed and your PR is in the
 "Request Changes" state, then you’ll need to address their comments by pushing
 new commit changes or answering questions. Once you are done, then you can
@@ -117,9 +122,8 @@ specify projects, you'll have to use the project ID (e.g.
 
 Permissions to projects and resources like Google Cloud Storage (GCS) buckets
 are managed using Google Groups that are linked to IAM permission roles. Take a
-look at our [storage
-policies](https://github.com/populationgenomics/storage-policies) for a much
-more detailed description.
+look at our [storage policies](storage_policies) for a much more detailed
+description.
 
 It's very important to avoid [network egress
 traffic](https://cloud.google.com/vpc/network-pricing#internet_egress) whenever
