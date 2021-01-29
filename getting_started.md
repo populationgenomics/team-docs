@@ -3,6 +3,14 @@
 This document describes the commonly used technologies at the Centre, together
 with some hints on how to use various tools.
 
+- [Welcome to the CPG](#welcome-to-the-cpg)
+  - [GitHub](#github)
+  - [Code reviews](#code-reviews)
+  - [Google Cloud Platform](#google-cloud-platform)
+  - [Hail](#hail)
+  - [Hail Batch](#hail-batch)
+  - [Terra / Cromwell](#terra--cromwell)
+
 ## GitHub
 
 All source code is managed in GitHub repositories in the

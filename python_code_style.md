@@ -1,5 +1,11 @@
 # Python Code Style
 
+- [Python Code Style](#python-code-style)
+  - [Setting up a new project](#setting-up-a-new-project)
+  - [Running Pylint](#running-pylint)
+  - [Visual Studio Code](#visual-studio-code)
+  - [PyCharm](#pycharm)
+
 We use [pylint](https://www.pylint.org/) to perform automatic code checks on our
 repositories. It helps us in implementing a consistent coding style throughout
 our code base, and also does some static code analysis to catch potential
@@ -7,8 +13,8 @@ programming errors.
 
 ## Setting up a new project
 
-When creating a new repository that contains Python code, please add this
-pylint configuration file into the repository root folder:
+When creating a new repository that contains Python code, please add this pylint
+configuration file into the repository root folder:
 
 ```sh
 wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/\
@@ -24,8 +30,8 @@ disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,
 ```
 
 In addition to `.pylintrc`, create a GitHub Actions CI workflow under
-`.github/workflows/main.yaml` with the following contents (or add the `lint`
-job to an exsting workflow):
+`.github/workflows/main.yaml` with the following contents (or add the `lint` job
+to an exsting workflow):
 
 ```sh
 mkdir -p .github/workflows
@@ -46,9 +52,9 @@ To install Pylint into your environment, run:
 pip install pylint pylint-quotes
 ```
 
-`pylint-quotes` is a plugin to Pylint that adds checks of the consistency
-of quotes (we stick to single quotes, with the only reason to prefer them
-over double quotes being the visual noise).
+`pylint-quotes` is a plugin to Pylint that adds checks of the consistency of
+quotes (we stick to single quotes, with the only reason to prefer them over
+double quotes being the visual noise).
 
 To run Pylint manually, you can use:
 
@@ -71,10 +77,9 @@ the user whether to install pylint, if it's not installed already.
 
    <img src="assets/pycharm_pylint_tool_window.png" width="700"/>
 
-3. You can also enable real-time inspections by going to:
-   Go to Preferences > Editor > Inspections > enable "Pylint real-time scan".
-   However, it's not recommended as it's has a negative impact on system
-   performance.
+3. You can also enable real-time inspections by going to: Go to Preferences >
+   Editor > Inspections > enable "Pylint real-time scan". However, it's not
+   recommended as it's has a negative impact on system performance.
 
 4. Pylint has a pre-commit hook integrated into a PyCharm commit modal window (
    Cmd+K). Make sure the "Scan with Pylint" checkbox is enabled:
