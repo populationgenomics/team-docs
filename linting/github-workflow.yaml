@@ -1,0 +1,22 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - uses: actions/setup-python@v2
+
+      - name: Install linting tools
+        run: pip install pylint pylint-quotes flake8 flake8-bugbear black
+
+      - name: pylint
+        run: pylint **/*.py
+
+      - name: flake8
+        run: flake8 .
+
+      - name: black
+        run: black . --check

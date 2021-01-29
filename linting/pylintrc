@@ -5,7 +5,10 @@
 # 2. inherit-non-class ("Inheriting 'NamedTuple', which is not a class" false
 #    positive, see: https://github.com/PyCQA/pylint/issues/3876)
 # 3. too-few-public-methods (produces false positives)
-disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods
+# 4. inspections incompatible with Black (see https://github.com/psf/black/blob/master/docs/compatible_configs.md#why-those-options-above-2)
+#    C0330: Wrong hanging indentation before block (add 4 spaces) see
+#    C0326: Bad whitespace
+disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,C0330,C0326
 
 # Overriding these to allow short 1- or 2-letter variable names
 attr-rgx=[a-z_][a-z0-9_]{0,30}$
@@ -13,10 +16,9 @@ argument-rgx=[a-z_][a-z0-9_]{0,30}$
 variable-rgx=[a-z_][a-z0-9_]{0,30}$
 
 # Maximum number of characters on a single line
-max-line-length=80
+max-line-length=88
 
-# Set the linting for string quotes (for the plugin
-# https://pypi.org/project/pylint-quotes/)
+# Set the linting for string quotes (for the plugin https://pypi.org/project/pylint-quotes/)
 string-quote=single
 triple-quote=double
 docstring-quote=double
