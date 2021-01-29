@@ -1,0 +1,5 @@
+[flake8]
+max-line-length: 88
+# F541: f-string is missing placeholders
+# E203: whitespace before ':' (see https://github.com/psf/black/blob/master/docs/compatible_configs.md#why-those-options-above-1)
+extend-ignore: F541,E203
