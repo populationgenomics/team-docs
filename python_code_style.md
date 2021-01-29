@@ -46,7 +46,7 @@ wget $URL/flake8.toml -O .flake8.yaml
 
 Follow it with the following commands to enable pre-commit hooks:
 
-```
+```sh
 pip install pre-commit
 pre-commit install
 ```
