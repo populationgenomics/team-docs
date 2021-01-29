@@ -30,8 +30,7 @@ hooks with a set of linters to check and reformat the code:
   - detect-private-key
   - debug-statements
   - check-added-large-files  
-
-
+    
 ### Setting up a new project
 
 When creating a new repository that contains Python code, please add
