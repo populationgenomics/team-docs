@@ -109,8 +109,8 @@ the user whether to install pylint, if it's not installed already.
    Editor > Inspections > enable "Pylint real-time scan". However, it's not
    recommended as it's has a negative impact on system performance.
 
-4. Pylint has a pre-commit hook integrated into a PyCharm commit modal window (
-   Cmd+K). Make sure the "Scan with Pylint" checkbox is enabled:
+4. Pylint has a pre-commit hook integrated into a PyCharm commit modal window
+   (Cmd+K). Make sure the "Scan with Pylint" checkbox is enabled:
 
    <img src="figures/pycharm_pylint_pre_commit.png" width="700"/>
 
