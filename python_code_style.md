@@ -36,7 +36,7 @@ wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint\
 This will make GitHub run Pylint on every push and pull request, and display
 checks in the web interface.
 
-<img src="assets/github_pylint_check.png" width="400"/>
+<img src="figures/github_pylint_check.png" width="400"/>
 
 ## Running Pylint
 
@@ -69,7 +69,7 @@ the user whether to install pylint, if it's not installed already.
    "Pylint"). It will automatically find the pylint executable. A new tool
    window called Pylint will be added. You can use it to scan the project:
 
-   <img src="assets/pycharm_pylint_tool_window.png" width="700"/>
+   <img src="figures/pycharm_pylint_tool_window.png" width="700"/>
 
 3. You can also enable real-time inspections by going to:
    Go to Preferences > Editor > Inspections > enable "Pylint real-time scan".
@@ -79,7 +79,7 @@ the user whether to install pylint, if it's not installed already.
 4. Pylint has a pre-commit hook integrated into a PyCharm commit modal window (
    Cmd+K). Make sure the "Scan with Pylint" checkbox is enabled:
 
-   <img src="assets/pycharm_pylint_pre_commit.png" width="700"/>
+   <img src="figures/pycharm_pylint_pre_commit.png" width="700"/>
 
 Note that PyCharm comes with very useful and advanced built-in inspections out
 of the box; however, they don't fully overlap with pylint, so it's useful to

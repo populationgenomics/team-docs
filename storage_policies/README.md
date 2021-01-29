@@ -24,7 +24,7 @@ This motivates two somewhat unusual principles in the design:
 
 ## Typical data flow
 
-![data flow](images/dataflow.svg)
+![data flow](figures/dataflow.svg)
 
 ## Buckets
 
