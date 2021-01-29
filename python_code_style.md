@@ -7,20 +7,20 @@
 - [PyCharm](#pycharm)
   
 To help us in implementing a consistent coding style throughout
-our code base, we use git [pre-commit](https://github.com/pre-commit/pre-commit) 
+our code base, we use git [pre-commit](https://github.com/pre-commit/pre-commit)
 hooks with a set of linters to check and reformat the code:
 
-* [pylint](https://www.pylint.org/) and [flake8](https://flake8.pycqa.org/) 
-  check the code style in accordance with 
-  [PEP8](https://www.python.org/dev/peps/pep-0008/), and perform some static 
-  analysis to catch potential programming errors. 
-* [pylint-quotes](https://pypi.org/project/pylint-quotes/) is a plugin to 
-  pylint that adds checks of the consistency of quotes (we stick to single 
-  quotes, with the only reason to prefer them over double quotes being the 
+- [pylint](https://www.pylint.org/) and [flake8](https://flake8.pycqa.org/)
+  check the code style in accordance with
+  [PEP8](https://www.python.org/dev/peps/pep-0008/), and perform some static
+  analysis to catch potential programming errors.
+- [pylint-quotes](https://pypi.org/project/pylint-quotes/) is a plugin to
+  pylint that adds checks of the consistency of quotes (we stick to single
+  quotes, with the only reason to prefer them over double quotes being the
   visual noise).
-* [black](https://github.com/psf/black) actually reformats the code to make 
+- [black](https://github.com/psf/black) actually reformats the code to make
   it conform to [PEP8](https://www.python.org/dev/peps/pep-0008/).
-* Additional hooks provided by 
+- Additional hooks provided by 
   [pre-commit](https://github.com/pre-commit/pre-commit-hooks#hooks-available):
   - check-yaml
   - end-of-file-fixer
@@ -34,7 +34,7 @@ hooks with a set of linters to check and reformat the code:
 
 ### Setting up a new project
 
-When creating a new repository that contains Python code, please add 
+When creating a new repository that contains Python code, please add
 these configuration files into the repository root folder:
 
 ```sh
@@ -53,17 +53,17 @@ pre-commit install
 ```
 
 Now on every `git commit`, the code will be automatically checked and
-possibly reformatted. If any of the checks didn't pass or reformatting was 
-done, the actual `git commit` command will not be performed. You can act 
+possibly reformatted. If any of the checks didn't pass or reformatting was
+done, the actual `git commit` command will not be performed. You can act
 upon linters' suggestions and re-run the `git commit` command afterwards.
 
 ### False positives
 
-Note that you may find some linters produce false positives, or run checks 
-irrelevant for your particular project. In this case, you may want to modify 
-the configuration files to disable additional inspections. For example, pylint 
+Note that you may find some linters produce false positives, or run checks
+irrelevant for your particular project. In this case, you may want to modify
+the configuration files to disable additional inspections. For example, pylint
 might fail to recognise imports of third-party libraries; in
-which case you can add E0401 ("Unable to import"), E1101 (no-member) and 
+which case you can add E0401 ("Unable to import"), E1101 (no-member) and
 I1101 (c-extension-no-member) to the comma-separated list in `.pylintrc`:
 
 ```sh
@@ -85,7 +85,7 @@ wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint\
 /github-workflow.yaml -O .github/workflows/main.yaml
 ```
 
-This will make GitHub run the linters on every push and pull request, and 
+This will make GitHub run the linters on every push and pull request, and
 display checks in the web interface.
 
 <img src="figures/github_lint_check.png" width="400"/>
