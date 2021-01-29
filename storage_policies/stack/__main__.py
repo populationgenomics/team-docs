@@ -202,31 +202,35 @@ secretmanager = gcp.projects.Service('secretmanager-service',
                                      service='secretmanager.googleapis.com',
                                      disable_on_destroy=False)
 
-# Add a secret that will hold the Hail token.
-hail_token_secret = gcp.secretmanager.Secret(
-    'hail-token-secret',
-    replication=gcp.secretmanager.SecretReplicationArgs(
-        user_managed=gcp.secretmanager.SecretReplicationUserManagedArgs(
-            replicas=[
-                gcp.secretmanager.SecretReplicationUserManagedReplicaArgs(
-                    location=REGION
-                ),
-            ],
+# The analysis-runner needs access to two secrets: a list of allowed
+# repositories and a Hail Batch service account token.
+for secret_name in 'hail-token', 'allowed-repositories':
+    secret = gcp.secretmanager.Secret(
+        f'{secret_name}-secret',
+        replication=gcp.secretmanager.SecretReplicationArgs(
+            user_managed=gcp.secretmanager.SecretReplicationUserManagedArgs(
+                replicas=[
+                    gcp.secretmanager.SecretReplicationUserManagedReplicaArgs(
+                        location=REGION
+                    ),
+                ],
+            ),
         ),
-    ),
-    secret_id='hail-token',
-    opts=pulumi.resource.ResourceOptions(depends_on=[secretmanager]))
+        secret_id=secret_name,
+        opts=pulumi.resource.ResourceOptions(depends_on=[secretmanager]))
 
-# The analysis-runner server needs to read the Hail token secret.
-gcp.secretmanager.SecretIamMember(
-    'analysis-runner-service-account-secret-reader',
-    secret_id=hail_token_secret.id,
-    role='roles/secretmanager.secretAccessor',
-    member=pulumi.Output.concat('serviceAccount:', analysis_runner_service_account.email))
+    gcp.secretmanager.SecretIamMember(
+        f'{secret_name}-secret-reader',
+        secret_id=secret.id,
+        role='roles/secretmanager.secretAccessor',
+        member=pulumi.Output.concat(
+            'serviceAccount:', analysis_runner_service_account.email))
 
 project_number = gcp.organizations.get_project().number
 
-# Allow the Cloud Run Service Agent to pull the image.
+# Allow the Cloud Run Service Agent to pull the image. Note that the global
+# project will refer to the dataset, but the Docker image is stored in the
+# "analysis-runner" project's Artifact Registry repository.
 repo_member = gcp.artifactregistry.RepositoryIamMember(
     'artifact-registry-reader',
     project='analysis-runner',
