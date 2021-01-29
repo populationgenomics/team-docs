@@ -88,7 +88,7 @@ wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint\
 This will make GitHub run the linters on every push and pull request, and 
 display checks in the web interface.
 
-<img src="figures/github_pylint_check.png" width="400"/>
+<img src="figures/github_lint_check.png" width="400"/>
 
 ### Visual Studio Code
 
