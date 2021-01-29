@@ -1,5 +1,11 @@
 # Python Code Style
 
+- [Setting up a new project](#setting-up-a-new-project)
+- [False positives](#false-positives)
+- [GitHub checks of PRs](#github-checks-of-prs)
+- [Visual Studio Code](#visual-studio-code)
+- [PyCharm](#pycharm)
+  
 To help us in implementing a consistent coding style throughout
 our code base, we use git [pre-commit](https://github.com/pre-commit/pre-commit) 
 hooks with a set of linters to check and reformat the code:
@@ -70,8 +76,8 @@ your code with `# fmt: off` and `# fmt: on`.
 ### GitHub checks of PRs
 
 In addition to `.pylintrc`, create a GitHub Actions CI workflow under
-`.github/workflows/main.yaml` with the following contents (or add the `lint`
-job into your existing workflow):
+`.github/workflows/main.yaml` with the following contents (or add the `lint` job
+to an exsting workflow):
 
 ```sh
 mkdir -p .github/workflows
@@ -82,8 +88,7 @@ wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint\
 This will make GitHub run the linters on every push and pull request, and 
 display checks in the web interface.
 
-<img src="pictures/github_lint_check.png" width="400"/>
-
+<img src="figures/github_pylint_check.png" width="400"/>
 
 ### Visual Studio Code
 
@@ -98,17 +103,16 @@ the user whether to install pylint, if it's not installed already.
    "Pylint"). It will automatically find the pylint executable. A new tool
    window called Pylint will be added. You can use it to scan the project:
 
-   <img src="pictures/pycharm_pylint_tool_window.png" width="700"/>
+   <img src="figures/pycharm_pylint_tool_window.png" width="700"/>
 
-3. You can also enable real-time inspections by going to:
-   Go to Preferences > Editor > Inspections > enable "Pylint real-time scan".
-   However, it's not recommended as it's has a negative impact on system
-   performance.
+3. You can also enable real-time inspections by going to: Go to Preferences >
+   Editor > Inspections > enable "Pylint real-time scan". However, it's not
+   recommended as it's has a negative impact on system performance.
 
 4. Pylint has a pre-commit hook integrated into a PyCharm commit modal window (
    Cmd+K). Make sure the "Scan with Pylint" checkbox is enabled:
 
-   <img src="pictures/pycharm_pylint_pre_commit.png" width="700"/>
+   <img src="figures/pycharm_pylint_pre_commit.png" width="700"/>
 
 Note that PyCharm comes with very useful and advanced built-in inspections out
 of the box; however, they don't fully overlap with pylint, so it's useful to

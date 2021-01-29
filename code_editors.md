@@ -1,6 +1,12 @@
-# Visual Studio Code
+# Code Editors
 
-## Hail
+- [Code Editors](#code-editors)
+  - [Visual Studio Code](#visual-studio-code)
+    - [Hail](#hail)
+
+## Visual Studio Code
+
+### Hail
 
 After installing the Python extension, Visual Studio Code by default uses
 Pylance for code navigation. As Hail requires a non-trivial `PYTHONPATH` to
@@ -31,9 +37,9 @@ Studio Code and run the following to install the required dependencies:
     ```
 
 Switch Visual Studio Code to this conda environment using the "Python: Select
-Interpreter" command. You might also want to disable the [inheritEnv
-setting](https://github.com/microsoft/vscode-python/issues/7607) when using
-conda.
+Interpreter" command. You might also want to disable the
+[inheritEnv setting](https://github.com/microsoft/vscode-python/issues/7607)
+when using conda.
 
 If symbols still don't get resolved properly, you might have to reload Visual
 Studio Code.
