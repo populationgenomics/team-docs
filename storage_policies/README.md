@@ -72,7 +72,7 @@ increase.
 
 - **Description**: Contains files uploaded from sequencing providers, as a
   staging area.
-- **Main Use Case**: Raw sequencing reads (e.g. CRAM files) and derived data
+- **Main use case**: Raw sequencing reads (e.g. CRAM files) and derived data
   from initial production pipelines: QC metrics including coverage results,
   additional outputs from variant callers (e.g. structural variants,
   repeat expansions, etc.), and GVCFs. An upload processor pipeline moves these
@@ -86,7 +86,7 @@ increase.
 
 - **Description**: Contains files for _archival purposes_, where long term
   storage is cheap, but _retrieval is very expensive_.
-- **Main Use Case**: Raw sequencing reads (e.g. CRAM files) and potentially
+- **Main use case**: Raw sequencing reads (e.g. CRAM files) and potentially
   GVCFs (after conversion to Hail MatrixTables).
 - **Storage**: Standard Storage for 30 days, before changing to Archive Storage.
   This allows workflows to do post-processing of the data shortly after initial
@@ -99,7 +99,7 @@ increase.
 
 - **Description**: Contains _input_ files that are frequently accessed for
   analysis. Long term storage is expensive, but retrieval is cheap.
-- **Main Use Case**: Hail tables (e.g. merged GVCF files), metadata, SV caller
+- **Main use case**: Hail tables (e.g. merged GVCF files), metadata, SV caller
   outputs, transcript abundance files, etc.
 - **Storage**: Standard Storage indefinitely.
 - **Access**: Human users only get listing permissions, but viewer permissions
@@ -113,7 +113,7 @@ increase.
 - **Description**: Contains _input_ test data, which usually corresponds to a
   subset of the data stored in the _main_ bucket. Long term storage is
   expensive, but retrieval is cheap.
-- **Main Use Case**: Iterate quickly on new pipelines during development.
+- **Main use case**: Iterate quickly on new pipelines during development.
   This bucket contains representative data, but given the much smaller dataset
   size the risk of accidental high cloud computing costs is greatly reduced.
 - **Storage**: Standard Storage indefinitely.
@@ -124,7 +124,7 @@ increase.
 
 - **Description**: Contains files frequently accessed for analysis.
   Long term storage is expensive, but retrieval is cheap.
-- **Main Use Case**: Analysis results derived from the _main_
+- **Main use case**: Analysis results derived from the _main_
   bucket, which in turn can become inputs for further analyses.
 - **Storage**: Standard Storage indefinitely.
 - **Access**: Human users only get viewer permissions, but creator permissions
@@ -136,7 +136,7 @@ increase.
 - **Description**: Contains files that only need to be retained _temporarily_
   during analysis or workflow execution. Retrieval is cheap, but old files get
   automatically deleted.
-- **Main Use Case**: Hail "checkpoints" that cache results while repeatedly
+- **Main use case**: Hail "checkpoints" that cache results while repeatedly
   running an analysis during development.
 - **Storage**: Files that are older than 30 days get deleted automatically.
 - **Access**: Human users get admin permissions, so care must be taken not to
@@ -148,7 +148,7 @@ increase.
 - **Description**: Contains data that's shared with other researchers or is
   publicly available. Long term storage is expensive, but network egress costs
   are covered by the users who download the data.
-- **Main Use Case**: Aggregate results that are made publicly available or
+- **Main use case**: Aggregate results that are made publicly available or
   snapshots of datasets that are shared with other researchers through
   restricted access.
 - **Storage**: Standard Storage indefinitely.
