@@ -12,9 +12,10 @@ repos:
   - id: debug-statements
   - id: check-added-large-files
 
-- repo: https://github.com/markdownlint/markdownlint
-  rev: v0.11.0
-  id: markdownlint
+- repo: https://github.com/igorshubovych/markdownlint-cli
+  rev: v0.22.0
+  hooks:
+  - id: markdownlint
 
 - repo: https://github.com/ambv/black
   rev: 20.8b1
