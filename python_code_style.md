@@ -87,8 +87,6 @@ your code, you can append `E0401,E1101,I1101` into the comma-separated list
 disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,C0330,C0326,fixme,E0401,E1101,I1101
 ```
 
-E0401,E1101,I1101
-
 Similar list for flake8 is called `extend-ignore` as can be extended in the 
 `.flake8` file.
 
