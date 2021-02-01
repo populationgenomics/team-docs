@@ -44,14 +44,19 @@ wget $URL/pylintrc -O .pylintrc
 wget $URL/flake8 -O .flake8
 ```
 
-First, install the required packages with pip or conda:
+Install `pre-commit` and `pylint` into your project environment with pip or 
+conda:
 
 ```sh
-conda create --name env-dev -c conda-forge pre-commit pylint
-conda activate env-dev
-``````
+conda install -c conda-forge pre-commit pylint
+```
 
-Then to enable the hooks run:
+Note that `pylint` uses inspections that verify module imports, that assume 
+that `pylint` is installed into the same environment as the python modules. 
+If you don't want the module imports to be checked, you can disable such 
+inspections (see [false-positives](#false-positives)).
+
+Finally, to enable the hooks, run:
 
 ```sh
 pre-commit install --install-hooks
@@ -68,18 +73,21 @@ You can also tirgger pre-commit manually on all files in the repo with:
 pre-commit run --all-files
 ```
 
+
 ## False positives
 
 Note that you may find some linters produce false positives, or just find 
 some checks irrelevant for your particular project. In this case, you may 
 want to modify the configuration files to disable additional inspections. 
-For example, if you want to leave TODO statements in your code, you can disable
-the pylint inspection that checks the code for `TODO:` by appending `fixme` 
-into the comma-separated list `disable` in `.pylintrc`:
+For example, if you don't want pylint to check third-party module imports in 
+your code, you can append `E0401,E1101,I1101` into the comma-separated list 
+`disable` in `.pylintrc`:
 
 ```sh
-disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,C0330,C0326,fixme
+disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,C0330,C0326,fixme,E0401,E1101,I1101
 ```
+
+E0401,E1101,I1101
 
 Similar list for flake8 is called `extend-ignore` as can be extended in the 
 `.flake8` file.
@@ -88,22 +96,32 @@ To hide a piece of code for being reformatted with black, you
 [can surround](https://github.com/psf/black#the-black-code-style)
 your code with `# fmt: off` and `# fmt: on`.
 
+
 ## GitHub checks of PRs
 
 In addition to `.pylintrc`, create a GitHub Actions CI workflow under
-`.github/workflows/main.yaml` with the following contents (or add the `lint` job
+`.github/workflows/main.yaml` (or add the `lint` job
 to an exsting workflow):
 
 ```sh
 mkdir -p .github/workflows
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint\
-/github-workflow.yaml -O .github/workflows/main.yaml
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/linting/github-workflows-main.yaml -O .github/workflows/main.yaml
+```
+
+The CI workflow assumes you have a conda environment file named 
+`environment-dev.yml` in the root folder of your repository that which 
+specifies all project python dependencies along with `pre-commit` and `pylint` 
+packages. To initiate this file, run:
+
+```sh
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/linting/environment-dev.yml
 ```
 
 This will make GitHub run the linters on every push and pull request, and
 display checks in the web interface.
 
 <img src="figures/github_lint_check.png" width="400"/>
+
 
 ## Visual Studio Code
 
