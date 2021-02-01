@@ -42,7 +42,7 @@ wget $URL/pre-commit-config.yaml -O .pre-commit-config.yaml
 wget $URL/pyproject.toml -O pyproject.toml
 wget $URL/pylintrc -O .pylintrc
 wget $URL/flake8 -O .flake8
-wget $URL/markdownlintrc -O .markdownlintrc
+wget $URL/markdownlint.json -O .markdownlint.json
 ```
 
 Install `pre-commit` and `pylint` into your project environment with pip or
