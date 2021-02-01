@@ -1,11 +1,10 @@
 # Python Code Style
 
-- [Python Code Style](#python-code-style)
-  - [Setting up a new project](#setting-up-a-new-project)
-  - [False positives](#false-positives)
-  - [GitHub checks of PRs](#github-checks-of-prs)
-  - [Visual Studio Code](#visual-studio-code)
-  - [PyCharm](#pycharm)
+- [Setting up a new project](#setting-up-a-new-project)
+- [False positives](#false-positives)
+- [GitHub checks of PRs](#github-checks-of-prs)
+- [Visual Studio Code](#visual-studio-code)
+- [PyCharm](#pycharm)
 
 To help us in implementing a consistent coding style throughout
 our code base, we use git [pre-commit](https://github.com/pre-commit/pre-commit)
@@ -45,11 +44,17 @@ wget $URL/pylintrc -O .pylintrc
 wget $URL/flake8 -O .flake8
 ```
 
-Follow it with the following commands to enable pre-commit hooks:
+First, install the required packages with pip or conda:
 
 ```sh
-pip install pre-commit
-pre-commit install
+conda create --name env-dev -c conda-forge pre-commit pylint
+conda activate env-dev
+``````
+
+Then to enable the hooks run:
+
+```sh
+pre-commit install --install-hooks
 ```
 
 Now on every `git commit`, the code will be automatically checked and
@@ -57,18 +62,27 @@ possibly reformatted. If any of the checks didn't pass or reformatting was
 done, the actual `git commit` command will not be performed. You can act
 upon linters' suggestions and re-run the `git commit` command afterwards.
 
-## False positives
-
-Note that you may find some linters produce false positives, or run checks
-irrelevant for your particular project. In this case, you may want to modify
-the configuration files to disable additional inspections. For example, pylint
-might fail to recognise imports of third-party libraries; in
-which case you can add E0401 ("Unable to import"), E1101 (no-member) and
-I1101 (c-extension-no-member) to the comma-separated list in `.pylintrc`:
+You can also tirgger pre-commit manually on all files in the repo with:
 
 ```sh
-disable=<...>,E0401,E1101,I1101
+pre-commit run --all-files
 ```
+
+## False positives
+
+Note that you may find some linters produce false positives, or just find 
+some checks irrelevant for your particular project. In this case, you may 
+want to modify the configuration files to disable additional inspections. 
+For example, if you want to leave TODO statements in your code, you can disable
+the pylint inspection that checks the code for `TODO:` by appending `fixme` 
+into the comma-separated list `disable` in `.pylintrc`:
+
+```sh
+disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,C0330,C0326,fixme
+```
+
+Similar list for flake8 is called `extend-ignore` as can be extended in the 
+`.flake8` file.
 
 To hide a piece of code for being reformatted with black, you
 [can surround](https://github.com/psf/black#the-black-code-style)

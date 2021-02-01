@@ -4,19 +4,17 @@ on: [push, pull_request]
 jobs:
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+
     steps:
-      - uses: actions/checkout@main
+    - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2
+    - uses: conda-incubator/setup-miniconda@v2
+        
+    - name: Install packages
+      run: conda install -c conda-forge pre-commit pylint
 
-      - name: Install linting tools
-        run: pip install pylint pylint-quotes flake8 flake8-bugbear black
-
-      - name: pylint
-        run: pylint **/*.py
-
-      - name: flake8
-        run: flake8 .
-
-      - name: black
-        run: black . --check
+    - name: pre-commit
+      run: pre-commit run --all-files
