@@ -1,10 +1,11 @@
 # Python Code Style
 
-- [Setting up a new project](#setting-up-a-new-project)
-- [False positives](#false-positives)
-- [GitHub checks of PRs](#github-checks-of-prs)
-- [Visual Studio Code](#visual-studio-code)
-- [PyCharm](#pycharm)
+- [Python Code Style](#python-code-style)
+  - [Setting up a new project](#setting-up-a-new-project)
+  - [False positives](#false-positives)
+  - [GitHub checks of PRs](#github-checks-of-prs)
+  - [Visual Studio Code](#visual-studio-code)
+  - [PyCharm](#pycharm)
 
 To help us in implementing a consistent coding style throughout
 our code base, we use git [pre-commit](https://github.com/pre-commit/pre-commit)
@@ -31,7 +32,7 @@ hooks with a set of linters to check and reformat the code:
   - debug-statements
   - check-added-large-files
 
-### Setting up a new project
+## Setting up a new project
 
 When creating a new repository that contains Python code, please add
 these configuration files into the repository root folder:
@@ -56,7 +57,7 @@ possibly reformatted. If any of the checks didn't pass or reformatting was
 done, the actual `git commit` command will not be performed. You can act
 upon linters' suggestions and re-run the `git commit` command afterwards.
 
-### False positives
+## False positives
 
 Note that you may find some linters produce false positives, or run checks
 irrelevant for your particular project. In this case, you may want to modify
@@ -69,10 +70,11 @@ I1101 (c-extension-no-member) to the comma-separated list in `.pylintrc`:
 disable=<...>,E0401,E1101,I1101
 ```
 
-To hide a piece of code for being reformatted with black, you [can surround](https://github.com/psf/black#the-black-code-style)
+To hide a piece of code for being reformatted with black, you
+[can surround](https://github.com/psf/black#the-black-code-style)
 your code with `# fmt: off` and `# fmt: on`.
 
-### GitHub checks of PRs
+## GitHub checks of PRs
 
 In addition to `.pylintrc`, create a GitHub Actions CI workflow under
 `.github/workflows/main.yaml` with the following contents (or add the `lint` job
@@ -89,12 +91,12 @@ display checks in the web interface.
 
 <img src="figures/github_lint_check.png" width="400"/>
 
-### Visual Studio Code
+## Visual Studio Code
 
 Visual Studio Code auto-detects a .pylintrc file in the project root and asks
 the user whether to install pylint, if it's not installed already.
 
-### PyCharm
+## PyCharm
 
 1. Make sure you have pylint installed with `pip install pylint pylint-quotes`.
 
