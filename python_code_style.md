@@ -42,7 +42,7 @@ URL=https://raw.githubusercontent.com/populationgenomics/team-docs/main/linting
 wget $URL/pre-commit-config.yaml -O .pre-commit-config.yaml
 wget $URL/pyproject.toml -O pyproject.toml
 wget $URL/pylintrc -O .pylintrc
-wget $URL/flake8.toml -O .flake8.yaml
+wget $URL/flake8 -O .flake8
 ```
 
 Follow it with the following commands to enable pre-commit hooks:
