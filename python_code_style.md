@@ -5,7 +5,7 @@
 - [GitHub checks of PRs](#github-checks-of-prs)
 - [Visual Studio Code](#visual-studio-code)
 - [PyCharm](#pycharm)
-  
+
 To help us in implementing a consistent coding style throughout
 our code base, we use git [pre-commit](https://github.com/pre-commit/pre-commit)
 hooks with a set of linters to check and reformat the code:
@@ -20,7 +20,7 @@ hooks with a set of linters to check and reformat the code:
   visual noise).
 - [black](https://github.com/psf/black) actually reformats the code to make
   it conform to [PEP8](https://www.python.org/dev/peps/pep-0008/).
-- Additional hooks provided by 
+- Additional hooks provided by
   [pre-commit](https://github.com/pre-commit/pre-commit-hooks#hooks-available):
   - check-yaml
   - end-of-file-fixer
@@ -29,8 +29,8 @@ hooks with a set of linters to check and reformat the code:
   - check-merge-conflict
   - detect-private-key
   - debug-statements
-  - check-added-large-files  
-    
+  - check-added-large-files
+
 ### Setting up a new project
 
 When creating a new repository that contains Python code, please add
@@ -41,7 +41,7 @@ URL=https://raw.githubusercontent.com/populationgenomics/team-docs/main/linting
 wget $URL/pre-commit-config.yaml -O .pre-commit-config.yaml
 wget $URL/pyproject.toml -O pyproject.toml
 wget $URL/pylintrc -O .pylintrc
-wget $URL/flake8.toml -O .flake8.yaml
+wget $URL/flake8 -O .flake8
 ```
 
 Follow it with the following commands to enable pre-commit hooks:
@@ -69,7 +69,7 @@ I1101 (c-extension-no-member) to the comma-separated list in `.pylintrc`:
 disable=<...>,E0401,E1101,I1101
 ```
 
-To hide a piece of code for being reformatted with black, you [can surround](https://github.com/psf/black#the-black-code-style) 
+To hide a piece of code for being reformatted with black, you [can surround](https://github.com/psf/black#the-black-code-style)
 your code with `# fmt: off` and `# fmt: on`.
 
 ### GitHub checks of PRs
