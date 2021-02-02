@@ -97,7 +97,7 @@ def create_group(mail: str) -> gcp.cloudidentity.Group:
         name,
         display_name=name,
         group_key=gcp.cloudidentity.GroupGroupKeyArgs(id=mail),
-        labels={'cloudidentity.googleapis.com/groups.discussion_forum': ''},
+        labels='cloudidentity.googleapis.com/groups.discussion_forum': ''},
         parent=f'customers/{customer_id}',
         opts=pulumi.resource.ResourceOptions(depends_on=[cloudidentity]))
 
@@ -247,7 +247,7 @@ analysis_runner_server = gcp.cloudrun.Service(
         spec=gcp.cloudrun.ServiceTemplateSpecArgs(
             containers=[gcp.cloudrun.ServiceTemplateSpecContainerArgs(
                 envs=[{'name': 'DATASET', 'value': dataset}],
-                image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:06dd37129625'
+                image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:d3139968a9a2'
             )],
             service_account_name=analysis_runner_service_account.email,
         ),
