@@ -14,6 +14,9 @@ archive_age = config.get_int('archive_age') or 30
 hail_service_account = config.require('hail_service_account')
 dataset = pulumi.get_stack()
 
+project_id = gcp.organizations.get_project().project_id
+project_number = gcp.organizations.get_project().number
+
 
 def bucket_name(kind: str) -> str:
     return f'cpg-{dataset}-{kind}'
@@ -271,8 +274,6 @@ for secret_name in 'hail-token', 'allowed-repositories':
         ),
     )
 
-project_number = gcp.organizations.get_project().number
-
 # Allow the Cloud Run Service Agent to pull the image. Note that the global
 # project will refer to the dataset, but the Docker image is stored in the
 # "analysis-runner" project's Artifact Registry repository.
@@ -294,7 +295,10 @@ analysis_runner_server = gcp.cloudrun.Service(
         spec=gcp.cloudrun.ServiceTemplateSpecArgs(
             containers=[
                 gcp.cloudrun.ServiceTemplateSpecContainerArgs(
-                    envs=[{'name': 'DATASET', 'value': dataset}],
+                    envs=[
+                        {'name': 'GCP_PROJECT', 'value': project_id},
+                        {'name': 'DATASET', 'value': dataset},
+                    ],
                     image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:3adeedd5d73f',
                 )
             ],
