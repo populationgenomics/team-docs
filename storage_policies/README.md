@@ -224,6 +224,8 @@ Buckets and permission groups can be brought up using Pulumi.
 
    ```shell
    cd stack
+   gcloud auth application-default login
+   pulumi login gs://cpg-pulumi-state  # empty passphrase
    pulumi stack init $STACK
    pulumi config set gcp:project $PROJECT
    pulumi config set gcp:billing_project $PROJECT
