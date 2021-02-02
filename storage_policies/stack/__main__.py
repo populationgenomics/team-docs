@@ -3,11 +3,11 @@ import pulumi
 import pulumi_gcp as gcp
 
 DOMAIN = 'populationgenomics.org.au'
+CUSTOMER_ID = 'C010ys3gt'
 REGION = 'australia-southeast1'
 
 # Fetch configuration.
 config = pulumi.Config()
-customer_id = config.require('customer_id')
 enable_release = config.get_bool('enable_release')
 archive_age = config.get_int('archive_age') or 30
 # The GSA email address associated with the Hail service account.
@@ -111,7 +111,7 @@ def create_group(mail: str) -> gcp.cloudidentity.Group:
         display_name=name,
         group_key=gcp.cloudidentity.GroupGroupKeyArgs(id=mail),
         labels={'cloudidentity.googleapis.com/groups.discussion_forum': ''},
-        parent=f'customers/{customer_id}',
+        parent=f'customers/{CUSTOMER_ID}',
         opts=pulumi.resource.ResourceOptions(depends_on=[cloudidentity]),
     )
 

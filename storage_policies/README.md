@@ -29,7 +29,7 @@ This motivates two somewhat unusual principles in the design:
 ## Buckets
 
 In this context, a stack corresponds to a particular project / effort, e.g.
-*TOB-WGS* or *RDNow*, with separate buckets and permission groups. Below,
+_TOB-WGS_ or _RDNow_, with separate buckets and permission groups. Below,
 `$STACK` is a placeholder for the name of that effort, e.g. `$STACK` =
 `tob-wgs`.
 
@@ -67,7 +67,7 @@ files) and derived data from initial production pipelines: QC metrics
 including coverage results, and additional outputs from variant callers (e.g.
 structural variants, repeat expansions, etc.), and GVCFs.
 
-An upload processor pipeline moves these files into the *archive* and *main*
+An upload processor pipeline moves these files into the _archive_ and _main_
 buckets in batches, creating new releases.
 
 Files stay in Standard Storage indefinitely, but are cleared up regularly by
@@ -78,8 +78,8 @@ providers have creator permissions, using a service account.
 
 ## archive: `gs://cpg-$STACK-archive`
 
-This bucket contains files for *archival purposes*: long term storage is
-cheap, but *retrieval is very expensive*.
+This bucket contains files for _archival purposes_: long term storage is
+cheap, but _retrieval is very expensive_.
 
 The main use case for this category are raw sequencing reads (e.g. CRAM
 files). After conversion to Hail MatrixTables, GVCF files can potentially be
@@ -95,7 +95,7 @@ accidental retrieval costs incurred by human readers.
 
 ## main: `gs://cpg-$STACK-main`
 
-This bucket contains *input* files that are frequently accessed for analysis.
+This bucket contains _input_ files that are frequently accessed for analysis.
 Long term storage is expensive, but retrieval is cheap.
 
 The main use case for this category are Hail tables (e.g. merged GVCF files),
@@ -105,13 +105,13 @@ Files stay in Standard Storage indefinitely.
 
 Human users only get listing permissions, but viewer permissions are granted
 indirectly through the [analysis runner](#analysis-runner) described below.
-This avoids high costs through code that hasn't been reviewed. See the *test*
+This avoids high costs through code that hasn't been reviewed. See the _test_
 bucket below if you're developing / prototyping a new pipeline.
 
 ## test: `gs://cpg-$STACK-test`
 
-This bucket contains *input* test data, which usually corresponds to a subset
-of the data stored in the *main* bucket. Long term storage is expensive, but
+This bucket contains _input_ test data, which usually corresponds to a subset
+of the data stored in the _main_ bucket. Long term storage is expensive, but
 retrieval is cheap.
 
 The main use case is to iterate quickly on new pipelines during development.
@@ -130,7 +130,7 @@ This bucket contains files that are frequently accessed for analysis.
 Long term storage is expensive, but retrieval is cheap.
 
 The main use case for this category are analysis results derived from the
-*main* bucket, which in turn can become inputs for further analyses.
+_main_ bucket, which in turn can become inputs for further analyses.
 
 Files stay in Standard Storage indefinitely.
 
@@ -139,7 +139,7 @@ indirectly through the [analysis runner](#analysis-runner) described below.
 
 ## temporary: `gs://cpg-$STACK-temporary`
 
-This bucket contains files that only need to be retained *temporarily* during
+This bucket contains files that only need to be retained _temporarily_ during
 analysis or workflow execution. Retrieval is cheap, but old files get
 automatically deleted.
 
@@ -170,7 +170,7 @@ modification / deletion of files.
 ## Deletion
 
 By default, human users can't delete objects in any bucket except for the
-*temporary* bucket. This avoids accidental deletion of results and makes sure
+_temporary_ bucket. This avoids accidental deletion of results and makes sure
 our pipelines stay reproducible. However, it will sometimes be necessary to
 delete obsolete results, mainly to reduce storage costs. Please coordinate
 directly with the software team in such cases.
@@ -192,7 +192,7 @@ Permissions are managed through IAM, using access groups.
   service accounts and very rarely for human users (in which case membership
   should expire after a short amount of time).
 - `$STACK-release-access@populationgenomics.org.au`: grants members viewer
-  permissions to the *release* bucket. Only required if the releases are not
+  permissions to the _release_ bucket. Only required if the releases are not
   public. This usually includes users outside the CPG, in which case they
   must use Google accounts. Membership should usually expire after a year,
   after which continued access will require a membership renewal.
@@ -200,13 +200,13 @@ Permissions are managed through IAM, using access groups.
 ## Analysis runner
 
 To encourage reproducible workflows and code getting reviewed before it's run
-on "production data", viewer permissions to the *main* bucket and creator
-permissions to the *analysis* bucket are available only through the analysis
+on "production data", viewer permissions to the _main_ bucket and creator
+permissions to the _analysis_ bucket are available only through the analysis
 runner. The typical workflow looks like this:
 
-1. Protoype and iterate on your pipeline using the *test* bucket for input and
-   the *temporary* bucket for outputs.
-1. Once you're ready to run your pipeline on the *main* bucket for input,
+1. Protoype and iterate on your pipeline using the _test_ bucket for input and
+   the _temporary_ bucket for outputs.
+1. Once you're ready to run your pipeline on the _main_ bucket for input,
    create a pull request to get your code reviewed.
 1. After your pull request has been merged, note the corresponding git commit
    hash. Invoke the analysis runner with that commit hash, which will run the
@@ -225,11 +225,12 @@ Buckets and permission groups can be brought up using Pulumi.
 
 1. Create a new GCP project for the stack, corresponding to `$PROJECT` below.
 1. Configure the Pulumi stack options:
+
    - See this [issue](https://github.com/hashicorp/terraform-provider-google/issues/7477)
      regarding the use of the `user_project_override` and `billing_project`
      options below.
-   - You can find your organization's `$CUSTOMER_ID` (used for creating Cloud
-     Identity IAM groups) using [Resource Manager](https://cloud.google.com/resource-manager/reference/rest/v1/organizations/search).
+   - Retrieve the Hail service account email from the Kubernetes secret:
+     `kubectl get secret $PROJECT-gsa-key -o json | jq '.data | map_values(@base64d)'`
 
    ```shell
    cd stack
@@ -237,7 +238,7 @@ Buckets and permission groups can be brought up using Pulumi.
    pulumi config set gcp:project $PROJECT
    pulumi config set gcp:billing_project $PROJECT
    pulumi config set gcp:user_project_override true
-   pulumi config set customer_id $CUSTOMER_ID
+   pulumi config set hail_service_account $HAIL_SERVICE_ACCOUNT
    ```
 
    - If you want to create a release bucket and access group:
