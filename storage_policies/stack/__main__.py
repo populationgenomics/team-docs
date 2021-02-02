@@ -274,17 +274,26 @@ for secret_name in 'hail-token', 'allowed-repos':
         ),
     )
 
-# Allow the Cloud Run Service Agent to pull the image. Note that the global
-# project will refer to the dataset, but the Docker image is stored in the
-# "analysis-runner" project's Artifact Registry repository.
-repo_member = gcp.artifactregistry.RepositoryIamMember(
-    'artifact-registry-reader',
+# Allow the Cloud Run Service Agent and the Hail service account to pull images. Note
+# that the global project will refer to the dataset, but the Docker image is stored in
+# the "analysis-runner" project's Artifact Registry repository.
+analysis_runner_repo = gcp.artifactregistry.RepositoryIamMember(
+    'analysis-runner-repo',
     project='analysis-runner',
     location=REGION,
     repository='images',
     role='roles/artifactregistry.reader',
     member=f'serviceAccount:service-{project_number}@serverless-robot-prod.iam.gserviceaccount.com',
     opts=pulumi.resource.ResourceOptions(depends_on=[cloudrun]),
+)
+
+gcp.artifactregistry.RepositoryIamMember(
+    'hail-service-account-repo',
+    project='analysis-runner',
+    location=REGION,
+    repository='images',
+    role='roles/artifactregistry.reader',
+    member=f'serviceAccount:{hail_service_account}',
 )
 
 analysis_runner_server = gcp.cloudrun.Service(
@@ -299,13 +308,13 @@ analysis_runner_server = gcp.cloudrun.Service(
                         {'name': 'GCP_PROJECT', 'value': project_id},
                         {'name': 'DATASET', 'value': dataset},
                     ],
-                    image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:3adeedd5d73f',
+                    image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:4d5ce9ffe0e8',
                 )
             ],
             service_account_name=analysis_runner_service_account.email,
         ),
     ),
-    opts=pulumi.resource.ResourceOptions(depends_on=[repo_member]),
+    opts=pulumi.resource.ResourceOptions(depends_on=[analysis_runner_repo]),
 )
 
 pulumi.export('analysis-runner-server URL', analysis_runner_server.statuses[0].url)
