@@ -294,7 +294,7 @@ analysis_runner_server = gcp.cloudrun.Service(
             containers=[
                 gcp.cloudrun.ServiceTemplateSpecContainerArgs(
                     envs=[{'name': 'DATASET', 'value': dataset}],
-                    image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:06dd37129625',
+                    image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:d3139968a9a2',
                 )
             ],
             service_account_name=analysis_runner_service_account.email,
