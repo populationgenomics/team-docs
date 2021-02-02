@@ -260,5 +260,5 @@ Buckets and permission groups can be brought up using Pulumi.
    python3 -m venv venv
    source venv/bin/activate
    pip3 install -r requirements.txt
-   pulumi up
+   PULUMI_CONFIG_PASSPHRASE= pulumi up
    ```
