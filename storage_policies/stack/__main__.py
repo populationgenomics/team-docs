@@ -249,7 +249,7 @@ secretmanager = gcp.projects.Service(
 
 # The analysis-runner needs access to two secrets: a list of allowed
 # repositories and a Hail Batch service account token.
-for secret_name in 'hail-token', 'allowed-repositories':
+for secret_name in 'hail-token', 'allowed-repos':
     secret = gcp.secretmanager.Secret(
         f'{secret_name}-secret',
         replication=gcp.secretmanager.SecretReplicationArgs(
