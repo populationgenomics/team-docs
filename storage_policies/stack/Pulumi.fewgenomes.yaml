@@ -1,0 +1,6 @@
+encryptionsalt: v1:SPQXlVggjxw=:v1:X1sTpViNuyK+Wcom:3GANI8gZOKtk0gG7BklsyHeNU5uVLw==
+config:
+  datasets:customer_id: C010ys3gt
+  gcp:billing_project: fewgenomes
+  gcp:project: fewgenomes
+  gcp:user_project_override: "true"
