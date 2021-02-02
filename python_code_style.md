@@ -1,11 +1,10 @@
 # Python Code Style
 
-- [Python Code Style](#python-code-style)
-  - [Setting up a new project](#setting-up-a-new-project)
-  - [False positives](#false-positives)
-  - [GitHub checks of PRs](#github-checks-of-prs)
-  - [Visual Studio Code](#visual-studio-code)
-  - [PyCharm](#pycharm)
+- [Setting up a new project](#setting-up-a-new-project)
+- [False positives](#false-positives)
+- [GitHub checks of PRs](#github-checks-of-prs)
+- [Visual Studio Code](#visual-studio-code)
+- [PyCharm](#pycharm)
 
 To help us in implementing a consistent coding style throughout
 our code base, we use git [pre-commit](https://github.com/pre-commit/pre-commit)
@@ -43,13 +42,25 @@ wget $URL/pre-commit-config.yaml -O .pre-commit-config.yaml
 wget $URL/pyproject.toml -O pyproject.toml
 wget $URL/pylintrc -O .pylintrc
 wget $URL/flake8 -O .flake8
+wget $URL/markdownlint.json -O .markdownlint.json
 ```
 
-Follow it with the following commands to enable pre-commit hooks:
+Install `pre-commit` and `pylint` into your project environment with pip or
+conda:
 
 ```sh
-pip install pre-commit
-pre-commit install
+conda install -c conda-forge pre-commit pylint
+```
+
+Note that `pylint` uses inspections that verify module imports, that assume
+that `pylint` is installed into the same environment as the python modules.
+If you don't want the module imports to be checked, you can disable such
+inspections (see [false-positives](#false-positives)).
+
+Finally, to enable the hooks, run:
+
+```sh
+pre-commit install --install-hooks
 ```
 
 Now on every `git commit`, the code will be automatically checked and
@@ -57,39 +68,62 @@ possibly reformatted. If any of the checks didn't pass or reformatting was
 done, the actual `git commit` command will not be performed. You can act
 upon linters' suggestions and re-run the `git commit` command afterwards.
 
-## False positives
-
-Note that you may find some linters produce false positives, or run checks
-irrelevant for your particular project. In this case, you may want to modify
-the configuration files to disable additional inspections. For example, pylint
-might fail to recognise imports of third-party libraries; in
-which case you can add E0401 ("Unable to import"), E1101 (no-member) and
-I1101 (c-extension-no-member) to the comma-separated list in `.pylintrc`:
+You can also tirgger pre-commit manually on all files in the repo with:
 
 ```sh
-disable=<...>,E0401,E1101,I1101
+pre-commit run --all-files
 ```
+
+
+## False positives
+
+Note that you may find some linters produce false positives, or just find
+some checks irrelevant for your particular project. In this case, you may
+want to modify the configuration files to disable additional inspections.
+For example, if you don't want pylint to check third-party module imports in
+your code, you can append `E0401,E1101,I1101` into the comma-separated list
+`disable` in `.pylintrc`:
+
+```sh
+disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,C0330,C0326,fixme,E0401,E1101,I1101
+```
+
+Similar list for flake8 is called `extend-ignore` as can be extended in the
+`.flake8` file.
 
 To hide a piece of code for being reformatted with black, you
 [can surround](https://github.com/psf/black#the-black-code-style)
 your code with `# fmt: off` and `# fmt: on`.
 
+
 ## GitHub checks of PRs
 
 In addition to `.pylintrc`, create a GitHub Actions CI workflow under
-`.github/workflows/main.yaml` with the following contents (or add the `lint` job
+`.github/workflows/lint.yaml` (or add the `lint` job
 to an exsting workflow):
 
 ```sh
 mkdir -p .github/workflows
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/pylint\
-/github-workflow.yaml -O .github/workflows/main.yaml
+wget https://raw.githubusercontent.
+com/populationgenomics/team-docs/main/linting/github-workflows-lint.yaml\
+ -O .github/workflows/lint.yaml
+```
+
+The CI workflow assumes you have a conda environment file named
+`environment-dev.yml` in the root folder of your repository that which
+specifies all project python dependencies along with `pre-commit` and `pylint`
+packages. To initiate this file, run:
+
+```sh
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/\
+linting/environment-dev.yml
 ```
 
 This will make GitHub run the linters on every push and pull request, and
 display checks in the web interface.
 
 <img src="figures/github_lint_check.png" width="400"/>
+
 
 ## Visual Studio Code
 

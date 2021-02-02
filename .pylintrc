@@ -10,8 +10,13 @@
 #    C0330: Wrong hanging indentation before block (add 4 spaces)
 #    C0326: Bad whitespace
 # 5. fixme (left 'TODO' lines)
+# 6. The following require installing the python modules imported in the source code
+#    import-error ("Unable to import")
+#    no-member
+#    c-extension-no-member
+# 7. missing-function-docstring (Missing function or method docstring)
 
-disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,C0330,C0326,fixme
+disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,C0330,C0326,fixme,import-error,no-member,c-extension-no-member,missing-function-docstring
 
 # Overriding variable name patterns to allow short 1- or 2-letter variables
 attr-rgx=[a-z_][a-z0-9_]{0,30}$
