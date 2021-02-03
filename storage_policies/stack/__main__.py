@@ -308,7 +308,7 @@ analysis_runner_server = gcp.cloudrun.Service(
                         {'name': 'GCP_PROJECT', 'value': project_id},
                         {'name': 'DATASET', 'value': dataset},
                     ],
-                    image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:4d5ce9ffe0e8',
+                    image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:9afb6a1af241',
                 )
             ],
             service_account_name=analysis_runner_service_account.email,
