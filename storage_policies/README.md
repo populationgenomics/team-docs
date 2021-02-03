@@ -223,7 +223,7 @@ Buckets and permission groups can be brought up using Pulumi.
    ```shell
    cd stack
    gcloud auth application-default login
-   pulumi login gs://cpg-pulumi-state  # empty passphrase
+   pulumi login gs://cpg-pulumi-state
    pulumi stack init $STACK
    pulumi config set gcp:project $PROJECT
    pulumi config set gcp:billing_project $PROJECT
@@ -250,5 +250,5 @@ Buckets and permission groups can be brought up using Pulumi.
    python3 -m venv venv
    source venv/bin/activate
    pip3 install -r requirements.txt
-   PULUMI_CONFIG_PASSPHRASE= pulumi up
+   PULUMI_CONFIG_PASSPHRASE= pulumi up  # empty passphrase
    ```
