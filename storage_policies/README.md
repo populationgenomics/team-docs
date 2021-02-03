@@ -214,23 +214,21 @@ Buckets and permission groups can be brought up using Pulumi.
 1. Create a new GCP project for the stack, corresponding to `$PROJECT` below.
 1. Configure the Pulumi stack options:
 
-   - See this
-     [issue](https://github.com/hashicorp/terraform-provider-google/issues/7477)
+   - See this [issue](https://github.com/hashicorp/terraform-provider-google/issues/7477)
      regarding the use of the `user_project_override` and `billing_project`
      options below.
-   - You can find your organization's `$CUSTOMER_ID` (used for creating Cloud
-     Identity IAM groups) using
-     [Resource Manager](https://cloud.google.com/resource-manager/reference/rest/v1/organizations/search).
+   - Retrieve the Hail service account email from the Kubernetes secret:
+     `kubectl get secret $PROJECT-gsa-key -o json | jq '.data | map_values(@base64d)'`
 
    ```shell
    cd stack
    gcloud auth application-default login
-   pulumi login gs://cpg-pulumi-state  # empty passphrase
+   pulumi login gs://cpg-pulumi-state
    pulumi stack init $STACK
    pulumi config set gcp:project $PROJECT
    pulumi config set gcp:billing_project $PROJECT
    pulumi config set gcp:user_project_override true
-   pulumi config set customer_id $CUSTOMER_ID
+   pulumi config set hail_service_account $HAIL_SERVICE_ACCOUNT
    ```
 
    - If you want to create a release bucket and access group:
@@ -252,5 +250,5 @@ Buckets and permission groups can be brought up using Pulumi.
    python3 -m venv venv
    source venv/bin/activate
    pip3 install -r requirements.txt
-   pulumi up
+   PULUMI_CONFIG_PASSPHRASE= pulumi up  # empty passphrase
    ```
