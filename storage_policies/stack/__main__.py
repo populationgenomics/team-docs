@@ -1,4 +1,7 @@
-from pulumi_gcp.storage.outputs import BucketEncryption
+"""
+Pulumi stack to set up buckets and permission groups
+"""
+
 import pulumi
 import pulumi_gcp as gcp
 
