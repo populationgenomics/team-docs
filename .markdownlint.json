@@ -1,0 +1,11 @@
+{
+  "default": true,
+  "line-length": false,
+  "no-inline-html": {
+    "allowed_elements": ["details", "img"]
+  },
+  "ol-prefix": false,
+  "list-indent": false,
+  "ul-indent": false,
+  "no-multiple-blanks": false
+}

@@ -13,7 +13,7 @@ digraph dataflow {
     temporary [shape=box, fillcolor=6]
     analysis [shape=box, fillcolor=5]
     release [shape=box]
-    
+
     reference -> upstream_pipeline
     upstream_pipeline -> upload
     upload -> upload_processor
