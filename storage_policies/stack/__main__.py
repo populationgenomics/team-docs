@@ -111,7 +111,7 @@ def create_group(mail: str) -> gcp.cloudidentity.Group:
         name,
         display_name=name,
         group_key=gcp.cloudidentity.GroupGroupKeyArgs(id=mail),
-        labels='cloudidentity.googleapis.com/groups.discussion_forum': ''},
+        labels={'cloudidentity.googleapis.com/groups.discussion_forum': ''},
         parent=f'customers/{customer_id}',
         opts=pulumi.resource.ResourceOptions(depends_on=[cloudidentity]),
     )
@@ -136,29 +136,6 @@ listing_role = gcp.projects.IAMCustomRole(
     permissions=['storage.objects.list'],
     role_id='storageObjectLister',
     title='Storage Object Lister',
-<<<<<<< HEAD
-    opts=pulumi.resource.ResourceOptions(depends_on=[cloudidentity]))
-
-add_bucket_permissions('restricted-access-main-lister',
-                       restricted_access_group,
-                       main_bucket,
-                       listing_role.name)
-
-add_bucket_permissions('restricted-access-analysis-viewer',
-                       restricted_access_group,
-                       analysis_bucket,
-                       'roles/storage.objectViewer')
-
-add_bucket_permissions('restricted-access-test-viewer',
-                       restricted_access_group,
-                       test_bucket,
-                       'roles/storage.objectViewer')
-
-add_bucket_permissions('restricted-access-temporary-admin',
-                       restricted_access_group,
-                       temporary_bucket,
-                       'roles/storage.objectAdmin')
-=======
     opts=pulumi.resource.ResourceOptions(depends_on=[cloudidentity]),
 )
 
@@ -189,7 +166,6 @@ add_bucket_permissions(
     temporary_bucket,
     'roles/storage.objectAdmin',
 )
->>>>>>> origin/main
 
 extended_access_group = create_group(group_mail('extended-access'))
 
@@ -244,26 +220,30 @@ if enable_release:
 
     release_access_group = create_group(group_mail('release-access'))
 
-<<<<<<< HEAD
-    add_bucket_permissions('release-access-release-viewer',
-                           release_access_group,
-                           release_bucket,
-                           'roles/storage.objectViewer')
+    add_bucket_permissions(
+        'release-access-release-viewer',
+        release_access_group,
+        release_bucket,
+        'roles/storage.objectViewer',
+    )
 
 # Cloud Run is used for the server component of the analysis-runner.
-cloudrun = gcp.projects.Service('cloudrun-service',
-                                service='run.googleapis.com',
-                                disable_on_destroy=False)
+cloudrun = gcp.projects.Service(
+    'cloudrun-service', service='run.googleapis.com', disable_on_destroy=False
+)
 
 analysis_runner_service_account = gcp.serviceaccount.Account(
     'analysis-runner-service-account',
     account_id='analysis-runner-server',
     display_name='analysis-runner service account',
-    opts=pulumi.resource.ResourceOptions(depends_on=[cloudidentity]))
+    opts=pulumi.resource.ResourceOptions(depends_on=[cloudidentity]),
+)
 
-secretmanager = gcp.projects.Service('secretmanager-service',
-                                     service='secretmanager.googleapis.com',
-                                     disable_on_destroy=False)
+secretmanager = gcp.projects.Service(
+    'secretmanager-service',
+    service='secretmanager.googleapis.com',
+    disable_on_destroy=False,
+)
 
 # The analysis-runner needs access to two secrets: a list of allowed
 # repositories and a Hail Batch service account token.
@@ -280,14 +260,17 @@ for secret_name in 'hail-token', 'allowed-repositories':
             ),
         ),
         secret_id=secret_name,
-        opts=pulumi.resource.ResourceOptions(depends_on=[secretmanager]))
+        opts=pulumi.resource.ResourceOptions(depends_on=[secretmanager]),
+    )
 
     gcp.secretmanager.SecretIamMember(
         f'{secret_name}-secret-reader',
         secret_id=secret.id,
         role='roles/secretmanager.secretAccessor',
         member=pulumi.Output.concat(
-            'serviceAccount:', analysis_runner_service_account.email))
+            'serviceAccount:', analysis_runner_service_account.email
+        ),
+    )
 
 project_number = gcp.organizations.get_project().number
 
@@ -300,7 +283,11 @@ repo_member = gcp.artifactregistry.RepositoryIamMember(
     location=REGION,
     repository='images',
     role='roles/artifactregistry.reader',
-    member=f'serviceAccount:service-{project_number}@serverless-robot-prod.iam.gserviceaccount.com')
+    member=(
+        f'serviceAccount:service-{project_number}'
+        f'@serverless-robot-prod.iam.gserviceaccount.com'
+    ),
+)
 
 analysis_runner_server = gcp.cloudrun.Service(
     'analysis-runner-server',
@@ -308,17 +295,22 @@ analysis_runner_server = gcp.cloudrun.Service(
     autogenerate_revision_name=True,
     template=gcp.cloudrun.ServiceTemplateArgs(
         spec=gcp.cloudrun.ServiceTemplateSpecArgs(
-            containers=[gcp.cloudrun.ServiceTemplateSpecContainerArgs(
-                envs=[{'name': 'DATASET', 'value': dataset}],
-                image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:9afb6a1af241'
-            )],
+            containers=[
+                gcp.cloudrun.ServiceTemplateSpecContainerArgs(
+                    envs=[{'name': 'DATASET', 'value': dataset}],
+                    image=(
+                        f'australia-southeast1-docker.pkg.dev/analysis-runner/'
+                        f'images/server:9afb6a1af241'
+                    ),
+                )
+            ],
             service_account_name=analysis_runner_service_account.email,
         ),
     ),
-    opts=pulumi.resource.ResourceOptions(depends_on=[cloudrun, repo_member]))
+    opts=pulumi.resource.ResourceOptions(depends_on=[cloudrun, repo_member]),
+)
 
-pulumi.export('analysis-runner-server URL',
-              analysis_runner_server.statuses[0].url)
+pulumi.export('analysis-runner-server URL', analysis_runner_server.statuses[0].url)
 
 # Restrict Cloud Run invokers to the restricted access group.
 gcp.cloudrun.IamMember(
@@ -326,12 +318,5 @@ gcp.cloudrun.IamMember(
     service=analysis_runner_server.name,
     location=REGION,
     role='roles/run.invoker',
-    member=pulumi.Output.concat('group:', restricted_access_group.group_key.id))
-=======
-    add_bucket_permissions(
-        'release-access-release-viewer',
-        release_access_group,
-        release_bucket,
-        'roles/storage.objectViewer',
-    )
->>>>>>> origin/main
+    member=pulumi.Output.concat('group:', restricted_access_group.group_key.id),
+)
