@@ -6,7 +6,7 @@ import pulumi
 import pulumi_gcp as gcp
 
 DOMAIN = 'populationgenomics.org.au'
-BUCKET_REGION = 'australia-southeast1'
+REGION = 'australia-southeast1'
 
 # Fetch configuration.
 config = pulumi.Config()
@@ -24,7 +24,7 @@ def create_bucket(name: str, **kwargs) -> gcp.storage.Bucket:
     return gcp.storage.Bucket(
         name,
         name=name,
-        location=BUCKET_REGION,
+        location=REGION,
         versioning=gcp.storage.BucketVersioningArgs(enabled=True),
         labels={'bucket': name},
         **kwargs,
@@ -226,3 +226,97 @@ if enable_release:
         release_bucket,
         'roles/storage.objectViewer',
     )
+
+# Cloud Run is used for the server component of the analysis-runner.
+cloudrun = gcp.projects.Service(
+    'cloudrun-service', service='run.googleapis.com', disable_on_destroy=False
+)
+
+analysis_runner_service_account = gcp.serviceaccount.Account(
+    'analysis-runner-service-account',
+    account_id='analysis-runner-server',
+    display_name='analysis-runner service account',
+    opts=pulumi.resource.ResourceOptions(depends_on=[cloudidentity]),
+)
+
+secretmanager = gcp.projects.Service(
+    'secretmanager-service',
+    service='secretmanager.googleapis.com',
+    disable_on_destroy=False,
+)
+
+# The analysis-runner needs access to two secrets: a list of allowed
+# repositories and a Hail Batch service account token.
+for secret_name in 'hail-token', 'allowed-repositories':
+    secret = gcp.secretmanager.Secret(
+        f'{secret_name}-secret',
+        replication=gcp.secretmanager.SecretReplicationArgs(
+            user_managed=gcp.secretmanager.SecretReplicationUserManagedArgs(
+                replicas=[
+                    gcp.secretmanager.SecretReplicationUserManagedReplicaArgs(
+                        location=REGION
+                    ),
+                ],
+            ),
+        ),
+        secret_id=secret_name,
+        opts=pulumi.resource.ResourceOptions(depends_on=[secretmanager]),
+    )
+
+    gcp.secretmanager.SecretIamMember(
+        f'{secret_name}-secret-reader',
+        secret_id=secret.id,
+        role='roles/secretmanager.secretAccessor',
+        member=pulumi.Output.concat(
+            'serviceAccount:', analysis_runner_service_account.email
+        ),
+    )
+
+project_number = gcp.organizations.get_project().number
+
+# Allow the Cloud Run Service Agent to pull the image. Note that the global
+# project will refer to the dataset, but the Docker image is stored in the
+# "analysis-runner" project's Artifact Registry repository.
+repo_member = gcp.artifactregistry.RepositoryIamMember(
+    'artifact-registry-reader',
+    project='analysis-runner',
+    location=REGION,
+    repository='images',
+    role='roles/artifactregistry.reader',
+    member=(
+        f'serviceAccount:service-{project_number}'
+        f'@serverless-robot-prod.iam.gserviceaccount.com'
+    ),
+)
+
+analysis_runner_server = gcp.cloudrun.Service(
+    'analysis-runner-server',
+    location=REGION,
+    autogenerate_revision_name=True,
+    template=gcp.cloudrun.ServiceTemplateArgs(
+        spec=gcp.cloudrun.ServiceTemplateSpecArgs(
+            containers=[
+                gcp.cloudrun.ServiceTemplateSpecContainerArgs(
+                    envs=[{'name': 'DATASET', 'value': dataset}],
+                    image=(
+                        f'australia-southeast1-docker.pkg.dev/analysis-runner/'
+                        f'images/server:9afb6a1af241'
+                    ),
+                )
+            ],
+            service_account_name=analysis_runner_service_account.email,
+        ),
+    ),
+    opts=pulumi.resource.ResourceOptions(depends_on=[cloudrun, repo_member]),
+)
+
+pulumi.export('analysis-runner-server URL', analysis_runner_server.statuses[0].url)
+
+# Restrict Cloud Run invokers to the restricted access group.
+gcp.cloudrun.IamMember(
+    'analysis-runner-invoker',
+    service=analysis_runner_server.name,
+    location=REGION,
+    role='roles/run.invoker',
+    member=pulumi.Output.concat('group:', restricted_access_group.group_key.id),
+)
