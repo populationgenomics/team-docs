@@ -286,7 +286,10 @@ analysis_runner_repo = gcp.artifactregistry.RepositoryIamMember(
     location=REGION,
     repository='images',
     role='roles/artifactregistry.reader',
-    member=f'serviceAccount:service-{project_number}@serverless-robot-prod.iam.gserviceaccount.com',
+    member=(
+        f'serviceAccount:service-{project_number}'
+        f'@serverless-robot-prod.iam.gserviceaccount.com'
+    ),
     opts=pulumi.resource.ResourceOptions(depends_on=[cloudrun]),
 )
 
@@ -311,7 +314,10 @@ analysis_runner_server = gcp.cloudrun.Service(
                         {'name': 'GCP_PROJECT', 'value': project_id},
                         {'name': 'DATASET', 'value': dataset},
                     ],
-                    image=f'australia-southeast1-docker.pkg.dev/analysis-runner/images/server:9afb6a1af241',
+                    image=(
+                        f'australia-southeast1-docker.pkg.dev/analysis-runner/'
+                        f'images/server:9afb6a1af241'
+                    ),
                 )
             ],
             service_account_name=analysis_runner_service_account.email,
