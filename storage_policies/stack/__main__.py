@@ -316,7 +316,7 @@ analysis_runner_server = gcp.cloudrun.Service(
                     ],
                     image=(
                         f'australia-southeast1-docker.pkg.dev/analysis-runner/'
-                        f'images/server:9afb6a1af241'
+                        f'images/server:78d20393125b'
                     ),
                 )
             ],
