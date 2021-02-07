@@ -246,7 +246,7 @@ echo '{"location": "external", "default_namespace": "default", "domain": "hail.p
 
 To create a Hail Batch account, visit the
 [sign-up page](https://auth.hail.populationgenomics.org.au/signup) using your
-@populationgenomics.org.au Google Workspace account.  Navigate to the [user
+@populationgenomics.org.au Google Workspace account. Navigate to the [user
 page](https://auth.hail.populationgenomics.org.au/user) to see your account
 details, including your GCP service account email address.
 
