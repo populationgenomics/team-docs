@@ -45,7 +45,9 @@ If you're not used to code reviews, don't be intimidated. After a short period
 of time, they'll feel very natural. It's one of the best ways to truly work
 together on a shared code base.
 
-For code reviews to work well, it's helpful to follow a few general guidelines:
+For code reviews to work well, it's helpful to follow a few general guidelines.
+Please take a look at this [excellent article](https://mtlynch.io/code-review-love/)
+about good code review practices and consider the following suggestions:
 
 - Don't interpret review comments as criticism of your code. Instead, consider
   them an opportunity to improve the code and learn new techniques.
