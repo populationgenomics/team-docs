@@ -156,10 +156,14 @@ enabled, such as `gs://genomics-public-data`,
 Even though data is copied from the US to Australia when accessing these
 buckets, we don't get charged for the egress traffic.
 
-Please avoid storing any non-public data on your laptop, as that increases the
-risk of data breaches. Keep in mind that any non-public genomic data is highly
-sensitive. Keeping the data in the cloud also avoids incurring any egress costs
-that apply when downloading the data.
+*Important*: Please never copy non-public data from the corresponding GCP
+projects without getting approval first. For example, when copying data to an
+on-premise HPC system or your laptop, you've effectively changed the permission
+controls that were on the data. Not only does this increase the risk of data
+breaches, but such usage is generally not covered by our ethics approvals. Keep
+in mind that any non-public genomic data is highly sensitive. Leaving the data
+in the cloud also avoids incurring any egress costs that apply when downloading
+the data.
 
 ## Hail
 
