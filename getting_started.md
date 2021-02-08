@@ -155,10 +155,10 @@ buckets, we don't get charged for the egress traffic.
 projects without getting approval first. For example, when copying data to an
 on-premise HPC system or your laptop, you've effectively changed the permission
 controls that were on the data. Not only does this increase the risk of data
-breaches, but such usage would generally not be covered by our ethics
-approvals.  Keep in mind that any non-public genomic data is highly sensitive.
-Leaving the data in the cloud also avoids incurring any egress costs that apply
-when downloading the data.
+breaches, but such usage is generally not covered by our ethics approvals. Keep
+in mind that any non-public genomic data is highly sensitive. Leaving the data
+in the cloud also avoids incurring any egress costs that apply when downloading
+the data.
 
 ## Hail
 
