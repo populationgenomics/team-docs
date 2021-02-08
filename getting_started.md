@@ -151,7 +151,7 @@ enabled, such as `gs://genomics-public-data`,
 Even though data is copied from the US to Australia when accessing these
 buckets, we don't get charged for the egress traffic.
 
-*Important*: Please never move non-public data out of the corresponding GCP
+*Important*: Please never copy non-public data from the corresponding GCP
 projects without getting approval first. For example, when copying data to an
 on-premise HPC system or your laptop, you've effectively changed the permission
 controls that were on the data. Not only does this increase the risk of data
