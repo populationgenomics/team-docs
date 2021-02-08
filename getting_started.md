@@ -45,13 +45,17 @@ If you're not used to code reviews, don't be intimidated. After a short period
 of time, they'll feel very natural. It's one of the best ways to truly work
 together on a shared code base.
 
-For code reviews to work well, it's helpful to follow a few general guidelines:
+For code reviews to work well, it's helpful to follow a few general guidelines.
+Please take a look at this [excellent article](https://mtlynch.io/code-review-love/)
+about good code review practices and consider the following suggestions:
 
 - Don't interpret review comments as criticism of your code. Instead, consider
   them an opportunity to improve the code and learn new techniques.
 - It's really important that reviews are done in a timely fashion. Try to
-  respond to review requests within 24 hours. If you don't hear back from a
-  reviewer, feel free to "ping" them on Slack.
+  respond to review requests within 24 hours.
+- If you've addressed all review comments, click the "Re-request review" button to
+  let the reviewer know it's their turn. If you don't hear back from a reviewer, feel
+  free to "ping" them on Slack.
 - In order for people to respond quickly to reviews, individual pull requests
   (PRs) need to be small. Don't send thousands of lines of code for review:
   that's not fun for the reviewer, and it's unlikely you'll get good review
@@ -91,8 +95,9 @@ minor one: thoughts, minor suggestions, pointers to something related) - in this
 case, it's preferrable to leave merging to the author in case the author wants
 to act on your feedback.
 
-When merging, preferably use "squash merging" to keep the history clean; the
-exception to this are upstream merges where you want to keep all commits.
+Before merging, double-check that all review comments have been addressed. Preferably
+use "squash merging" to keep the history clean; the exception to this are upstream
+merges where you want to keep the complete commit history.
 
 If you are the person whose code is being reviewed, and your PR is in the
 "Request Changes" state, then you’ll need to address their comments by pushing
