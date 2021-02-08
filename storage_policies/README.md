@@ -209,6 +209,6 @@ process improvements together.
 
 ## Deployment
 
-See the [analysis runner repository](https://github.com/populationgenomics/analysis-runner/tree/main/server)
+See the [analysis runner repository](https://github.com/populationgenomics/analysis-runner/tree/main/stack)
 for the deployment configuration that can be used to bring up a stack
 corresponding to a dataset.
