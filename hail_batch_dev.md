@@ -1,4 +1,4 @@
-# Hail Batch developer setup
+ # HailBatch developer setup
 
 If you only intend to use Hail Batch for running your pipelines, you can skip this
 document. This is meant for developers that work on the Hail Batch codebase.
@@ -22,7 +22,7 @@ document. This is meant for developers that work on the Hail Batch codebase.
 1. Prepare a change and push it to `$BRANCH` in our Hail fork. Then run a `dev deploy`, which will run the steps you specify as defined in the `build.yaml` file in your branch. The corresponding Kubernetes deployments will be brought up in your own separate namespace, so they won't interfere with the production deployment.
 
    ```bash
-   hailctl dev deploy --branch populationgenomics/hail:$BRANCH --steps deploy_batch deploy_query
+   hailctl dev deploy --branch populationgenomics/hail:$BRANCH --steps deploy_batch,deploy_query
    ```
 
 1. The previous step should have printed a link to a CI dashboard. Follow the progress in the CI dashboard and wait until all steps have succeeded.
