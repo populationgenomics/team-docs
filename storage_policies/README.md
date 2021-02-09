@@ -47,7 +47,8 @@ _TOB-WGS_ or _RDNow_, with separate buckets and permission groups. Below,
 `$STACK` is a placeholder for the name of that effort, e.g. `$STACK` =
 `tob-wgs`.
 
-Currently, all buckets reside in the `australia-southeast1` GCP region. It's therefore essential that all computation happens in that region too, to avoid
+Currently, all buckets reside in the `australia-southeast1` GCP region. It's
+therefore essential that all computation happens in that region too, to avoid
 network egress costs.
 
 In general, all datasets within buckets should be versioned, using a simple
