@@ -23,8 +23,7 @@ We manage projects using GitHub's
 [project boards](https://github.com/orgs/populationgenomics/projects) that link
 to issues across the different repositories.
 
-If you need a new repository, please reach out to the software team. As a
-principle, we try to use public repositories whenever possible.
+If you need a new repository, please reach out to the software team. As a principle, we try to use public repositories whenever possible.
 
 Please add your `@populationgenomics.org.au` email address in your GitHub
 account settings and use this address when setting up your `git` user config.
