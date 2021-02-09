@@ -63,8 +63,8 @@ increase.
 - **Description**: Contains reference data that's independent of any particular
   stack, e.g. the GRCh38 human reference genome sequences used for alignment,
   the GENCODE GTF used for functional annotations, the version of dbSNP used to
-  add rsIDs, etc. These resource "bundles" are versioned together.
-  Most pipelines will depend on this bucket to some degree.
+  add rsIDs, etc. These resource "bundles" are versioned together. Most
+  pipelines will depend on this bucket to some degree.
 - **Storage**: Standard Storage indefinitely.
 - **Access**: Everybody in the organisation has viewer permissions.
 
@@ -74,11 +74,11 @@ increase.
   staging area.
 - **Main use case**: Raw sequencing reads (e.g. CRAM files) and derived data
   from initial production pipelines: QC metrics including coverage results,
-  additional outputs from variant callers (e.g. structural variants,
-  repeat expansions, etc.), and GVCFs. An upload processor pipeline moves these
-  files into the _archive_ and _main_ buckets in batches, creating new releases.
-- **Storage**: Standard Storage indefinitely, but cleared up regularly by
-  the upload processor.
+  additional outputs from variant callers (e.g. structural variants, repeat
+  expansions, etc.), and GVCFs. An upload processor pipeline moves these files
+  into the _archive_ and _main_ buckets in batches, creating new releases.
+- **Storage**: Standard Storage indefinitely, but cleared up regularly by the
+  upload processor.
 - **Access**: Restricted to service accounts that run workflows. Sequencing
   providers have creator permissions, using a service account.
 
@@ -113,19 +113,19 @@ increase.
 - **Description**: Contains _input_ test data, which usually corresponds to a
   subset of the data stored in the _main_ bucket. Long term storage is
   expensive, but retrieval is cheap.
-- **Main use case**: Iterate quickly on new pipelines during development.
-  This bucket contains representative data, but given the much smaller dataset
-  size the risk of accidental high cloud computing costs is greatly reduced.
+- **Main use case**: Iterate quickly on new pipelines during development. This
+  bucket contains representative data, but given the much smaller dataset size
+  the risk of accidental high cloud computing costs is greatly reduced.
 - **Storage**: Standard Storage indefinitely.
 - **Access**: Human users only get viewer permissions, so pipeline code doesn't
   need to be reviewed before this data can be read.
 
 ### analysis: `gs://cpg-$STACK-analysis`
 
-- **Description**: Contains files frequently accessed for analysis.
-  Long term storage is expensive, but retrieval is cheap.
-- **Main use case**: Analysis results derived from the _main_
-  bucket, which in turn can become inputs for further analyses.
+- **Description**: Contains files frequently accessed for analysis. Long term
+  storage is expensive, but retrieval is cheap.
+- **Main use case**: Analysis results derived from the _main_ bucket, which in
+  turn can become inputs for further analyses.
 - **Storage**: Standard Storage indefinitely.
 - **Access**: Human users only get viewer permissions, but creator permissions
   are granted indirectly through the [analysis runner](#analysis-runner)
@@ -209,6 +209,7 @@ process improvements together.
 
 ## Deployment
 
-See the [analysis runner repository](https://github.com/populationgenomics/analysis-runner/tree/main/stack)
+See the
+[analysis runner repository](https://github.com/populationgenomics/analysis-runner/tree/main/stack)
 for the deployment configuration that can be used to bring up a stack
 corresponding to a dataset.
