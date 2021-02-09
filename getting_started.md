@@ -156,7 +156,7 @@ enabled, such as `gs://genomics-public-data`,
 Even though data is copied from the US to Australia when accessing these
 buckets, we don't get charged for the egress traffic.
 
-*Important*: Please never copy non-public data from the corresponding GCP
+_Important_: Please never copy non-public data from the corresponding GCP
 projects without getting approval first. For example, when copying data to an
 on-premise HPC system or your laptop, you've effectively changed the permission
 controls that were on the data. Not only does this increase the risk of data
@@ -252,6 +252,9 @@ echo '{"location": "external", "default_namespace": "default", "domain": "hail.p
 ```
 
 <!-- markdownlint-restore -->
+
+_Note:_ If you're going to work on the Hail codebase as a developer, don't sign up as
+described below. Instead, you should follow the more involved [developer setup](hail_batch_dev.md).
 
 To create a Hail Batch account, visit the
 [sign-up page](https://auth.hail.populationgenomics.org.au/signup) using your

@@ -15,3 +15,4 @@ the `#team-software` or `#team-analysis` channels).
 - [Storage policies](storage_policies)
 - [Setting up code editors](code_editors.md)
 - [Python code style](python_code_style.md)
+- [Hail Batch developer setup](hail_batch_dev.md)
