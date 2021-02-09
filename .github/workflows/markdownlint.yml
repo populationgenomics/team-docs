@@ -16,7 +16,7 @@ jobs:
       - name: prettier
         uses: creyD/prettier_action@v3.3
         with:
-            prettier_options: '--prose-wrap always --write **/*.md'
+            prettier_options: --prose-wrap always --write **/*.md
             only_changed: false
             same_commit: false
         env:
