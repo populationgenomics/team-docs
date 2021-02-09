@@ -131,3 +131,12 @@ document. This is meant for developers that work on the Hail Batch codebase.
    alias hail-cleanup="kubectl --namespace $USERNAME delete deployment --all"
    hail-cleanup
    ```
+
+## Debugging
+
+When you need to debug an issue within your namespace, it's often helpful to inspect the logs of the pods that run the service in question. Keep in mind that many services are replicated, so you might have to check multiple pods.
+
+```bash
+kubectl --namespace $USERNAME get pod
+kubectl --namespace $USERNAME logs $POD
+```
