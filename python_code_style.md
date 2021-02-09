@@ -6,20 +6,19 @@
 - [Visual Studio Code](#visual-studio-code)
 - [PyCharm](#pycharm)
 
-To help us in implementing a consistent coding style throughout
-our code base, we use git [pre-commit](https://github.com/pre-commit/pre-commit)
-hooks with a set of linters to check and reformat the code:
+To help us in implementing a consistent coding style throughout our code base,
+we use git [pre-commit](https://github.com/pre-commit/pre-commit) hooks with a
+set of linters to check and reformat the code:
 
 - [pylint](https://www.pylint.org/) and [flake8](https://flake8.pycqa.org/)
   check the code style in accordance with
   [PEP8](https://www.python.org/dev/peps/pep-0008/), and perform some static
   analysis to catch potential programming errors.
-- [pylint-quotes](https://pypi.org/project/pylint-quotes/) is a plugin to
-  pylint that adds checks of the consistency of quotes (we stick to single
-  quotes, with the only reason to prefer them over double quotes being the
-  visual noise).
-- [black](https://github.com/psf/black) actually reformats the code to make
-  it conform to [PEP8](https://www.python.org/dev/peps/pep-0008/).
+- [pylint-quotes](https://pypi.org/project/pylint-quotes/) is a plugin to pylint
+  that adds checks of the consistency of quotes (we stick to single quotes, with
+  the only reason to prefer them over double quotes being the visual noise).
+- [black](https://github.com/psf/black) actually reformats the code to make it
+  conform to [PEP8](https://www.python.org/dev/peps/pep-0008/).
 - Additional hooks provided by
   [pre-commit](https://github.com/pre-commit/pre-commit-hooks#hooks-available):
   - check-yaml
@@ -33,8 +32,8 @@ hooks with a set of linters to check and reformat the code:
 
 ## Setting up a new project
 
-When creating a new repository that contains Python code, please add
-these configuration files into the repository root folder:
+When creating a new repository that contains Python code, please add these
+configuration files into the repository root folder:
 
 ```sh
 URL=https://raw.githubusercontent.com/populationgenomics/team-docs/main/linting
@@ -52,10 +51,10 @@ conda:
 conda install -c conda-forge pre-commit pylint
 ```
 
-Note that `pylint` uses inspections that verify module imports, that assume
-that `pylint` is installed into the same environment as the python modules.
-If you don't want the module imports to be checked, you can disable such
-inspections (see [false-positives](#false-positives)).
+Note that `pylint` uses inspections that verify module imports, that assume that
+`pylint` is installed into the same environment as the python modules. If you
+don't want the module imports to be checked, you can disable such inspections
+(see [false-positives](#false-positives)).
 
 Finally, to enable the hooks, run:
 
@@ -63,10 +62,10 @@ Finally, to enable the hooks, run:
 pre-commit install --install-hooks
 ```
 
-Now on every `git commit`, the code will be automatically checked and
-possibly reformatted. If any of the checks didn't pass or reformatting was
-done, the actual `git commit` command will not be performed. You can act
-upon linters' suggestions and re-run the `git commit` command afterwards.
+Now on every `git commit`, the code will be automatically checked and possibly
+reformatted. If any of the checks didn't pass or reformatting was done, the
+actual `git commit` command will not be performed. You can act upon linters'
+suggestions and re-run the `git commit` command afterwards.
 
 You can also tirgger pre-commit manually on all files in the repo with:
 
@@ -74,15 +73,14 @@ You can also tirgger pre-commit manually on all files in the repo with:
 pre-commit run --all-files
 ```
 
-
 ## False positives
 
-Note that you may find some linters produce false positives, or just find
-some checks irrelevant for your particular project. In this case, you may
-want to modify the configuration files to disable additional inspections.
-For example, if you don't want pylint to check third-party module imports in
-your code, you can append `E0401,E1101,I1101` into the comma-separated list
-`disable` in `.pylintrc`:
+Note that you may find some linters produce false positives, or just find some
+checks irrelevant for your particular project. In this case, you may want to
+modify the configuration files to disable additional inspections. For example,
+if you don't want pylint to check third-party module imports in your code, you
+can append `E0401,E1101,I1101` into the comma-separated list `disable` in
+`.pylintrc`:
 
 ```sh
 disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,C0330,C0326,fixme,E0401,E1101,I1101
@@ -92,15 +90,13 @@ Similar list for flake8 is called `extend-ignore` as can be extended in the
 `.flake8` file.
 
 To hide a piece of code for being reformatted with black, you
-[can surround](https://github.com/psf/black#the-black-code-style)
-your code with `# fmt: off` and `# fmt: on`.
-
+[can surround](https://github.com/psf/black#the-black-code-style) your code with
+`# fmt: off` and `# fmt: on`.
 
 ## GitHub checks of PRs
 
 In addition to `.pylintrc`, create a GitHub Actions CI workflow under
-`.github/workflows/lint.yaml` (or add the `lint` job
-to an exsting workflow):
+`.github/workflows/lint.yaml` (or add the `lint` job to an exsting workflow):
 
 ```sh
 mkdir -p .github/workflows
@@ -110,9 +106,9 @@ com/populationgenomics/team-docs/main/linting/github-workflows-lint.yaml\
 ```
 
 The CI workflow assumes you have a conda environment file named
-`environment-dev.yml` in the root folder of your repository that which
-specifies all project python dependencies along with `pre-commit` and `pylint`
-packages. To initiate this file, run:
+`environment-dev.yml` in the root folder of your repository that which specifies
+all project python dependencies along with `pre-commit` and `pylint` packages.
+To initiate this file, run:
 
 ```sh
 wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/\
@@ -123,7 +119,6 @@ This will make GitHub run the linters on every push and pull request, and
 display checks in the web interface.
 
 <img src="figures/github_lint_check.png" width="400"/>
-
 
 ## Visual Studio Code
 

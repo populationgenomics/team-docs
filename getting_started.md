@@ -23,7 +23,8 @@ We manage projects using GitHub's
 [project boards](https://github.com/orgs/populationgenomics/projects) that link
 to issues across the different repositories.
 
-If you need a new repository, please reach out to the software team. As a principle, we try to use public repositories whenever possible.
+If you need a new repository, please reach out to the software team. As a
+principle, we try to use public repositories whenever possible.
 
 Please add your `@populationgenomics.org.au` email address in your GitHub
 account settings and use this address when setting up your `git` user config.
@@ -45,16 +46,17 @@ of time, they'll feel very natural. It's one of the best ways to truly work
 together on a shared code base.
 
 For code reviews to work well, it's helpful to follow a few general guidelines.
-Please take a look at this [excellent article](https://mtlynch.io/code-review-love/)
-about good code review practices and consider the following suggestions:
+Please take a look at this
+[excellent article](https://mtlynch.io/code-review-love/) about good code review
+practices and consider the following suggestions:
 
 - Don't interpret review comments as criticism of your code. Instead, consider
   them an opportunity to improve the code and learn new techniques.
 - It's really important that reviews are done in a timely fashion. Try to
   respond to review requests within 24 hours.
-- If you've addressed all review comments, click the "Re-request review" button to
-  let the reviewer know it's their turn. If you don't hear back from a reviewer, feel
-  free to "ping" them on Slack.
+- If you've addressed all review comments, click the "Re-request review" button
+  to let the reviewer know it's their turn. If you don't hear back from a
+  reviewer, feel free to "ping" them on Slack.
 - In order for people to respond quickly to reviews, individual pull requests
   (PRs) need to be small. Don't send thousands of lines of code for review:
   that's not fun for the reviewer, and it's unlikely you'll get good review
@@ -94,9 +96,9 @@ minor one: thoughts, minor suggestions, pointers to something related) - in this
 case, it's preferrable to leave merging to the author in case the author wants
 to act on your feedback.
 
-Before merging, double-check that all review comments have been addressed. Preferably
-use "squash merging" to keep the history clean; the exception to this are upstream
-merges where you want to keep the complete commit history.
+Before merging, double-check that all review comments have been addressed.
+Preferably use "squash merging" to keep the history clean; the exception to this
+are upstream merges where you want to keep the complete commit history.
 
 If you are the person whose code is being reviewed, and your PR is in the
 "Request Changes" state, then you’ll need to address their comments by pushing
@@ -155,7 +157,7 @@ enabled, such as `gs://genomics-public-data`,
 Even though data is copied from the US to Australia when accessing these
 buckets, we don't get charged for the egress traffic.
 
-*Important*: Please never copy non-public data from the corresponding GCP
+_Important_: Please never copy non-public data from the corresponding GCP
 projects without getting approval first. For example, when copying data to an
 on-premise HPC system or your laptop, you've effectively changed the permission
 controls that were on the data. Not only does this increase the risk of data
@@ -254,9 +256,9 @@ echo '{"location": "external", "default_namespace": "default", "domain": "hail.p
 
 To create a Hail Batch account, visit the
 [sign-up page](https://auth.hail.populationgenomics.org.au/signup) using your
-@populationgenomics.org.au Google Workspace account. Navigate to the [user
-page](https://auth.hail.populationgenomics.org.au/user) to see your account
-details, including your GCP service account email address.
+@populationgenomics.org.au Google Workspace account. Navigate to the
+[user page](https://auth.hail.populationgenomics.org.au/user) to see your
+account details, including your GCP service account email address.
 
 You should now be able to authenticate from the commandline:
 
