@@ -74,7 +74,7 @@ document. This is meant for developers that work on the Hail Batch codebase.
    1. Connect to the pod you've selected:
 
       ```bash
-      kubectl exec -it auth-6d559bd9b6-npw56 -- /bin/bash
+      kubectl --namespace $NAMESPACE exec -it auth-6d559bd9b6-npw56 -- /bin/bash
       ```
 
    1. On the pod, connect to the SQL instance. Use the `$HOST` and password that's contained in `sql-config.cnf`:
