@@ -1,4 +1,4 @@
- # HailBatch developer setup
+# Hail Batch developer setup
 
 If you only intend to use Hail Batch for running your pipelines, you can skip this
 document. This is meant for developers that work on the Hail Batch codebase.
