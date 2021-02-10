@@ -278,10 +278,12 @@ you're assigned a small trial project. Let the software team know in case your
 user needs to have access to an existing billing project or if you need to
 create a new billing project.
 
-At the moment, you can submit jobs to Hail Batch by running the "driver" program
-(which defines the batch) locally. However, since that's problematic in terms of
-reproducibility, we're currently looking into ways to run the driver itself on
-Hail Batch, too.
+You can submit jobs to Hail Batch by running the "driver" program (which
+defines the batch) locally, which is handy for prototyping and testing.
+However, since that's problematic in terms of
+[reproducibility](reproducible_analyses.md) for analyses on production data,
+you can use the [analysis runner](https://github.com/populationgenomics/analysis-runner)
+to run the driver itself on Hail Batch.
 
 ## Terra / Cromwell
 
