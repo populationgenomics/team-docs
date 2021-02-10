@@ -35,6 +35,8 @@ document. This is meant for developers that work on the Hail Batch codebase.
    1. Create a new Google Service account and store its key locally:
 
       ```bash
+      gcloud config set project hail-295901
+
       gcloud iam service-accounts create $NAMESPACE-dev --description="dev namespace"
 
       gcloud iam service-accounts keys create /tmp/key.json --iam-account $NAMESPACE-dev@hail-295901.iam.gserviceaccount.com
