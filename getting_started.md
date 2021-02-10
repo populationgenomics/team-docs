@@ -280,10 +280,12 @@ create a new billing project.
 
 You can submit jobs to Hail Batch by running the "driver" program (which
 defines the batch) locally, which is handy for prototyping and testing.
-However, since that's problematic in terms of
-[reproducibility](reproducible_analyses.md) for analyses on production data,
-you can use the [analysis runner](https://github.com/populationgenomics/analysis-runner)
-to run the driver itself on Hail Batch.
+However, that's problematic in terms of
+[reproducibility](reproducible_analyses.md) for analyses run on production data,
+as local changes might not be committed to a repository. Instead, you should
+use the [analysis runner](https://github.com/populationgenomics/analysis-runner),
+which builds a Batch pipeline from a specific commit in a GitHub repository by
+running the driver itself on Hail Batch.
 
 ## Terra / Cromwell
 
