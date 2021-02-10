@@ -85,12 +85,12 @@ document. This is meant for developers that work on the Hail Batch codebase.
       mysql --ssl-ca=server-ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem --host=$HOST --user=$NAMESPACE --password
       ```
 
-   1. Within `mysql>`, run the following, but note that you'll have to replace `$NAMESPACE` manually:
+   1. Within `mysql>`, run the following, but note that you'll have to replace `$NAMESPACE` and `$EMAIL` manually:
 
       ```sql
       use $NAMESPACE;
 
-      INSERT INTO users (state, username, email, is_developer, is_service_account, tokens_secret_name, gsa_email, gsa_key_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', 'leonhard.gruenschloss@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
+      INSERT INTO users (state, username, email, is_developer, is_service_account, tokens_secret_name, gsa_email, gsa_key_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
       ```
 
    1. Close the connection to the database and the pod.
