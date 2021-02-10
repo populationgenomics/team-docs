@@ -56,7 +56,7 @@ document. This is meant for developers that work on the Hail Batch codebase.
       from hailtop.auth import session_id_encode_to_str
 
       with open('/tmp/tokens.json', 'wt') as f:
-      f.write(f'{{"{os.getenv("NAMESPACE")}": "{session_id_encode_to_str(secrets.token_bytes(32))}"}}')
+          f.write(f'{{"{os.getenv("NAMESPACE")}": "{session_id_encode_to_str(secrets.token_bytes(32))}"}}')
       ```
 
    1. Store the token as a Kubernetes secret in your namespace:
