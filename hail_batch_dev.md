@@ -42,6 +42,14 @@ document. This is meant for developers that work on the Hail Batch codebase.
       gcloud iam service-accounts keys create /tmp/key.json --iam-account $NAMESPACE-dev@hail-295901.iam.gserviceaccount.com
       ```
 
+   1. Fetch the credentials for the GKE cluster:
+
+      ```bash
+      gcloud config set compute/zone australia-southeast1-b
+
+      gcloud container clusters get-credentials vdc
+      ```
+
    1. Store the key as a Kubernetes secret in your namespace:
 
       ```bash
