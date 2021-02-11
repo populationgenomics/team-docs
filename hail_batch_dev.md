@@ -36,7 +36,7 @@ document. This is meant for developers that work on the Hail Batch codebase.
 
       ```bash
       gcloud config set project hail-295901
-      
+
       gcloud config set compute/zone australia-southeast1-b
 
       gcloud iam service-accounts create $NAMESPACE-dev --description="dev namespace"
