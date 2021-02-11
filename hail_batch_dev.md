@@ -36,6 +36,8 @@ document. This is meant for developers that work on the Hail Batch codebase.
 
       ```bash
       gcloud config set project hail-295901
+      
+      gcloud config set compute/zone australia-southeast1-b
 
       gcloud iam service-accounts create $NAMESPACE-dev --description="dev namespace"
 
@@ -45,8 +47,6 @@ document. This is meant for developers that work on the Hail Batch codebase.
    1. Fetch the credentials for the GKE cluster:
 
       ```bash
-      gcloud config set compute/zone australia-southeast1-b
-
       gcloud container clusters get-credentials vdc
       ```
 
@@ -85,11 +85,13 @@ document. This is meant for developers that work on the Hail Batch codebase.
       kubectl --namespace $NAMESPACE exec -it auth-6d559bd9b6-npw56 -- /bin/bash
       ```
 
-   1. On the pod, connect to the SQL instance. Use the `$HOST` and password that's contained in `sql-config.cnf`. Make sure to set or replace $NAMESPACE, as the variable you exported earlier is not visible to the pod:
+   1. On the pod, connect to the SQL instance and set the `$NAMESPACE` variable (the one you exported earlier is not available to the pod). From `sql-config.cnf`, set the variable `$HOST`, and note the `password`.
 
       ```bash
       cd /sql-config
       cat /sql-config/sql-config.cnf
+      export NAMESPACE="<janedoe>"
+      export HOST="<host-from-sql-config.cnf>"
       mysql --ssl-ca=server-ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem --host=$HOST --user=$NAMESPACE --password
       ```
 
