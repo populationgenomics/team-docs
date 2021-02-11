@@ -11,7 +11,8 @@
 #    C0326: Bad whitespace
 # 5. fixme (left 'TODO' lines)
 # 6. logging-fstring-interpolation (forbids f-strings in logging functions)
-# 7. The following require installing the python modules imported in the source code.
+# 7. missing-function-docstring (Missing function or method docstring)
+# 8. The following require installing the python modules imported in the source code.
 #    Add these if you don't want to include all dependencies into the dev environment:
 #    import-error ("Unable to import")
 #    no-member
@@ -33,3 +34,5 @@ max-line-length=88
 max-locals=25
 # Maximum number of arguments for function / method
 max-args=10
+# Maximum number of statements in function / method body
+max-statements=100
