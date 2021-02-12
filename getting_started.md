@@ -287,6 +287,43 @@ use the [analysis runner](https://github.com/populationgenomics/analysis-runner)
 which builds a Batch pipeline from a specific commit in a GitHub repository by
 running the driver itself on Hail Batch.
 
+### Analysis runner
+
+The analysis-runner builds a Batch pipeline from a speific commit in a GitHub repository. You can interact with an analysis server with the CLI. This can be installed with:
+
+```bash
+conda install -c cpg analysis-runner
+```
+
+Make sure you have the name of the dataset, as this corresponds to a specific analysis server and approved repository.
+
+You can use the analysis runner CLI in two ways:
+
+1. Omitting the `--repository` parameter: use the repository of the local directory that you're in: (a) get the repository name from the git remote; (b) use the commit of HEAD (if the `--commit` parameter is omitted); (c) Make the script path relative to the root of the git repository.
+
+  ```bash
+  # cwd is the git directory root
+  cd path/to/script
+  analysis-runner \
+      --dataset <dataset> \
+      --description "Description of the run" \
+      --output-dir gs://<bucket> \
+      main.py and some arguments # becomes path/to/script/main.py and some arugments
+  ```
+
+1. Providing the `--repository REPO` parameter, making the script path relative to the git repository is disabled, and you must provide a commit hash too. For example:
+
+  ```bash
+  # You must specify relative path from git root to script
+  analysis-runner \
+      --dataset <dataset> \
+      --description "Description of the run" \
+      --output-dir gs://<bucket> \
+      --repository hail-batch-test \
+      --commit <hash> \
+      path/to/script/main.py and some arguments
+  ```
+
 ## Terra / Cromwell
 
 While Hail Batch is a very powerful way to define workflows especially when
