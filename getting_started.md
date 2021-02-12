@@ -24,7 +24,8 @@ We manage projects using GitHub's
 to issues across the different repositories.
 
 If you need a new repository, please reach out to the software team. As a
-principle, we try to use public repositories whenever possible.
+principle, we try to use public repositories whenever possible. We've got
+[some tips](setting_up_repository.md) on to how to set up a new project.
 
 Please add your `@populationgenomics.org.au` email address in your GitHub
 account settings and use this address when setting up your `git` user config.

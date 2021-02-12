@@ -6,3 +6,4 @@ channels:
 dependencies:
   - pre-commit
   - pylint
+  - bump2version

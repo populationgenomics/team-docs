@@ -7,5 +7,6 @@
   "ol-prefix": false,
   "list-indent": false,
   "ul-indent": false,
-  "no-multiple-blanks": false
+  "no-multiple-blanks": false,
+  "ul-style": false
 }
