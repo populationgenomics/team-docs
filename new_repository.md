@@ -245,7 +245,7 @@ If you have an existing workflow, you can just append the `lint` job into it.
 This workflow assumes you have a conda environment file named `environment-dev.yml` in
 the root folder of your repository that which specifies all project python dependencies
 along with `pre-commit` and `pylint` packages (
-see [Conda environment](#conda-environment)).
+see [Conda environment](#conda-dev-environment)).
 
 After pushing `.github` and `environment-dev.yml`, GitHub will know to run linters on
 every push and pull request, and display checks in the web interface.
