@@ -289,7 +289,7 @@ running the driver itself on Hail Batch.
 
 ### Analysis runner
 
-The analysis-runner builds a Batch pipeline from a speific commit in a GitHub repository. You can interact with an analysis server with the CLI. This can be installed with:
+The analysis-runner builds a Batch pipeline from a specific commit in a GitHub repository. You can interact with an analysis server with the CLI. This can be installed with:
 
 ```bash
 conda install -c cpg analysis-runner
