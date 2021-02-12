@@ -1,0 +1,28 @@
+{% set data=load_setup_py_data() %}
+
+package:
+  name: my-python-project
+  version: {{ data['version'] }}
+
+source:
+  path: ../../
+
+build:
+  number: 0
+  noarch: python
+
+requirements:
+  host:
+    - python
+  run:
+    - python
+    - click
+
+test:
+  commands:
+    - my-script --version
+
+about:
+  home: {{ data['url'] }}
+  license: {{ data['license'] }}
+  summary: {{ data['description'] }}
