@@ -319,7 +319,7 @@ com/populationgenomics/team-docs/main/setting_up_repository/github-workflows-con
  -O .github/workflows/condarse.yaml
 ```
 
-Now, whenver you run `git push --tags`, a `Condarise` GitHub workflow will be triggered,
+Now, whenever you run `git push --tags`, a `Condarise` GitHub workflow will be triggered,
 build the package versioned after the corresponding git tag, and upload it to the
 Anacodna CPG channel. After that, the package will be available with:
 
