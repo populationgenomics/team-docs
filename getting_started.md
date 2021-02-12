@@ -295,34 +295,30 @@ The analysis-runner builds a Batch pipeline from a specific commit in a GitHub r
 conda install -c cpg analysis-runner
 ```
 
-Make sure you have the name of the dataset, as this corresponds to a specific analysis server and approved repository.
+Make sure you have:
 
-You can use the analysis runner CLI in two ways:
+- the name of the dataset, as this corresponds to a specific analysis server and approved repository,
+- authenticated Google Cloud `gcloud auth login`,
+- ensured your service account has the correct permissions.
 
-1. Omitting the `--repository` parameter: use the repository of the local directory that you're in: (a) get the repository name from the git remote; (b) use the commit of HEAD (if the `--commit` parameter is omitted); (c) Make the script path relative to the root of the git repository.
+Example:
 
-  ```bash
-  # cwd is the git directory root
-  cd path/to/script
-  analysis-runner \
-      --dataset <dataset> \
-      --description "Description of the run" \
-      --output-dir gs://<bucket> \
-      main.py and some arguments # becomes path/to/script/main.py and some arugments
-  ```
+```bash
+# What you would use to run batch directly
+python3 path/to/myscript.py -p 3
 
-1. Providing the `--repository REPO` parameter, making the script path relative to the git repository is disabled, and you must provide a commit hash too. For example:
+# using the analysis runner
+analysis-runner \
+    --dataset <dataset> \
+    --description "Description of the run" \
+    --output-dir gs://<bucket> \
+    --repository hail-batch-test \
+    --commit <hash> \
+    path/to/myscript.py -p 3
+```
 
-  ```bash
-  # You must specify relative path from git root to script
-  analysis-runner \
-      --dataset <dataset> \
-      --description "Description of the run" \
-      --output-dir gs://<bucket> \
-      --repository hail-batch-test \
-      --commit <hash> \
-      path/to/script/main.py and some arguments
-  ```
+See the [analysis runner documentation](https://github.com/populationgenomics/analysis-runner/tree/main/cli) for more information
+
 
 ## Terra / Cromwell
 
