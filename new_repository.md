@@ -1,9 +1,11 @@
 # Setting up a new repository
 
-After you have a GitHub repository created, the next step usually is to initiate a
-README, set up linters for code style and error checks, and - if the project can be
-shipped as a package - set up versioning and automated artifact builds. This document
-provides tips on how to set these things up.
+After you have a GitHub repository created, the next step is usually to initiate a
+`README.md`, add an MIT license, and a `.gitignore` file, unless these things were added
+automatically via the GitHub web interface. Following that, you may want to set up
+linters for code style and error checks, and - if the project can be shipped as a
+package - set up versioning and automated artifact builds. This document provides tips
+on how to set these things up.
 
 * [Linters](#linters)
     * [Setting up pre-commit](#setting-up-pre-commit)
