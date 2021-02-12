@@ -59,7 +59,7 @@ root folder (you can skip the last 3 lines if you project is not going to contai
 Python code):
 
 ```sh
-URL=https://raw.githubusercontent.com/populationgenomics/team-docs/main/setting_up_repository
+URL=https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository
 wget $URL/pre-commit-config.yaml -O .pre-commit-config.yaml
 wget $URL/markdownlint.json -O .markdownlint.json
 wget $URL/pyproject.toml -O pyproject.toml
@@ -157,7 +157,7 @@ of your repository. You can use this command to bootstrap this file with
 just `pre-commit`, `pylint` and `bump2version` as dependencies:
 
 ```bash
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/setting_up_repository/environment-dev.yml
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/environment-dev.yml
 ```
 
 If you already have conda installed, you can use the following command to create the
@@ -174,7 +174,7 @@ For Python projects, you want to create a `setup.py` file in the root of your pr
 You can bootstrap one by using this template:
 
 ```bash
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/setting_up_repository/setup.py
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/setup.py
 ```
 
 Make sure to change the package name assigned to the `PKG` variable, and the script name
@@ -203,7 +203,7 @@ locations in the code where this version should be updated. To download an initi
 config suitable for Python projects, run:
 
 ```bash
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/setting_up_repository/bumpversion.cfg -O .bumpversion.cfg
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/bumpversion.cfg -O .bumpversion.cfg
 ```
 
 It will start with version 1.0.0, and track the version specified in the `setup.py`
@@ -236,7 +236,7 @@ called `.github/workflows/lint.yaml` with the following:
 
 ```bash
 mkdir -p .github/workflows
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/setting_up_repository/github-workflows-lint.yaml\
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/github-workflows-lint.yaml\
  -O .github/workflows/lint.yaml
 ```
 
@@ -264,9 +264,9 @@ recipe suitable for pure Python projects with the following commands:
 ```bash
 PROJECT=my-project
 mkdir conda/$PROJECT
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/setting_up_repository/conda/my-python-project/meta.yaml\
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/conda/my-python-project/meta.yaml\
  -O conda/$PROJECT/meta.yaml
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/setting_up_repository/conda/my-python-project/build.sh\
+wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/conda/my-python-project/build.sh\
  -O conda/$PROJECT/build.sh
 ```
 
@@ -315,7 +315,7 @@ Finally, set up another GitHub workflow:
 ```bash
 mkdir -p .github/workflows
 wget https://raw.githubusercontent.
-com/populationgenomics/team-docs/main/setting_up_repository/github-workflows-condarse.yaml\
+com/populationgenomics/team-docs/main/new_repository/github-workflows-condarse.yaml\
  -O .github/workflows/condarse.yaml
 ```
 
