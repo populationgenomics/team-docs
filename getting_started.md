@@ -53,7 +53,8 @@ about good code review practices and consider the following suggestions:
 - Don't interpret review comments as criticism of your code. Instead, consider
   them an opportunity to improve the code and learn new techniques.
 - It's really important that reviews are done in a timely fashion. Try to
-  respond to review requests within 24 hours.
+  respond to review requests within 24 hours. Use GitHub's [scheduled reminders](https://docs.github.com/en/github/setting-up-and-managing-your-github-user-account/managing-your-scheduled-reminders)
+  to receive notifications in Slack when reviews need your attention.
 - If you've addressed all review comments, click the "Re-request review" button to
   let the reviewer know it's their turn. If you don't hear back from a reviewer, feel
   free to "ping" them on Slack.
