@@ -289,7 +289,7 @@ running the driver itself on Hail Batch.
 
 ### Analysis runner
 
-The analysis-runner builds a Batch pipeline from a specific commit in a GitHub repository. You can interact with an analysis server with the CLI. This can be installed with:
+The analysis-runner builds a Batch pipeline from a specific commit in a GitHub repository. You can submit a pipeline to run using a CLI tool, which can be installed with:
 
 ```bash
 conda install -c cpg analysis-runner
@@ -297,27 +297,25 @@ conda install -c cpg analysis-runner
 
 Make sure you have:
 
-- the name of the dataset, as this corresponds to a specific analysis server and approved repository,
-- authenticated Google Cloud `gcloud auth login`,
-- ensured your service account has the correct permissions.
+- the name of the [dataset](storage_policies), as this controls what data you can access and which code repositories are available,
+- authenticated with your GCP account using `gcloud auth login`,
+- ensured your @populationgenomics.org.au account has been added to the permission group corresponding to the dataset (ask in the #team-software channel if you need to get access).
 
 Example:
 
 ```bash
-# What you would use to run batch directly
-python3 path/to/myscript.py -p 3
+# What you would use to run Batch directly:
+# python3 path/to/myscript.py -p 3
 
-# using the analysis runner
+# Using the analysis runner instead:
 analysis-runner \
     --dataset <dataset> \
     --description "Description of the run" \
     --output-dir gs://<bucket> \
-    --repository hail-batch-test \
-    --commit <hash> \
     path/to/myscript.py -p 3
 ```
 
-See the [analysis runner documentation](https://github.com/populationgenomics/analysis-runner/tree/main/cli) for more information
+See the [analysis runner documentation](https://github.com/populationgenomics/analysis-runner/tree/main/cli) for more information.
 
 
 ## Terra / Cromwell
