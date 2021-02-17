@@ -342,6 +342,8 @@ that branch. Here is the full list of steps:
 
 ```bash
 git checkout -b release
+git fetch origin
+git reset --hard origin/main
 ```
 
 * Bump a new version (can be `minor` or `major` instead of `patch`):
