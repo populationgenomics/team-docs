@@ -18,7 +18,9 @@ on how to set these things up.
 * [GitHub Actions](#github-actions)
 * [Packaging with conda](#packaging-with-conda)
     * [Setting up recipe](#setting-up-recipe)
-    * [GitHub Action to package conda](#github-action-to-package-conda)
+    * [Adding GitHub Actions](#adding-github-actions)
+* [Making a release](#making-a-release)
+    * [Hail](#hail)
 
 ## Linters
 
@@ -332,10 +334,9 @@ conda install -c cpg -c conda-forge <my-project>
 
 In order to release a new version of a tool that is shipped with conda, you would need
 to bump the version with `bump2version` and and push both the newly created
-"Bump version" commit and git tag. Because direct pushes to the `main` branch
-are disabled by
-default, you would need to create a branch, and a corresponding pull request against
-that branch. Here is the full list of steps:
+"Bump version" commit and git tag. Because direct pushes to the `main` branch are
+disabled by default, you would need to create a branch, and a corresponding pull request
+against that branch. Here is the full list of steps:
 
 * Create a branch (the name can be arbitrary as this branch will be automatically
   deleted after the pull request gets merged):
@@ -373,5 +374,11 @@ git checkout main
 git pull --rebase main
 ```
 
-After the GitHub Actions job is complete, check out that the package appeared
+After the GitHub Actions job is complete, make sure that the new version has appeared
 at [https://anaconda.org/cpg](https://anaconda.org/cpg).
+
+### Hail
+
+We also [maintain](https://github.com/populationgenomics/hail/tree/main/conda/hail)
+a `hail` conda package in the `cpg` conda channel, which is built automatically on every
+merge to main.
