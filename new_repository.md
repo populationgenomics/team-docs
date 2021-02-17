@@ -374,4 +374,4 @@ git pull --rebase main
 ```
 
 After the GitHub Actions job is complete, check out that the package appeared
-at [https://anaconda.org/cpg](https://anaconda.org/cpg)
+at [https://anaconda.org/cpg](https://anaconda.org/cpg).
