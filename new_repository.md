@@ -293,7 +293,7 @@ conda install conda-build  # unless you have it installed already
 conda build conda/*
 ```
 
-### Adding GitHub Action
+### Adding GitHub Actions
 
 You can set up GitHub actions to build the package for you, and upload it to the
 Anaconda [CPG channel](https://anaconda.org/cpg/), so it becomes available to install
