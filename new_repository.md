@@ -295,7 +295,8 @@ conda build conda/*
 
 ### Adding GitHub Actions
 
-You can set up GitHub actions to build the package for you, and upload it to the
+You can set up GitHub actions to build and upload the package to the
+Anaconda [CPG channel](https://anaconda.org/cpg/), so it becomes available to install
 Anaconda [CPG channel](https://anaconda.org/cpg/), so it becomes available to install
 with `conda install -c cpg -c conda-forge <my-package>`.
 
