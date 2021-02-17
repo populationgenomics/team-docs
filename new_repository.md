@@ -68,7 +68,7 @@ wget $URL/flake8 -O .flake8
 ```
 
 Install pre-commit and pylint into your project environment with pip or conda. You don't
-need to install flake8 or other tools, as pre-commit will do that for you:
+need to install flake8 or other tools, as pre-commit will do that for you.
 
 ```sh
 conda install -c conda-forge pre-commit pylint
@@ -76,8 +76,8 @@ conda install -c conda-forge pre-commit pylint
 
 Note that pylint uses inspections that verify Python module imports, that assume that
 pylint is installed into the same environment as the Python modules. If you don't want
-the module imports to be checked, you can disable such inspections (
-see [disabling inspections](#disabling-inspections)).
+the module imports to be checked, you can disable such inspections (see
+[disabling inspections](#disabling-inspections)).
 
 Finally, enable the hooks with:
 
@@ -293,9 +293,10 @@ conda install conda-build  # unless you have it installed already
 conda build conda/*
 ```
 
-### GitHub Action to package conda
+### Adding GitHub Actions
 
-You can set up GitHub actions to build the package for you, and upload it to the
+You can set up GitHub actions to build and upload the package to the
+Anaconda [CPG channel](https://anaconda.org/cpg/), so it becomes available to install
 Anaconda [CPG channel](https://anaconda.org/cpg/), so it becomes available to install
 with `conda install -c cpg -c conda-forge <my-package>`.
 
@@ -319,10 +320,58 @@ com/populationgenomics/team-docs/main/new_repository/github-workflows-condarse.y
  -O .github/workflows/condarse.yaml
 ```
 
-Now, whenever you run `git push --tags`, a `Condarise` GitHub workflow will be triggered,
-build the package versioned after the corresponding git tag, and upload it to the
-Anacodna CPG channel. After that, the package will be available with:
+Now, whenever you run `git push --tags`, a `Condarise` GitHub workflow will be
+triggered, build the package versioned after the corresponding git tag, and upload it to
+the Anacodna CPG channel. After that, the package will be available with:
 
 ```bash
 conda install -c cpg -c conda-forge <my-project>
 ```
+
+## Making a release
+
+In order to release a new version of a tool that is shipped with conda, you would need
+to bump the version with `bump2version` and and push both the newly created
+"Bump version" commit and git tag. Because direct pushes to the `main` branch
+are disabled by
+default, you would need to create a branch, and a corresponding pull request against
+that branch. Here is the full list of steps:
+
+* Create a branch (the name can be arbitrary as this branch will be automatically
+  deleted after the pull request gets merged):
+
+```bash
+git checkout -b release
+git fetch origin
+git reset --hard origin/main
+```
+
+* Bump a new version (can be `minor` or `major` instead of `patch`):
+
+```bash
+bump2version patch
+```
+
+* Push the "Bump version" commit:
+
+```bash
+git push
+```
+
+* Create a pull request against this `release` branch, and request a review.
+
+* After the pull request is merged, push the tag:
+
+```bash
+git push --tags
+```
+
+Now you can checkout and update `main`:
+
+```bash
+git checkout main
+git pull --rebase main
+```
+
+After the GitHub Actions job is complete, check out that the package appeared
+at [https://anaconda.org/cpg](https://anaconda.org/cpg).
