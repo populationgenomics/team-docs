@@ -331,8 +331,9 @@ conda install -c cpg -c conda-forge <my-project>
 ## Making a release
 
 In order to release a new version of a tool that is shipped with conda, you would need
-to bump version with `bump2version` and push the created git tag, and also push the "
-Bump version" commit. Because direct pushes to the `main` branch are disabled by
+to bump the version with `bump2version` and and push both the newly created
+"Bump version" commit and git tag. Because direct pushes to the `main` branch
+are disabled by
 default, you would need to create a branch, and a corresponding pull request against
 that branch. Here is the full list of steps:
 
