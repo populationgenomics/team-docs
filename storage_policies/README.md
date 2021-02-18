@@ -174,7 +174,8 @@ Permissions are managed through IAM, using access groups.
 - `$STACK-restricted-access@populationgenomics.org.au`: human users are added to
   this group to gain permissions as described above. Membership should usually
   expire after a year, after which continued access will require a membership
-  renewal.
+  renewal. Users should also be added to the corresponding Hail billing project,
+  so they can see the batches launched through the [analysis runner](#analysis-runner).
 - `$STACK-extended-access@populationgenomics.org.au`: grants members admin
   permissions to all buckets. This should generally only be necessary for
   service accounts and very rarely for human users (in which case membership
