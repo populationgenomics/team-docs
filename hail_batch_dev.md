@@ -170,7 +170,7 @@ git push origin upstream  # Create a PR as usual.
 
 ## Deploying changes to production
 
-After a change has been merged to the `main` branch, it can be deployed to the "default" namespace using the `prod_deploy` API endpoint. This will always use the current `HEAD`. Similar to a `dev deploy`, you can specify the steps from `build.yaml` that should be run. Unless there's a good reason to only deploy a particular service, you should use the full set listed below.
+After a change has been merged to the `main` branch, it can be deployed to the `default` namespace using the `prod_deploy` API endpoint. This will always use the current `HEAD`. Similar to a `dev deploy`, you can specify the steps from `build.yaml` that should be run. Unless there's a good reason to only deploy a particular service, you should use the full set listed below.
 
 It's a good idea to give a quick heads-up in the `#team-software` channel before you're doing this, just in case something breaks.
 
