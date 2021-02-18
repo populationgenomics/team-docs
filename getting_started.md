@@ -289,6 +289,37 @@ use the [analysis runner](https://github.com/populationgenomics/analysis-runner)
 which builds a Batch pipeline from a specific commit in a GitHub repository by
 running the driver itself on Hail Batch.
 
+### Analysis runner
+
+The analysis-runner builds a Batch pipeline from a specific commit in a GitHub repository. You can submit a pipeline to run using a CLI tool, which can be installed with:
+
+```bash
+conda install -c cpg analysis-runner
+```
+
+Make sure you have:
+
+- the name of the [dataset](storage_policies), as this controls what data you can access and which code repositories are available,
+- authenticated with your GCP account using `gcloud auth login`,
+- ensured your `@populationgenomics.org.au` account has been added to the permission group corresponding to the dataset (ask in the `#team-software` channel if you need to get access).
+
+Example:
+
+```bash
+# What you would use to run Batch directly:
+# python3 path/to/myscript.py -p 3
+
+# Using the analysis runner instead:
+analysis-runner \
+    --dataset <dataset> \
+    --description "Description of the run" \
+    --output-dir gs://<bucket> \
+    path/to/myscript.py -p 3
+```
+
+See the [analysis runner documentation](https://github.com/populationgenomics/analysis-runner/tree/main/cli) for more information.
+
+
 ## Terra / Cromwell
 
 While Hail Batch is a very powerful way to define workflows especially when
