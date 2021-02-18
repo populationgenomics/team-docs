@@ -299,7 +299,7 @@ Make sure you have:
 
 - the name of the [dataset](storage_policies), as this controls what data you can access and which code repositories are available,
 - authenticated with your GCP account using `gcloud auth login`,
-- ensured your @populationgenomics.org.au account has been added to the permission group corresponding to the dataset (ask in the #team-software channel if you need to get access).
+- ensured your `@populationgenomics.org.au` account has been added to the permission group corresponding to the dataset (ask in the `#team-software` channel if you need to get access).
 
 Example:
 
