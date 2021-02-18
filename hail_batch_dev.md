@@ -155,7 +155,7 @@ kubectl --namespace $NAMESPACE logs $POD
 
 ## Merging upstream changes
 
-We try to keep our Hail fork as close to the upstream repository as possible and integrate any upstream changes about once a week as follows:
+We try to keep our Hail fork as close as possible to the upstream repository. About once a week we integrate any upstream changes as follows:
 
 ```bash
 git remote add upstream https://github.com/hail-is/hail.git  # One-time setup.
