@@ -175,7 +175,10 @@ After a change has been merged to the `main` branch, it can be deployed to the `
 It's a good idea to give a quick heads-up in the `#team-software` channel before you're doing this, just in case something breaks.
 
 ```bash
-curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" -H "Content-Type:application/json" -d '{"steps": ["deploy_auth", "deploy_batch", "deploy_ci", "deploy_notebook", "deploy_query", "deploy_router"]}' https://ci.hail.populationgenomics.org.au/api/v1alpha/prod_deploy
+curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
+    -H "Content-Type:application/json" \
+    -d '{"steps": ["deploy_auth", "deploy_batch", "deploy_ci", "deploy_notebook", "deploy_query", "deploy_router"]}' \
+    https://ci.hail.populationgenomics.org.au/api/v1alpha/prod_deploy
 ```
 
 You can follow the progress on the [CI dashboard](https://ci.hail.populationgenomics.org.au/batches) by inspecting the most recent batch of type "deploy".
