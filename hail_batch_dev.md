@@ -153,6 +153,21 @@ kubectl --namespace $NAMESPACE get pod
 kubectl --namespace $NAMESPACE logs $POD
 ```
 
+## Merging upstream changes
+
+We try to keep our Hail fork as close to the upstream repository as possible and integrate any upstream changes about once a week as follows:
+
+```bash
+git remote add upstream https://github.com/hail-is/hail.git  # One-time setup.
+
+git fetch origin
+git fetch upstream
+git checkout -b upstream
+git reset --hard origin/main
+git merge upstream/main  # Potentially resolve any conflicts.
+git push origin upstream  # Create a PR as usual.
+```
+
 ## Deploying changes to production
 
 After a change has been merged to the `main` branch, it can be deployed to the "default" namespace using the `prod_deploy` API endpoint. This will always use the current `HEAD`. Similar to a `dev deploy`, you can specify the steps from `build.yaml` that should be run. Unless there's a good reason to only deploy a particular service, you should use the full set listed below.
