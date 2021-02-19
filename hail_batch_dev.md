@@ -168,6 +168,15 @@ git merge upstream/main  # Potentially resolve any conflicts.
 git push origin upstream  # Create a PR as usual.
 ```
 
+## Upstreaming changes
+
+Whenever we make a change that isn't purely specific to CPG (like deployment settings), we should upstream those changes. In general, the process looks like this:
+
+1. Get the change reviewed and deployed locally.
+1. Test and double-check everything is working as intended.
+1. Create a new branch, based on the current `hail-is/hail:main`, and cherry-pick or rebase your change.
+1. Open a standard PR for the `hail-is/hail` repository and coordinate on Zulip to get your PR reviewed.
+
 ## Deploying changes to production
 
 After a change has been merged to the `main` branch, it can be deployed to the `default` namespace using the `prod_deploy` API endpoint. This will always use the current `HEAD`. Similar to a `dev deploy`, you can specify the steps from `build.yaml` that should be run. Unless there's a good reason to only deploy a particular service, you should use the set listed below. This is a partial list of steps that is specific to the CGP setup, and excludes services we don't use, for example the blog or image fetcher.
