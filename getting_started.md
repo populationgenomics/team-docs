@@ -9,7 +9,10 @@ with some hints on how to use various tools.
   - [Google Cloud Platform](#google-cloud-platform)
   - [Hail](#hail)
   - [Hail Batch](#hail-batch)
+    - [Analysis runner](#analysis-runner)
   - [Terra / Cromwell](#terra--cromwell)
+  - [Tips](#tips)
+    - [Bash prompt](#bash-prompt)
 
 ## GitHub
 
@@ -333,3 +336,47 @@ in Australia.
 For now, the best way to run workflows written in CWL or WDL is therefore to set
 up your own Cromwell server, which is fairly straightforward using our
 [config templates](https://github.com/populationgenomics/cromwell-configs).
+
+
+## Tips
+
+### Bash prompt
+
+Working with conda, git, and gcloud, you would need to frequently switch between conda environments, git branches, and Google Cloud projects. It's useful to have them always displayed in your prompt. The following will work for zsh shell, however might be easily adapted for other shells as well. Add this into your `.zshrc`:
+
+```bash
+git_rev() {
+  # Return current HEAD: either branch, or commit hash, if detached.
+  BRANCH=$(git branch --show-current)
+  if [ -z $BRANCH ]
+    then REV=$(git rev-parse --short HEAD)
+    else REV=$BRANCH
+  fi
+  echo "$REV"
+}
+gcp_project() {
+  # Return current project. Calling `gcloud config get-value project`
+  # is very slow, so parsing a file.
+  PROJECT=$(grep project ~/.config/gcloud/configurations/config_default | sed 's/project = //')
+  echo "$PROJECT"
+}
+conda_env() {
+  # Assuming you activate environments with `conda activate`.
+  # For deactivated state, returns "base"
+  echo "$CONDA_DEFAULT_ENV"
+}
+# %~% resolves to the home directory starting with ~. To show the absolute path, use %/%
+PROMPT='%~%  [$(git_rev)][$(gcp_project)][$(conda_env)] '
+```
+
+You can add some colors if you are using zsh:
+
+```bash
+PROMPT='%{$fg[cyan]%}%~%  %{$fg[blue]%}[$(git_rev)][$(gcp_project)][$(conda_env)]%{$reset_color%} '
+```
+
+It can be also useful to use color code to show the last command return value:
+
+```bash
+PROMPT='%{$fg[cyan]%}%~%  %{$fg[blue]%}[$(git_rev)][$(gcp_project)][$(conda_env)]%{$reset_color%}%(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
+```
