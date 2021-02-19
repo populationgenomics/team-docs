@@ -194,6 +194,17 @@ You can follow the progress on the [CI dashboard](https://ci.hail.populationgeno
 
 **Warning**: Any changes that involve a database migration will result in the batch service being shut down. You'll then need to [bring it back up manually](https://github.com/hail-is/hail/blob/main/dev-docs/development_process.md#merge--deploy).
 
+## Infrastructure
+
+The underlying GCP infrastructure is [configured using Terraform](https://github.com/populationgenomics/hail/blob/main/infra/main.tf). The Terraform state file is stored in the `cpg-hail-terraform` bucket.
+
+Please don't modify any properties for the `hail-295901` project (e.g. permissions for service accounts) using `gsutil` or the GCP Cloud Console UI, as those won't be reflected in the Terraform state. Instead, always modify the Terraform declarations and run the following after your changes have been reviewed:
+
+```bash
+cd infra
+terraform apply -var-file=global.tfvars
+```
+
 ## Billing projects
 
 If you have a Hail developer account, you can manage Hail [billing projects](https://batch.hail.populationgenomics.org.au/billing_projects) and [associated budget limits](https://batch.hail.populationgenomics.org.au/billing_limits). It's important to keep in mind that Hail billing projects are completely distinct from GCP projects and are tracked in Hail Batch's database.
