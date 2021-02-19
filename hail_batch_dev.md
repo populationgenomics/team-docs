@@ -152,3 +152,33 @@ When you need to debug an issue within your namespace, it's often helpful to ins
 kubectl --namespace $NAMESPACE get pod
 kubectl --namespace $NAMESPACE logs $POD
 ```
+
+## Merging upstream changes
+
+We try to keep our Hail fork as close as possible to the upstream repository. About once a week we integrate any upstream changes as follows:
+
+```bash
+git remote add upstream https://github.com/hail-is/hail.git  # One-time setup.
+
+git fetch origin
+git fetch upstream
+git checkout -b upstream
+git reset --hard origin/main
+git merge upstream/main  # Potentially resolve any conflicts.
+git push origin upstream  # Create a PR as usual.
+```
+
+## Deploying changes to production
+
+After a change has been merged to the `main` branch, it can be deployed to the `default` namespace using the `prod_deploy` API endpoint. This will always use the current `HEAD`. Similar to a `dev deploy`, you can specify the steps from `build.yaml` that should be run. Unless there's a good reason to only deploy a particular service, you should use the set listed below. This is a partial list of steps that is specific to the CGP setup, and excludes services we don't use, for example the blog or image fetcher.
+
+It's a good idea to give a quick heads-up in the `#team-software` channel before you're doing this, just in case something breaks.
+
+```bash
+curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
+    -H "Content-Type:application/json" \
+    -d '{"steps": ["deploy_auth", "deploy_batch", "deploy_ci", "deploy_notebook", "deploy_query", "deploy_router"]}' \
+    https://ci.hail.populationgenomics.org.au/api/v1alpha/prod_deploy
+```
+
+You can follow the progress on the [CI dashboard](https://ci.hail.populationgenomics.org.au/batches) by inspecting the most recent batch of type "deploy".
