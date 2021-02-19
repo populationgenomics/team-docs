@@ -5,4 +5,3 @@ channels:
 
 dependencies:
   - pre-commit
-  - pylint
