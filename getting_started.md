@@ -344,8 +344,8 @@ up your own Cromwell server, which is fairly straightforward using our
 
 Working with conda, git, and gcloud, you would need to frequently switch between conda
 environments, git branches, and Google Cloud projects. It's useful to have them always
-displayed in your prompt. The following will work for zsh shell, however might be easily
-adapted for other shells as well. Add this into your `.zshrc`:
+displayed in your prompt. The following will work for [zsh shell](https://ohmyz.sh/),
+however might be easily adapted for other shells as well. Add this into your `.zshrc`:
 
 ```bash
 git_rev() {
