@@ -198,7 +198,7 @@ You can follow the progress on the [CI dashboard](https://ci.hail.populationgeno
 
 The underlying GCP infrastructure is [configured using Terraform](https://github.com/populationgenomics/hail/blob/main/infra/main.tf). The Terraform state file is stored in the `cpg-hail-terraform` bucket.
 
-Please don't modify any project properties (e.g. permissions for service accounts, etc.) using `gsutil` or the GCP Cloud Console UI, as those won't be reflected in the Terraform state. Instead, always modify the Terraform declarations and run the following after your changes have been reviewed:
+Please don't modify any properties for the `hail-295901` project (e.g. permissions for service accounts) using `gsutil` or the GCP Cloud Console UI, as those won't be reflected in the Terraform state. Instead, always modify the Terraform declarations and run the following after your changes have been reviewed:
 
 ```bash
 cd infra
