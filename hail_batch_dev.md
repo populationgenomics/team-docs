@@ -193,3 +193,13 @@ curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
 You can follow the progress on the [CI dashboard](https://ci.hail.populationgenomics.org.au/batches) by inspecting the most recent batch of type "deploy".
 
 **Warning**: Any changes that involve a database migration will result in the batch service being shut down. You'll then need to [bring it back up manually](https://github.com/hail-is/hail/blob/main/dev-docs/development_process.md#merge--deploy).
+
+## Billing projects
+
+If you have a Hail developer account, you can manage Hail [billing projects](https://batch.hail.populationgenomics.org.au/billing_projects) and [associated budget limits](https://batch.hail.populationgenomics.org.au/billing_limits). It's important to keep in mind that Hail billing projects are completely distinct from GCP projects and are tracked in Hail Batch's database.
+
+When users submit a batch, they specify a billing project which will be charged with the associated resource cost of running the batch. In order to do so, users first need to be [added](https://batch.hail.populationgenomics.org.au/billing_projects) to billing projects. Note that [billing project limits](https://batch.hail.populationgenomics.org.au/billing_limits) are not monthly budgets, but total budgets that don't reset automatically.
+
+Billing projects also determine the visibility of batches. If two users use the same billing project, they can see each other's batches submitted under that billing project.
+
+For each of our [datasets](storage_policies), we have a dedicated Hail billing project. Whenever someone gets added to the dataset's permission group, they should also be added to the corresponding Hail Batch billing project.
