@@ -182,3 +182,5 @@ curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
 ```
 
 You can follow the progress on the [CI dashboard](https://ci.hail.populationgenomics.org.au/batches) by inspecting the most recent batch of type "deploy".
+
+**Warning**: Any changes that involve a database migration will result in the batch service being shut down. You'll then need to [bring it back up manually](https://github.com/hail-is/hail/blob/main/dev-docs/development_process.md#merge--deploy).
