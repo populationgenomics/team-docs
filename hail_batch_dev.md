@@ -126,6 +126,8 @@ document. This is meant for developers that work on the Hail Batch codebase.
 1. While REST API calls for the default (production) namespace look like `https://auth.hail.populationgenomics.org.au/api/v1alpha/userinfo`, you'll need to change this to `https://internal.hail.populationgenomics.org.au/$NAMESPACE/auth/api/v1alpha/userinfo` to route the request to your dev namespace. This now requires two tokens: one for the default namespace, and the other for your development namespace. They need to be passed as separate headers:
 
    ```bash
+   DEFAULT_TOKEN=$(jq -r .default ~/.hail/tokens.json)
+   DEV_TOKEN=$(jq -r .$NAMESPACE ~/.hail/tokens.json)
    curl -H "X-Hail-Internal-Authorization: Bearer $DEFAULT_TOKEN" -H "Authorization: Bearer $DEV_TOKEN" https://internal.hail.populationgenomics.org.au/$NAMESPACE/auth/api/v1alpha/userinfo
    ```
 
