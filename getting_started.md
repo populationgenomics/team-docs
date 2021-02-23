@@ -368,18 +368,22 @@ conda_env() {
   # For deactivated state, returns "base"
   echo "$CONDA_DEFAULT_ENV"
 }
+hail_namespace() {
+  echo "$(cat ~/.hail/deploy-config.json | jq -r ".default_namespace")"
+}
+STATUSES="$(hail_namespace)·$(git_rev)·$(gcp_project)·$(conda_env)"
 # %~% resolves to the home directory starting with ~. To show the absolute path, use %/%
-PROMPT='%~%  $(git_rev)·$(gcp_project)·$(conda_env)]$ '
+PROMPT='%~%  ${STATUSES} $ '
 ```
 
 You can add some colors if you are using zsh:
 
 ```sh
-PROMPT='%{$fg[cyan]%}%~%  %{$fg[blue]%}$(git_rev)·$(gcp_project)·$(conda_env)%{$reset_color%} '
+PROMPT='%{$fg[cyan]%}%~%  %{$fg[blue]%}${STATUSES}%{$reset_color%} $ '
 ```
 
 It can be also useful to use color code to show the last command return value:
 
 ```sh
-PROMPT='%{$fg[cyan]%}%~%  %{$fg[blue]%}$(git_rev)·$(gcp_project)·$(conda_env)%{$reset_color%}%(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
+PROMPT='%{$fg[cyan]%}%~%  %{$fg[blue]%}${STATUSES}%{$reset_color%} %(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
 ```
