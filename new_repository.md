@@ -43,7 +43,7 @@ hooks with a set of linters that check and/or reformat the files in the reposito
       python source
     - `check-added-large-files` prevents giant files from being committed (larger than
       500kB);
-- [markdownlint](https://github.com/igorshubovych/markdownlint-cli) checks the stlye of
+- [markdownlint](https://github.com/igorshubovych/markdownlint-cli) checks the style of
   the Markdown code;
 - [pylint](https://www.pylint.org/) and [flake8](https://flake8.pycqa.org/) check Python
   code style in accordance with [PEP8](https://www.python.org/dev/peps/pep-0008/), and
