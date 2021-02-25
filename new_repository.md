@@ -3,7 +3,7 @@
 By default, all our repositories should be public, unless there's a specific reason
 that's not possible.
 
-After you have created a GitHub repository, you change the following settings:
+After you have created a GitHub repository, you should change the following settings:
 
 ![merge settings](figures/merge.png)
 
