@@ -101,7 +101,7 @@ document. This is meant for developers that work on the Hail Batch codebase.
       mysql --ssl-ca=server-ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem --host=$HOST --user=$NAMESPACE --password
       ```
 
-   1. Within `mysql>`, run the following, but note that you'll have to replace `$NAMESPACE` and `$EMAIL` manually:
+   1. Within `mysql>`, run the following, but note that you'll have to replace `$NAMESPACE`, `$EMAIL`, and `$TOKEN` manually:
 
       ```sql
       use $NAMESPACE;
