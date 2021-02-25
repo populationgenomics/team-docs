@@ -73,6 +73,13 @@ document. This is meant for developers that work on the Hail Batch codebase.
       kubectl --namespace $NAMESPACE create secret generic $NAMESPACE-dev-tokens --from-file=/tmp/tokens.json
       ```
 
+      Print the token value, which will be inserted as `$TOKEN` in the database section below.
+
+      ```bash
+      TOKEN=$(jq -r .$NAMESPACE /tmp/tokens.json)
+      echo $TOKEN
+      ```
+
    1. You'll now need to add your user to the "auth table" in the SQL instance. First, get a list of all pods, then pick an auth pod, e.g. "auth-6d559bd9b6-npw56".
 
       ```bash
@@ -95,12 +102,14 @@ document. This is meant for developers that work on the Hail Batch codebase.
       mysql --ssl-ca=server-ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem --host=$HOST --user=$NAMESPACE --password
       ```
 
-   1. Within `mysql>`, run the following, but note that you'll have to replace `$NAMESPACE` and `$EMAIL` manually:
+   1. Within `mysql>`, run the following, but note that you'll have to replace `$NAMESPACE`, `$EMAIL`, and `$TOKEN` manually:
 
       ```sql
       use $NAMESPACE;
 
       INSERT INTO users (state, username, email, is_developer, is_service_account, tokens_secret_name, gsa_email, gsa_key_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
+
+      INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', 6);
       ```
 
    1. Close the connection to the database and the pod.
