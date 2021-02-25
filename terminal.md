@@ -59,7 +59,7 @@ PROMPT='%{$fg[cyan]%}%~%  %{$fg[yellow]%}$(_statuses)%{$reset_color%} $ '
 PS1='\[\033[00;36m\]\w\[\033[00m\] \[\033[00;33m\]$(_statuses)\[\033[00m\] $ '
 ```
 
-For more details on bash colors, [there are helpful articles](https://www.howtogeek.com/307701/how-to-customize-and-colorize-your-bash-prompt).
+For more details on bash colors, see [this helpful article](https://www.howtogeek.com/307701/how-to-customize-and-colorize-your-bash-prompt).
 
 It can be also useful to use color code to show the last command return value. In zsh, it can be done with:
 
