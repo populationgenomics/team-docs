@@ -9,6 +9,7 @@ with some hints on how to use various tools.
   - [Google Cloud Platform](#google-cloud-platform)
   - [Hail](#hail)
   - [Hail Batch](#hail-batch)
+    - [Analysis runner](#analysis-runner)
   - [Terra / Cromwell](#terra--cromwell)
 
 ## GitHub
