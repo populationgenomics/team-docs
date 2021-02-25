@@ -30,7 +30,7 @@ on how to set these things up.
   - [Visual Studio Code](#visual-studio-code)
   - [PyCharm](#pycharm)
 - [Conda dev environment](#conda-dev-environment)
-- [Setting up setup.py](#setting-up-setup.py)
+- [Setting up setup.py](#setting-up-setuppy)
 - [Versioning project](#versioning-project)
 - [GitHub Actions](#github-actions)
 - [Packaging with conda](#packaging-with-conda)
