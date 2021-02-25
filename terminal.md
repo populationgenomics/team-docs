@@ -1,6 +1,6 @@
 # Terminal
 
-Tip on setting up your terminal and shell.
+Tips on setting up your terminal and shell.
 
 - [Shell prompt](#shell-prompt)
 
