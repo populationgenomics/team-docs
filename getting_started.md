@@ -399,3 +399,15 @@ It can be also useful to use color code to show the last command return value. I
 ```sh
 PROMPT='%{$fg[cyan]%}%~%  %{$fg[yellow]%}$(_statuses)%{$reset_color%} %(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
 ```
+
+Also, if you are using the a zsh [git-prompt plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git-prompt),
+you can call `$(git_super_status)` instead `$(git_rev)`:
+
+```sh
+plugins=(<other plugins> git-prompt)
+ZSH_THEME_GIT_PROMPT_PREFIX=""  # remove left parenthesis around git_super_status
+ZSH_THEME_GIT_PROMPT_SUFFIX=""  # remove right parenthesis around git_super_status
+_statuses() {
+  echo "$(hail_namespace)·$(git_super_status)·$(gcp_project)·$(conda_env)"
+}
+```
