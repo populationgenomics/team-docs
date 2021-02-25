@@ -107,6 +107,8 @@ document. This is meant for developers that work on the Hail Batch codebase.
       use $NAMESPACE;
 
       INSERT INTO users (state, username, email, is_developer, is_service_account, tokens_secret_name, gsa_email, gsa_key_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
+
+      INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', 6);
       ```
 
    1. Close the connection to the database and the pod.
