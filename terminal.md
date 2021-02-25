@@ -9,7 +9,7 @@ Tip on setting up your terminal and shell.
 When working with tools like conda, git, gcloud, hail, you might need to frequently
 switch between conda environments, git branches, Google Cloud projects, and Hail namespaces.
 It's helpful to have them always displayed in your prompt. The following will work for
-bash and [zsh](https://ohmyz.sh/) shells, and might be adapted for other shells
+bash and [zsh](https://ohmyz.sh) shells, and might be adapted for other shells
 as well. Add this into your `.zshrc`, `.bashrc` or analogous:
 
 ```sh
@@ -56,7 +56,7 @@ PROMPT='%{$fg[cyan]%}%~%  %{$fg[yellow]%}$(_statuses)%{$reset_color%} $ '
 PS1='\[\033[00;36m\]\w\[\033[00m\] \[\033[00;33m\]$(_statuses)\[\033[00m\] $ '
 ```
 
-For more details on bash colors, [there are helpful articles](https://www.howtogeek.com/307701/how-to-customize-and-colorize-your-bash-prompt/).
+For more details on bash colors, [there are helpful articles](https://www.howtogeek.com/307701/how-to-customize-and-colorize-your-bash-prompt).
 
 It can be also useful to use color code to show the last command return value. In zsh, it can be done with:
 
