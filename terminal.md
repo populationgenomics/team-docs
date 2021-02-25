@@ -6,7 +6,7 @@ Tips on setting up your terminal and shell.
 
 ## Shell prompt
 
-When working with tools like conda, git, gcloud, hail, you might need to frequently
+When working with tools like conda, git, gcloud, and Hail, you might need to frequently
 switch between conda environments, git branches, Google Cloud projects, and Hail namespaces.
 It's helpful to have them always displayed in your prompt. The following will work for
 bash and [zsh](https://ohmyz.sh) shells, and might be adapted for other shells
