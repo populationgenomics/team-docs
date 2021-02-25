@@ -16,3 +16,4 @@ the `#team-software` or `#team-analysis` channels).
 - [Setting up code editors](code_editors.md)
 - [Setting up a new repository](new_repository.md)
 - [Hail Batch developer setup](hail_batch_dev.md)
+- [Setting up terminal](terminal.md)
