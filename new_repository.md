@@ -3,11 +3,7 @@
 By default, all our repositories should be public, unless there's a specific reason
 that's not possible.
 
-After you have created a GitHub repository, the next step is to initiate a
-`README.md`, add an MIT license, and a `.gitignore` file, unless these things were
-added automatically via the GitHub web interface.
-
-You then should change the following GitHub repository settings:
+After you have created a GitHub repository, you should change the following settings:
 
 ![merge settings](figures/merge.png)
 
@@ -19,10 +15,12 @@ Under _Branches_, add a _branch protection rule_ to enforce reviews for the `mai
 
 Under _Manage Access_, add collaborators. Prefer to add teams instead of individual people. It's common to add `populationgenomics/software-team` and `populationgenomics/analysis-team` with _write_ permissions.
 
-Following that, you may want to set up
-linters for code style and error checks, and - if the project can be shipped as a
-package - set up versioning and automated artifact builds. This document provides tips
-on how to set these things up.
+The next step is to initiate a `README.md`, add an MIT license, and a `.gitignore`
+file, unless these files were already added previously via the GitHub web interface.
+
+Following that, you may want to set up linters for code style and error checks, and -
+if the project can be shipped as a package - set up versioning and automated artifact
+builds. This document provides tips on how to set these things up.
 
 - [Linters](#linters)
   - [Setting up pre-commit](#setting-up-pre-commit)
