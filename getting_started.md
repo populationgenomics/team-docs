@@ -385,15 +385,16 @@ PROMPT='%~%  $(_statuses) $ '  # %~% resolves to the home directory starting wit
 PS1='\w  $(_statuses) $ '
 ```
 
-You can add some colors::
+You can add some colors:
 
 ```sh
 PROMPT='%{$fg[cyan]%}%~%  %{$fg[yellow]%}$(_statuses)%{$reset_color%} $ '
 PS1='\[\033[00;36m\]\w\[\033[00m\] \[\033[00;33m\]$(_statuses)\[\033[00m\] $ '
-
 ```
 
-It can be also useful to use color code to show the last command return value. In zsh, it can be done with::
+For more details on bash colors, [there are helpful articles](https://www.howtogeek.com/307701/how-to-customize-and-colorize-your-bash-prompt/).
+
+It can be also useful to use color code to show the last command return value. In zsh, it can be done with:
 
 ```sh
 PROMPT='%{$fg[cyan]%}%~%  %{$fg[yellow]%}$(_statuses)%{$reset_color%} %(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
