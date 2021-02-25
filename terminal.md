@@ -68,7 +68,7 @@ PROMPT='%{$fg[cyan]%}%~%  %{$fg[yellow]%}$(_statuses)%{$reset_color%} %(?.%{$fg[
 ```
 
 Also, if you are using the a zsh [git-prompt plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git-prompt),
-you can call `$(git_super_status)` instead `$(git_rev)`:
+you can call `$(git_super_status)` instead of `$(git_rev)`:
 
 ```sh
 plugins=(<other plugins> git-prompt)
