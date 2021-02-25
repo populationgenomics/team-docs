@@ -73,6 +73,12 @@ document. This is meant for developers that work on the Hail Batch codebase.
       kubectl --namespace $NAMESPACE create secret generic $NAMESPACE-dev-tokens --from-file=/tmp/tokens.json
       ```
 
+      Print the token value, which will be inserted as `$TOKEN` in the database section below.
+
+      ```bash
+      kubectl --namespace $NAMESPACE get secret$NAMESPACE-dev-tokens
+      ```
+
    1. You'll now need to add your user to the "auth table" in the SQL instance. First, get a list of all pods, then pick an auth pod, e.g. "auth-6d559bd9b6-npw56".
 
       ```bash
