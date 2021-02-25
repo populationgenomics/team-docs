@@ -30,15 +30,18 @@ gcp_project() {
   PROJECT=$(grep project ~/.config/gcloud/configurations/config_default | sed 's/project = //')
   echo "$PROJECT"
 }
+
 conda_env() {
   # Returns current activated conda environment, assuming it's activated
   # with `conda activate`. For deactivated state, returns "base" or empty string.
   echo "$CONDA_DEFAULT_ENV"
 }
+
 hail_namespace() {
   # Returns current hail namespace set with `hailctl dev config set default_namespace`.
   echo "$(cat ~/.hail/deploy-config.json | jq -r ".default_namespace")"
 }
+
 _statuses() {
   echo "$(hail_namespace)·$(git_rev)·$(gcp_project)·$(conda_env)"
 }
