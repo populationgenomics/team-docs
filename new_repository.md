@@ -1,26 +1,43 @@
 # Setting up a new repository
 
-After you have a GitHub repository created, the next step is usually to initiate a
-`README.md`, add an MIT license, and a `.gitignore` file, unless these things were added
-automatically via the GitHub web interface. Following that, you may want to set up
+By default, all our repositories should be public, unless there's a specific reason
+that's not possible.
+
+After you have created a GitHub repository, the next step is to initiate a
+`README.md`, add an MIT license, and a `.gitignore` file, unless these things were
+added automatically via the GitHub web interface.
+
+You then should change the following GitHub repository settings:
+
+![merge settings](figures/merge.png)
+
+Only allow _merge commits_ for forks in which you'll incorporate upstream changes. Squash merging keeps the history much cleaner.
+
+Under _Branches_, add a _branch protection rule_ to enforce reviews for the `main` branch:
+
+![branch rule](figures/branch_rule.png)
+
+Under _Manage Access_, add collaborators. Prefer to add teams instead of individual people. It's common to add `populationgenomics/software-team` and `populationgenomics/analysis-team` with _write_ permissions.
+
+Following that, you may want to set up
 linters for code style and error checks, and - if the project can be shipped as a
 package - set up versioning and automated artifact builds. This document provides tips
 on how to set these things up.
 
-* [Linters](#linters)
-    * [Setting up pre-commit](#setting-up-pre-commit)
-    * [Disabling inspections](#disabling-inspections)
-    * [Visual Studio Code](#visual-studio-code)
-    * [PyCharm](#pycharm)
-* [Conda dev environment](#conda-dev-environment)
-* [Setting up setup.py](#setting-up-setup.py)
-* [Versioning project](#versioning-project)
-* [GitHub Actions](#github-actions)
-* [Packaging with conda](#packaging-with-conda)
-    * [Setting up recipe](#setting-up-recipe)
-    * [Adding GitHub Actions](#adding-github-actions)
-* [Making a release](#making-a-release)
-    * [Hail](#hail)
+- [Linters](#linters)
+  - [Setting up pre-commit](#setting-up-pre-commit)
+  - [Disabling inspections](#disabling-inspections)
+  - [Visual Studio Code](#visual-studio-code)
+  - [PyCharm](#pycharm)
+- [Conda dev environment](#conda-dev-environment)
+- [Setting up setup.py](#setting-up-setup.py)
+- [Versioning project](#versioning-project)
+- [GitHub Actions](#github-actions)
+- [Packaging with conda](#packaging-with-conda)
+  - [Setting up recipe](#setting-up-recipe)
+  - [Adding GitHub Actions](#adding-github-actions)
+- [Making a release](#making-a-release)
+  - [Hail](#hail)
 
 ## Linters
 
@@ -31,18 +48,18 @@ hooks with a set of linters that check and/or reformat the files in the reposito
 - pre-commit comes with
   a [set of hooks](https://github.com/pre-commit/pre-commit-hooks#hooks-available) that
   perform some very useful inspections:
-    - `check-yaml` to check YAML file correctness,
-    - `end-of-file-fixer` that automatically makes sure every file ends with exactly one
-      line end character,
-    - `trailing-whitespace` that removes whitespace in line ends,
-    - `check-case-conflict` checks for files with names that would conflict on a
-      case-insensitive filesystems like MacOS,
-    - `check-merge-conflict` check files that contain merge conflict strings,
-    - `detect-private-key` checks for existence of private keys
-    - `debug-statements` checks for debugger imports and py37+ breakpoint() calls in
-      python source
-    - `check-added-large-files` prevents giant files from being committed (larger than
-      500kB);
+  - `check-yaml` to check YAML file correctness,
+  - `end-of-file-fixer` that automatically makes sure every file ends with exactly one
+    line end character,
+  - `trailing-whitespace` that removes whitespace in line ends,
+  - `check-case-conflict` checks for files with names that would conflict on a
+    case-insensitive filesystems like MacOS,
+  - `check-merge-conflict` check files that contain merge conflict strings,
+  - `detect-private-key` checks for existence of private keys
+  - `debug-statements` checks for debugger imports and py37+ breakpoint() calls in
+    python source
+  - `check-added-large-files` prevents giant files from being committed (larger than
+    500kB);
 - [markdownlint](https://github.com/igorshubovych/markdownlint-cli) checks the style of
   the Markdown code;
 - [pylint](https://www.pylint.org/) and [flake8](https://flake8.pycqa.org/) check Python
@@ -338,7 +355,7 @@ to bump the version with `bump2version` and and push both the newly created
 disabled by default, you would need to create a branch, and a corresponding pull request
 against that branch. Here is the full list of steps:
 
-* Create a branch (the name can be arbitrary as this branch will be automatically
+- Create a branch (the name can be arbitrary as this branch will be automatically
   deleted after the pull request gets merged):
 
 ```bash
@@ -347,21 +364,21 @@ git fetch origin
 git reset --hard origin/main
 ```
 
-* Bump a new version (can be `minor` or `major` instead of `patch`):
+- Bump a new version (can be `minor` or `major` instead of `patch`):
 
 ```bash
 bump2version patch
 ```
 
-* Push the "Bump version" commit:
+- Push the "Bump version" commit:
 
 ```bash
 git push
 ```
 
-* Create a pull request against this `release` branch, and request a review.
+- Create a pull request against this `release` branch, and request a review.
 
-* After the pull request is merged, push the tag:
+- After the pull request is merged, push the tag:
 
 ```bash
 git push --tags
