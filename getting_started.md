@@ -11,8 +11,6 @@ with some hints on how to use various tools.
   - [Hail Batch](#hail-batch)
     - [Analysis runner](#analysis-runner)
   - [Terra / Cromwell](#terra--cromwell)
-  - [Tips](#tips)
-    - [Bash prompt](#bash-prompt)
 
 ## GitHub
 

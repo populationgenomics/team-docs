@@ -2,6 +2,8 @@
 
 Tip on setting up your terminal and shell.
 
+- [Shell prompt](#shell-prompt)
+
 ## Shell prompt
 
 When working with tools like conda, git, gcloud, hail, you might need to frequently
