@@ -345,12 +345,13 @@ up your own Cromwell server, which is fairly straightforward using our
 When working with tools like conda, git, gcloud, hail, you might need to frequently
 switch between conda environments, git branches, Google Cloud projects, and Hail namespaces.
 It's helpful to have them always displayed in your prompt. The following will work for
-[zsh shell](https://ohmyz.sh/), however might be easily adapted for other shells as well.
-Add this into your `.zshrc`:
+bash and [zsh](https://ohmyz.sh/) shells, and might be adapted for other shells
+as well. Add this into your `.zshrc`, `.bashrc` or analogous:
 
 ```sh
 git_rev() {
-  # Return current HEAD: either branch, or commit hash, if detached.
+  # Returns current HEAD: either branch, or commit hash if detached.
+  if [ ! -d .git ]; then echo ""; fi
   BRANCH=$(git branch --show-current)
   if [ -z $BRANCH ]
     then REV=$(git rev-parse --short HEAD)
@@ -358,33 +359,42 @@ git_rev() {
   fi
   echo "$REV"
 }
+
 gcp_project() {
-  # Return current project. Calling `gcloud config get-value project`
-  # is very slow, so parsing a file.
+  # Returns current project, set with `gcloud config set project`.
+  # Note: calling `gcloud config get-value project` is very slow, so parsing a file.
   PROJECT=$(grep project ~/.config/gcloud/configurations/config_default | sed 's/project = //')
   echo "$PROJECT"
 }
 conda_env() {
-  # Assuming you activate environments with `conda activate`.
-  # For deactivated state, returns "base"
+  # Returns current activated conda environment, assuming it's activated
+  # with `conda activate`. For deactivated state, returns "base" or empty string.
   echo "$CONDA_DEFAULT_ENV"
 }
 hail_namespace() {
+  # Returns current hail namespace set with `hailctl dev config set default_namespace`.
   echo "$(cat ~/.hail/deploy-config.json | jq -r ".default_namespace")"
 }
-statuses() { echo "$(hail_namespace)·$(git_rev)·$(gcp_project)·$(conda_env)" }
-# %~% resolves to the home directory starting with ~. To show the absolute path, use %/%
-PROMPT='%~%  $(statuses) $ '
+_statuses() {
+  echo "$(hail_namespace)·$(git_rev)·$(gcp_project)·$(conda_env)"
+}
+
+# For zsh:
+PROMPT='%~%  $(_statuses) $ '  # %~% resolves to the home directory starting with ~. To show the absolute path, use %/%
+# For bash:
+PS1='\w  $(_statuses) $ '
 ```
 
-You can add some colors if you are using zsh:
+You can add some colors::
 
 ```sh
-PROMPT='%{$fg[cyan]%}%~%  %{$fg[blue]%}$(statuses)%{$reset_color%} $ '
+PROMPT='%{$fg[cyan]%}%~%  %{$fg[yellow]%}$(_statuses)%{$reset_color%} $ '
+PS1='\[\033[00;36m\]\w\[\033[00m\] \[\033[00;33m\]$(_statuses)\[\033[00m\] $ '
+
 ```
 
-It can be also useful to use color code to show the last command return value:
+It can be also useful to use color code to show the last command return value. In zsh, it can be done with::
 
 ```sh
-PROMPT='%{$fg[cyan]%}%~%  %{$fg[blue]%}$(statuses)%{$reset_color%} %(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
+PROMPT='%{$fg[cyan]%}%~%  %{$fg[yellow]%}$(_statuses)%{$reset_color%} %(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
 ```
