@@ -26,14 +26,14 @@ it with the following:
   then quit and re-open IGV. You should now see a new `Google` item at the top
   menu bar.
 
-![IGV enable Google access](https://i.postimg.cc/LX0Nn4b8/igv-enable-google-access.png)
+<img src="https://i.postimg.cc/LX0Nn4b8/igv-enable-google-access.png" alt="IGV enable Google access" height="200" />
 
 - Go to `Google -> Login` and follow the authorisation prompts. Then go to
   `File -> Load from URL...`, fill in the full path to the GCS file of interest
   and its index (if required). The selected file should now show up in an IGV
   track.
 
-![IGV load GCS BAM](https://i.postimg.cc/GpFW8DFh/igv-load-gcs-bam.png)
+<img src="https://i.postimg.cc/GpFW8DFh/igv-load-gcs-bam.png" alt="IGV load GCS BAM" height="350" />
 
 ## Usage with Jupyter Notebooks & RMarkdown
 
