@@ -173,8 +173,7 @@ the data.
 [Hail](https://hail.is) is an amazing open source library and platform for
 genomic data analysis, developed at the Broad Institute. Given its proven
 scalability and our good relationship with the Hail development team, it's the
-Centre's main analysis platform. See [this introduction](https://github.com/hail-is/hail/blob/main/dev-docs/hail-for-new-engineers.md)
-for a brief history of Hail and an overview of its various components.
+Centre's main analysis platform.
 
 To install Hail, use the
 [package](https://github.com/populationgenomics/hail/tree/main/conda) in CPG's
