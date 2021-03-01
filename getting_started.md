@@ -320,7 +320,6 @@ analysis-runner \
 
 See the [analysis runner documentation](https://github.com/populationgenomics/analysis-runner/tree/main/cli) for more information.
 
-
 ## Terra / Cromwell
 
 While Hail Batch is a very powerful way to define workflows especially when

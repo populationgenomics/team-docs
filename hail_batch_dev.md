@@ -3,6 +3,8 @@
 If you only intend to use Hail Batch for running your pipelines, you can skip this
 document. This is meant for developers that work on the Hail Batch codebase.
 
+The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have articles on developer focused guides to Hail. For example, see [this introduction](https://github.com/hail-is/hail/blob/main/dev-docs/hail-for-new-engineers.md) for a brief history of Hail and an overview of its various components.
+
 1. Instead of using the standard sign-up link, ask another existing Hail developer to create a Hail developer account for you. If you've already signed up, that's okay too, but [a little more work to fix](https://github.com/hail-is/hail/blob/main/dev-docs/creating-a-developer-account.md).
 1. Ask to be added to the `hail-dev@populationgenomics.org.au` permissions group.
 1. Follow the instructions to add an [OAuth 2.0 redirect URI](https://github.com/hail-is/hail/blob/main/dev-docs/creating-a-developer-account.md), but note that our GCP project is called `hail-295901`. If your email address is `jane.doe@populationgenomics.org.au`, your Hail `$USERNAME` will be `janedoe` (i.e. does not contain a dot).
