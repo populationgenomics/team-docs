@@ -17,3 +17,4 @@ the `#team-software` or `#team-analysis` channels).
 - [Setting up a new repository](new_repository.md)
 - [Hail Batch developer setup](hail_batch_dev.md)
 - [Setting up your terminal](terminal.md)
+- [Data sharing](data_sharing.md)
