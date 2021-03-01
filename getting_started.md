@@ -191,7 +191,7 @@ conda channel:
 The Hail [documentation](https://hail.is/docs/0.2/index.html) is a good starting
 point. In particular, the
 [tutorials](https://hail.is/docs/0.2/tutorials-landing.html) are worth looking
-into. You may also find the following [workshop](https://www.youtube.com/watch?v=GolxWJ477FM&list=PLlMMtlgw6qNg7im-zHSWu7M1N8xigpv4m) recording helpful if you would prefer to watch a live demonstration. Both the tutorials and workshops cover an introduction to Hail through the exploration and analysis of the public 1000 Genomes dataset. 
+into. You may also find the following [workshop](https://www.youtube.com/watch?v=GolxWJ477FM&list=PLlMMtlgw6qNg7im-zHSWu7M1N8xigpv4m) recording helpful if you would prefer to watch a live demonstration. Both the tutorials and workshops cover an introduction to Hail through the exploration and analysis of the public 1000 Genomes dataset.
 
 Don't feel discouraged if the "lazy evaluation" model of Hail feels unintuitive
 at first. It takes some time getting used to, but it's extremely powerful.
