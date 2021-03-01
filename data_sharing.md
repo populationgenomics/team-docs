@@ -13,7 +13,7 @@ behalf:
 - (Optional) Add a description of the service account.
 - `Create`.
 
-<img src="https://i.postimg.cc/dV7XQ6sX/create-service-account.png" alt="create service account" height="200" />
+<img src="https://i.postimg.cc/dV7XQ6sX/create-service-account.png" alt="create service account" height="230" />
 
 ## Step 2: Create key
 
@@ -23,9 +23,10 @@ behalf:
   `Create`.
 - A JSON file should automatically download through your browser. **IMPORTANT**:
   this contains a private key so it should be treated as a sensitive password
-  i.e. do not share this publically.
+  i.e. do not share this publically (it's okay to share with your collaborator;
+  just inform them it's private).
 
-<img src="https://i.postimg.cc/TPDZ09Bm/create-key.png" alt="create key" height="200" />
+<img src="https://i.postimg.cc/TPDZ09Bm/create-key.png" alt="create key" height="230" />
 
 ## Step 3: Add bucket permissions
 
@@ -35,7 +36,7 @@ behalf:
 - Select/find the `Storage Object Creator` Role.
 - `Save`
 
-<img src="https://i.postimg.cc/NFfmsNcr/add-bucket-permissions.png" alt="add bucket permissions" height="200" />
+<img src="https://i.postimg.cc/NFfmsNcr/add-bucket-permissions.png" alt="add bucket permissions" height="230" />
 
 ## Step 4: Upload data
 
@@ -45,10 +46,10 @@ behalf:
   [conda package](https://anaconda.org/conda-forge/google-cloud-sdk) if you're
   familiar with conda).
 
-- Run the following:
+- You (or the collaborator, provided you've sent them the JSON key from above)
+  can then run the following:
 
 ```bash
 gcloud auth activate-service-account --key-file=<project-ID-numbers>.json  # this only needs to be run once
-
 gsutil -m cp -r data_to_upload gs://my-bucket # the service account only has upload permissions
 ```
