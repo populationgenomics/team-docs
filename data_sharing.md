@@ -13,20 +13,19 @@ behalf:
 - (Optional) Add a description of the service account.
 - `Create`.
 
-<img src="https://i.postimg.cc/dV7XQ6sX/create-service-account.png" alt="create service account" height="230" />
+<img src="figures/iam-create-service-account.png" alt="create service account" height="230" />
 
 ## Step 2: Create key
 
 - Locate your newly created service account in the main service account table.
 - Under the `Actions` column, select the triple dot icon, then select:
-  `Manage keys` → `ADD KEY` → `Create new key` → `Key type: JSON` →
-  `Create`.
+  `Manage keys` → `ADD KEY` → `Create new key` → `Key type: JSON` → `Create`.
 - A JSON file should automatically download through your browser. **IMPORTANT**:
   this contains a private key so it should be treated as a sensitive password
   i.e. do not share this publicly (it's okay to share with your collaborator;
   just inform them it's private).
 
-<img src="https://i.postimg.cc/TPDZ09Bm/create-key.png" alt="create key" height="230" />
+<img src="figures/gcs-create-key.png" alt="create key" height="230" />
 
 ## Step 3: Add bucket permissions
 
@@ -36,7 +35,7 @@ behalf:
 - Select/find the `Storage Object Creator` Role.
 - `Save`
 
-<img src="https://i.postimg.cc/NFfmsNcr/add-bucket-permissions.png" alt="add bucket permissions" height="230" />
+<img src="figures/gcs-add-bucket-permissions.png" alt="add bucket permissions" height="260" />
 
 ## Step 4: Upload data
 
