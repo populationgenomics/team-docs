@@ -25,6 +25,14 @@ If you want to always show the current `gcloud` project, open `~/.p10k.zsh` and 
 typeset -g POWERLEVEL9K_GCLOUD_SHOW_ON_COMMAND='gcloud|gcs'
 ```
 
+If you've installed the Meslo Nerd Font as part of the Powerlevel10k setup and you're
+using Visual Studio Code, make sure to update the font setting for the integrated
+terminal:
+
+```
+"terminal.integrated.fontFamily": "MesloLGS NF"
+```
+
 ### Custom configuration
 
 Add this into your `.zshrc`, `.bashrc` or analogous:
