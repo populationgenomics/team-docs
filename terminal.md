@@ -8,6 +8,7 @@ Tips on setting up your terminal and shell.
 
 When working with tools like conda, git, gcloud, and Hail, you might need to frequently
 switch between conda environments, git branches, Google Cloud projects, and Hail namespaces. It's helpful to always display them in your prompt, as context for an operation:
+
 ![prompt](figures/prompt.png)
 
 `zsh` is the default shell on Mac OS. [Powerlevel10k](#powerlevel10k) will work for
