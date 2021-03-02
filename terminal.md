@@ -7,10 +7,38 @@ Tips on setting up your terminal and shell.
 ## Shell prompt
 
 When working with tools like conda, git, gcloud, and Hail, you might need to frequently
-switch between conda environments, git branches, Google Cloud projects, and Hail namespaces.
-It's helpful to have them always displayed in your prompt. The following will work for
-bash and [zsh](https://ohmyz.sh) shells, and might be adapted for other shells
-as well. Add this into your `.zshrc`, `.bashrc` or analogous:
+switch between conda environments, git branches, Google Cloud projects, and Hail namespaces. It's helpful to always display them in your prompt, as context for an operation:
+
+![prompt](figures/prompt-powerlevel10k.png)
+
+`zsh` is the default shell on Mac OS. [Powerlevel10k](#powerlevel10k) will work for
+`zsh`. See the [custom](#custom-configuration) configuration below for `bash` or `zsh`, and [other
+shells](#other-shells) for alternatives like `fish`.
+
+### Powerlevel10k
+
+[Powerlevel10k](https://github.com/romkatv/powerlevel10k) is a `zsh` theme with a
+great out-of-the-box experience. It comes with lots of [status segments](https://github.com/romkatv/powerlevel10k#batteries-included) by default.
+
+If you want to always show the current `gcloud` project, open `~/.p10k.zsh` and comment out the following line:
+
+```bash
+typeset -g POWERLEVEL9K_GCLOUD_SHOW_ON_COMMAND='gcloud|gcs'
+```
+
+If you've installed the Meslo Nerd Font as part of the Powerlevel10k setup and you're
+using Visual Studio Code, make sure to update the font setting for the integrated
+terminal:
+
+```json
+"terminal.integrated.fontFamily": "MesloLGS NF"
+```
+
+### Custom configuration
+
+![prompt](figures/prompt-custom.png)
+
+Add this into your `.zshrc`, `.bashrc` or analogous:
 
 ```sh
 git_rev() {
@@ -67,6 +95,13 @@ It can be also useful to use color code to show the last command return value. I
 PROMPT='%{$fg[cyan]%}%~%  %{$fg[yellow]%}$(_statuses)%{$reset_color%} %(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
 ```
 
+For zsh, you can move the statuses to the right hand side with the `RPROMPT` variable:
+
+```sh
+PROMPT='%{$fg[cyan]%}%~%  %(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
+RPROMPT='%{$fg[yellow]%}$(_statuses)%{$reset_color%}'
+```
+
 Also, if you are using the a zsh [git-prompt plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git-prompt),
 you can call `$(git_super_status)` instead of `$(git_rev)`:
 
@@ -78,3 +113,9 @@ _statuses() {
   echo "$(hail_namespace)·$(git_super_status)·$(gcp_project)·$(conda_env)"
 }
 ```
+
+## Other shells
+
+[Starship](https://starship.rs/) is a cross-shell prompt that works on many shells.
+
+For the `gcloud` status, you'll have to customize its [configuration](https://starship.rs/config/#gcloud) to show the `project` variable.
