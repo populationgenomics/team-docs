@@ -9,10 +9,10 @@ Tips on setting up your terminal and shell.
 When working with tools like conda, git, gcloud, and Hail, you might need to frequently
 switch between conda environments, git branches, Google Cloud projects, and Hail namespaces. It's helpful to always display them in your prompt, as context for an operation:
 
-![prompt](figures/prompt.png)
+![prompt](figures/prompt-powerlevel10k.png)
 
 `zsh` is the default shell on Mac OS. [Powerlevel10k](#powerlevel10k) will work for
-`zsh`. See the [custom](#custom) configuration below for `bash` or `zsh`, and [other
+`zsh`. See the [custom](#custom-configuration) configuration below for `bash` or `zsh`, and [other
 shells](#other-shells) for alternatives like `fish`.
 
 ### Powerlevel10k
@@ -35,6 +35,8 @@ terminal:
 ```
 
 ### Custom configuration
+
+![prompt](figures/prompt-custom.png)
 
 Add this into your `.zshrc`, `.bashrc` or analogous:
 
@@ -91,6 +93,13 @@ It can be also useful to use color code to show the last command return value. I
 
 ```sh
 PROMPT='%{$fg[cyan]%}%~%  %{$fg[yellow]%}$(_statuses)%{$reset_color%} %(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
+```
+
+For zsh, you can move the statuses to the right hand side with the `RPROMPT` variable:
+
+```sh
+PROMPT='%{$fg[cyan]%}%~%  %(?.%{$fg[green]%}.%{$fg[red]%})%B$%b '
+RPROMPT='%{$fg[yellow]%}$(_statuses)%{$reset_color%}'
 ```
 
 Also, if you are using the a zsh [git-prompt plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git-prompt),
