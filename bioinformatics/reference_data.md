@@ -5,7 +5,7 @@ Reference datasets required for bioinformatic analyses are available in our own
 `australia-southeast1` region. Most of the files have been copied over from
 `gs://gcp-public-data--broad-references` (which is located in the US). For more
 details about that (and other) resource buckets, see the GATK bundle
-[documentation](https://gatk.broadinstitute.org/hc/en-us/articles/360035890811).
+[documentation](https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle).
 It is a good idea to document how/when the data was generated/copied below.
 
 - `gs://cpg-reference/hg38/v0/Homo_sapiens_assembly38.fasta`:
