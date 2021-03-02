@@ -1,5 +1,11 @@
 # Data Sharing
 
+- [Data Sharing](#data-sharing)
+  - [Step 1: Create a service account](#step-1-create-a-service-account)
+  - [Step 2: Create a key](#step-2-create-a-key)
+  - [Step 3: Add bucket permissions](#step-3-add-bucket-permissions)
+  - [Step 4: Upload the data](#step-4-upload-the-data)
+
 If a collaborator wants to upload data to a GCS bucket, you can follow this
 process to set up a service account that can be used to upload the data on their
 behalf:
@@ -15,7 +21,7 @@ behalf:
 
 ![create service account](figures/iam-create-service-account.png)
 
-## Step 2: Create key
+## Step 2: Create a key
 
 - Locate your newly created service account in the main service account table.
 - Under the `Actions` column, select the triple dot icon, then select:
@@ -37,7 +43,9 @@ behalf:
 
 ![add bucket permissions](figures/gcs-add-bucket-permissions.png)
 
-## Step 4: Upload data
+## Step 4: Upload the data
+
+These are the only steps needed to be followed by the collaborator:
 
 - Install the
   [Google Cloud SDK](https://cloud.google.com/sdk/docs/install#linux) tools
@@ -50,5 +58,5 @@ behalf:
 
 ```bash
 gcloud auth activate-service-account --key-file=<project-ID-numbers>.json  # this only needs to be run once
-gsutil -m cp -r data_to_upload gs://my-bucket # the service account only has upload permissions
+gsutil -m cp -r data_to_upload gs://<my-bucket>/data/ # the service account only has upload permissions
 ```
