@@ -196,8 +196,6 @@ After a change has been merged to the `main` branch, it is automatically deploye
 
 `prod deploy` will always use the current `HEAD`. Similar to a `dev deploy`, you can specify the steps from `build.yaml` that should be run. Unless there's a good reason to only deploy a particular service, you should use the set listed below. This is a partial list of steps that is specific to the CPG setup, and excludes services we don't use, for example the blog or image fetcher.
 
-It's a good idea to give a quick heads-up in the `#team-software` channel before you're doing this, just in case something breaks.
-
 ```bash
 curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
     -H "Content-Type:application/json" \
