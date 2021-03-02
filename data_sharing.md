@@ -13,7 +13,7 @@ behalf:
 - (Optional) Add a description of the service account.
 - `Create`.
 
-<img src="figures/iam-create-service-account.png" alt="create service account" height="230" />
+![create service account](figures/iam-create-service-account.png)
 
 ## Step 2: Create key
 
@@ -25,7 +25,7 @@ behalf:
   i.e. do not share this publicly (it's okay to share with your collaborator;
   just inform them it's private).
 
-<img src="figures/gcs-create-key.png" alt="create key" height="230" />
+![create key](figures/gcs-create-key.png)
 
 ## Step 3: Add bucket permissions
 
@@ -35,7 +35,7 @@ behalf:
 - Select/find the `Storage Object Creator` Role.
 - `Save`
 
-<img src="figures/gcs-add-bucket-permissions.png" alt="add bucket permissions" height="260" />
+![add bucket permissions](figures/gcs-add-bucket-permissions.png)
 
 ## Step 4: Upload data
 
