@@ -21,7 +21,7 @@ great out-of-the-box experience. It comes with lots of [status segments](https:/
 
 If you want to always show the current `gcloud` project, open `~/.p10k.zsh` and comment out the following line:
 
-```
+```bash
 typeset -g POWERLEVEL9K_GCLOUD_SHOW_ON_COMMAND='gcloud|gcs'
 ```
 
@@ -29,7 +29,7 @@ If you've installed the Meslo Nerd Font as part of the Powerlevel10k setup and y
 using Visual Studio Code, make sure to update the font setting for the integrated
 terminal:
 
-```
+```json
 "terminal.integrated.fontFamily": "MesloLGS NF"
 ```
 
