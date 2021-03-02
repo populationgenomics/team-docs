@@ -14,26 +14,26 @@ Mac users can extract the App from the downloaded zip file and drag it into
 their Applications folder.
 
 There is also a JavaScript version ([igv.js](https://github.com/igvteam/igv.js))
-which can be embedded in websites and other reproducible reporting tools (e.g.
-Jupyter Notebooks, RMarkdown HTML reports).
+which can be embedded in websites and other reporting tools (e.g. Jupyter
+Notebooks, RMarkdown HTML reports).
 
 ## Usage with GCP
 
 IGV has support for visualising data in Google Cloud Storage. You need to enable
 it with the following:
 
-- Go to `View -> Preferences` and select `Enable Google Access`. Click `Save`,
+- Go to `View` -> `Preferences` and select `Enable Google Access`. Click `Save`,
   then quit and re-open IGV. You should now see a new `Google` item at the top
   menu bar.
 
-<img src="https://i.postimg.cc/LX0Nn4b8/igv-enable-google-access.png" alt="IGV enable Google access" height="200" />
+<img src="figures/igv-enable-google-access.png" alt="IGV enable Google access" height="200" />
 
-- Go to `Google -> Login` and follow the authorisation prompts. Then go to
-  `File -> Load from URL...`, fill in the full path to the GCS file of interest
-  and its index (if required). The selected file should now show up in an IGV
-  track.
+- Go to `Google` -> `Login` and follow the authorisation prompts. Then go to
+  `File` -> `Load from URL...`, fill in the full path to the GCS file of
+  interest and its index (if required). The selected file should now show up in
+  an IGV track.
 
-<img src="https://i.postimg.cc/GpFW8DFh/igv-load-gcs-bam.png" alt="IGV load GCS BAM" height="350" />
+<img src="figures/igv-load-gcs-bam.png" alt="IGV load GCS BAM" height="350" />
 
 ## Usage with Jupyter Notebooks & RMarkdown
 
