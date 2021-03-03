@@ -67,11 +67,11 @@ In the left pane, choose `Project: hail`>`Project Interpreter`. Now,
 in the main pane on the right, click the settings symbol (gear symbol)
 next to the field for `Project Interpreter`:
 
-![pycharm-interpreter](figures/pycharm-interpreter.png)
+<img src="figures/pycharm-interpreter.png" width="700"/>
 
 Choose `Add` in the menu that pops up, and select `Existing environment`:
 
-![pycharm-interpreter-add](figures/pycharm-interpreter-add.png)
+<img src="figures/pycharm-interpreter-add.png" width="600"/>
 
 Click on the ellipsis symbol next to the field for `Interpreter`. Enter
 the path to python interpreter (you could get this by running `which python` in the conda environment), e.g. `/Users/vlad/miniconda/envs/hail-dev/bin/python`.
@@ -86,11 +86,11 @@ interpreter you are using for this project and click on the tree symbol at
 the bottom of the window (hovering over the symbol reveals it as
 "Show paths for the selected interpreter"):
 
-![pycharm-pythonpath-2](figures/pycharm-pythonpath-2.png)
+<img src="figures/pycharm-pythonpath-2.png" width="400"/>
 
 Add the paths to the `gear`, `web_common`, `batch` folders in the repository
 root by clicking in the "plus" symbol:
 
-![pycharm-pythonpath-3](figures/pycharm-pythonpath-3.png)
+<img src="figures/pycharm-pythonpath-3.png" width="400"/>
 
 Now PyCharm should resolve internal module imports in the code.
