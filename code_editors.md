@@ -1,12 +1,14 @@
 # Code Editors
 
 - [Code Editors](#code-editors)
-  - [Visual Studio Code](#visual-studio-code)
-    - [Hail](#hail)
+  - [Setting up Hail](#setting-up-hail)
+    - [Visual Studio Code](#visual-studio-code)
+    - [PyCharm](#pycharm)
 
-## Visual Studio Code
+## Setting up Hail
 
-### Hail
+### Visual Studio Code
+
 
 After installing the Python extension, Visual Studio Code by default uses
 Pylance for code navigation. As Hail requires a non-trivial `PYTHONPATH` to
@@ -45,3 +47,50 @@ when using conda.
 
 If symbols still don't get resolved properly, you might have to reload Visual
 Studio Code.
+
+### PyCharm
+
+Create a new PyCharm project using the Hail source directory.
+
+Then create a development codna environment:
+
+```bash
+conda create --name hail-dev python=3.7.7
+conda activate hail-dev
+pip3 install -r hail/python/requirements.txt
+pip3 install -r docker/requirements.txt
+```
+
+Now you will need to configure PyCharm to use this environment. Go to the
+main PyCharm `Preferences`, which will open up a separate window.
+In the left pane, choose `Project: hail`>`Project Interpreter`. Now,
+in the main pane on the right, click the settings symbol (gear symbol)
+next to the field for `Project Interpreter`:
+
+![pycharm-interpreter](figures/pycharm-interpreter.png)
+
+Choose `Add` in the menu that pops up, and select `Existing environment`:
+
+![pycharm-interpreter-add](figures/pycharm-interpreter-add.png)
+
+Click on the ellipsis symbol next to the field for `Interpreter`. Enter
+the path to python interpreter, e.g. `/Users/vlad/miniconda/envs/hail-dev/bin/python`.
+
+Now, same as for Visual Studio Code, you will need to set up PyCharm to resolve
+some Hail modules like `gear` and `web_common` that require a non-trivial
+`PYTHONPATH`. Go back to `Preferences`>`Project: hail`>`Project Interpreter`,
+and click the settings gear symbol again.
+
+Now choose `Show All` in the menu that pops up. Pick the
+interpreter you are using for this project and click on the tree symbol at
+the bottom of the window (hovering over the symbol reveals it as
+"Show paths for the selected interpreter"):
+
+![pycharm-pythonpath-2](figures/pycharm-pythonpath-2.png)
+
+Add the paths to the `gear`, `web_common`, `batch` folders in the repository
+root by clicking in the "plus" symbol:
+
+![pycharm-pythonpath-3](figures/pycharm-pythonpath-3.png)
+
+Now PyCharm should resolve internal module imports in the code.
