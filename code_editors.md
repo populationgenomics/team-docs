@@ -74,7 +74,7 @@ Choose `Add` in the menu that pops up, and select `Existing environment`:
 ![pycharm-interpreter-add](figures/pycharm-interpreter-add.png)
 
 Click on the ellipsis symbol next to the field for `Interpreter`. Enter
-the path to python interpreter, e.g. `/Users/vlad/miniconda/envs/hail-dev/bin/python`.
+the path to python interpreter (you could get this by running `which python` in the conda environment), e.g. `/Users/vlad/miniconda/envs/hail-dev/bin/python`.
 
 Now, same as for Visual Studio Code, you will need to set up PyCharm to resolve
 some Hail modules like `gear` and `web_common` that require a non-trivial
