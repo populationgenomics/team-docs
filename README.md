@@ -18,3 +18,6 @@ the `#team-software` or `#team-analysis` channels).
 - [Hail Batch developer setup](hail_batch_dev.md)
 - [Setting up your terminal](terminal.md)
 - [Data sharing](data_sharing.md)
+- [Docker and Cloud Build](docker.md)
+- [IGV](bioinformatics/igv.md)
+- [Reference data](bioinformatics/reference_data.md)
