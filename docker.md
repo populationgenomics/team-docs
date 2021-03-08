@@ -1,7 +1,7 @@
 # Docker
 
 - [Docker](#docker)
-  - [Host in Google Cloud Artifact Registry](#host-in-google-cloud-artifact-registry)
+  - [Build and host in Google Cloud Artifact Registry](#build-and-host-in-google-cloud-artifact-registry)
     - [Step 1: Create AR Docker repository](#step-1-create-ar-docker-repository)
     - [Step 2: Build and upload Docker image](#step-2-build-and-upload-docker-image)
       - [Option A: Build using only Dockerfile](#option-a-build-using-only-dockerfile)
@@ -12,14 +12,15 @@ Docker is a tool designed to make it easier to create, deploy, and run
 applications. If you don't know what it is or how to use it, the
 [official docs](https://docs.docker.com/get-started/) are a good starting point.
 
-## Host in Google Cloud Artifact Registry
+## Build and host in Google Cloud Artifact Registry
 
 You can host your Docker images in a Google Cloud
 [Artifact Registry](https://cloud.google.com/artifact-registry/docs/docker/quickstart)
 (AR) repository. Here are the basic steps for building a Docker image using
 [Cloud Build](https://cloud.google.com/build/docs/quickstart-build) and
-subsequently pushing it to AR - the following assume you want to host it in the
-`australia-southeast1` region, and that you already have a `Dockerfile`.
+subsequently pushing it to AR - the following assume that you want to host it in
+the `australia-southeast1` region, and that you already have a `Dockerfile` in
+the working directory.
 
 ### Step 1: Create AR Docker repository
 
@@ -47,15 +48,14 @@ gcloud artifacts repositories list \
 
 There are two ways to build Docker images with Cloud Build and upload to AR. For
 most cases, a `Dockerfile` is the only file required. For more complex build
-workflows, a build config is recommended.
+workflows, a build config is recommended. In both cases, the image is
+automatically uploaded to AR upon successful build.
 
 #### Option A: Build using only Dockerfile
 
 ```shell
 IMG="<image-name>"
 TAG="<version-tag>"
-
-cd /path/to/Dockerfile
 
 gcloud builds submit \
     --tag ${LOCATION}-docker.pkg.dev/${PROJECT}/${REPO}/${IMG}:${TAG} \
@@ -87,8 +87,6 @@ images:
 - Next run the build command:
 
 ```shell
-cd /path/to/Dockerfile
-
 gcloud builds submit --config cloudbuild.yaml
 ```
 
