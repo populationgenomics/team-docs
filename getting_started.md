@@ -222,7 +222,8 @@ difference into account. Finally, there's also an official
 
 If you're interested in the Hail internals, this developer focussed
 [overview](https://github.com/hail-is/hail/blob/main/dev-docs/hail-overview.md)
-is very helpful.
+is very helpful. To understand how a query gets translated from Python all the
+way to the Query backend, see this [description of the query lifecycle](https://github.com/hail-is/hail/blob/main/dev-docs/hail-query-lifecycle.md).
 
 ## Hail Batch
 
