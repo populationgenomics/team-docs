@@ -120,12 +120,11 @@ far work best on GCP.
 
 To install the Google Cloud SDK:
 
-1. Install
-   [Miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
+1. Install [mamba](https://github.com/mamba-org/mamba#installation).
 2. Run the following to create a conda environment called `gcp`:
 
    ```bash
-   conda create --name gcp -c conda-forge google-cloud-sdk
+   mamba create --name gcp -c conda-forge google-cloud-sdk
    conda activate gcp
    ```
 
@@ -179,14 +178,19 @@ To install Hail, use the
 [package](https://github.com/populationgenomics/hail/tree/main/conda) in CPG's
 conda channel:
 
-1. Install
-   [Miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
+1. Install [mamba](https://github.com/mamba-org/mamba#installation).
 2. Run the following to create a conda environment called `hail`:
 
    ```bash
-   conda create --name hail -c cpg -c bioconda -c conda-forge hail
+   mamba create --name hail -c cpg -c bioconda -c conda-forge hail
    conda activate hail
    ```
+
+It's a good idea to update your Hail package regularly as follows:
+
+```bash
+mamba update -c cpg -c bioconda -c conda-forge hail
+```
 
 The Hail [documentation](https://hail.is/docs/0.2/index.html) is a good starting
 point. In particular, the
@@ -296,7 +300,7 @@ running the driver itself on Hail Batch.
 The analysis-runner builds a Batch pipeline from a specific commit in a GitHub repository. You can submit a pipeline to run using a CLI tool, which can be installed with:
 
 ```bash
-conda install -c cpg analysis-runner
+mamba install -c cpg analysis-runner
 ```
 
 Make sure you have:

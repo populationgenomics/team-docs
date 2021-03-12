@@ -9,7 +9,6 @@
 
 ### Visual Studio Code
 
-
 After installing the Python extension, Visual Studio Code by default uses
 Pylance for code navigation. As Hail requires a non-trivial `PYTHONPATH` to
 resolve all modules, this is a little tricky to set up.
@@ -34,7 +33,7 @@ Finally, you'll have to set up a Python environment. Open a terminal in Visual
 Studio Code and run the following to install the required dependencies:
 
 ```bash
-conda create --name hail-dev python=3.7.7
+mamba create --name hail-dev python=3.7.7
 conda activate hail-dev
 pip3 install -r hail/python/requirements.txt
 pip3 install -r docker/requirements.txt
@@ -55,7 +54,7 @@ Create a new PyCharm project using the Hail source directory.
 Then create a development codna environment:
 
 ```bash
-conda create --name hail-dev python=3.7.7
+mamba create --name hail-dev python=3.7.7
 conda activate hail-dev
 pip3 install -r hail/python/requirements.txt
 pip3 install -r docker/requirements.txt
