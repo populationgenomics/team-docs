@@ -11,7 +11,7 @@ The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have art
 1. Install Hail:
 
    ```bash
-   conda create --name hail -c cpg -c bioconda -c conda-forge hail
+   mamba create --name hail -c cpg -c bioconda -c conda-forge hail
    conda activate hail
    ```
 

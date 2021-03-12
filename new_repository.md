@@ -88,7 +88,7 @@ Install pre-commit and pylint into your project environment with pip or conda. Y
 need to install flake8 or other tools, as pre-commit will do that for you.
 
 ```sh
-conda install -c conda-forge pre-commit pylint
+mamba install -c conda-forge pre-commit pylint
 ```
 
 Note that pylint uses inspections that verify Python module imports, that assume that
@@ -167,7 +167,7 @@ box; however, they don't fully overlap with pylint, so it's useful to have both.
 
 ## Conda dev environment
 
-We recomment using [conda](https://github.com/populationgenomics/hail/tree/main/conda)
+We recommend using [conda](https://github.com/populationgenomics/hail/tree/main/conda)
 as a package manager to describe dependencies for your project. To set up your
 development environment, create a file called `environment-dev.yml` in the root forlder
 of your repository. You can use this command to bootstrap this file with
@@ -314,8 +314,7 @@ conda build conda/*
 
 You can set up GitHub actions to build and upload the package to the
 Anaconda [CPG channel](https://anaconda.org/cpg/), so it becomes available to install
-Anaconda [CPG channel](https://anaconda.org/cpg/), so it becomes available to install
-with `conda install -c cpg -c conda-forge <my-package>`.
+with `mamba install -c cpg -c conda-forge <my-package>`.
 
 First, you need to create a GitHub secret with the Anaconda token. To find the token,
 first make sure to register at `https://anaconda.org`, and send the software team your
@@ -339,10 +338,10 @@ com/populationgenomics/team-docs/main/new_repository/github-workflows-condarse.y
 
 Now, whenever you run `git push --tags`, a `Condarise` GitHub workflow will be
 triggered, build the package versioned after the corresponding git tag, and upload it to
-the Anacodna CPG channel. After that, the package will be available with:
+the Anaconda CPG channel. After that, the package will be available with:
 
 ```bash
-conda install -c cpg -c conda-forge <my-project>
+mamba install -c cpg -c conda-forge <my-project>
 ```
 
 ## Making a release
