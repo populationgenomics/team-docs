@@ -9,6 +9,8 @@
 
 ### Visual Studio Code
 
+The Hail team allows line lengths up to 120 characters. In your _Preferences_, select the _Workspace_ tab and search for _Python › Formatting: Black Args_. Set the arguments to `--skip-string-normalization --line-length=120` to prevent `black` from adding lots of formatting changes that will make diffs hard to read.
+
 After installing the Python extension, Visual Studio Code by default uses
 Pylance for code navigation. As Hail requires a non-trivial `PYTHONPATH` to
 resolve all modules, this is a little tricky to set up.
