@@ -168,30 +168,14 @@ kubectl --namespace $NAMESPACE logs $POD
 
 ### Syncing local changes to pod
 
-Instead of manually dev-deploying for every change, you can synchronise your local changes with the pod, using the `devbin/sync.py` script in the Hail repository. This is the help text:
-
-```
-usage: devbin/sync.py [-h] [--app APP] [--namespace NAMESPACE]
-               [--path local [remote ...]]
-
-Develop locally, deploy cloudly.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --app APP             An app label to watch. (default: None)
-  --namespace NAMESPACE
-                        The namespace in which to watch. (default: None)
-  --path local [remote ...]
-                        The local path will be kept in sync with the remote
-                        path. (default: None)
-```
+Instead of manually dev-deploying for every change, you can synchronise your local changes with the pod, using the `devbin/sync.py` script in the Hail repository.
 
 An example usage for making changes to the query API:
 
 - relative path to hail root: `query/query/query.py`
 - install location on k8 pod: `/usr/local/lib/python3.7/dist-packages/query/query.py`
 
-```
+```bash
 devbin/sync.py \
    --app query \
    --namespace $NAMESPACE \
