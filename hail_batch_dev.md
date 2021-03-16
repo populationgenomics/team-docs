@@ -166,6 +166,22 @@ kubectl --namespace $NAMESPACE get pod
 kubectl --namespace $NAMESPACE logs $POD
 ```
 
+### Syncing local changes to pod
+
+Instead of manually dev-deploying for every change, you can synchronise your local changes with the k8s pod, using the `devbin/sync.py` script in the Hail repository.
+
+An example usage for making changes to the query API:
+
+- relative path to hail root: `query/query/query.py`
+- install location on k8 pod: `/usr/local/lib/python3.7/dist-packages/query/query.py`
+
+```bash
+devbin/sync.py \
+   --app query \
+   --namespace $NAMESPACE \
+   --path query/query/query.py /usr/local/lib/python3.7/dist-packages/query/query.py
+```
+
 ## Merging upstream changes
 
 We try to keep our Hail fork as close as possible to the upstream repository. About once a week we integrate any upstream changes as follows:
