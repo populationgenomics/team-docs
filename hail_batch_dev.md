@@ -168,7 +168,7 @@ kubectl --namespace $NAMESPACE logs $POD
 
 ### Syncing local changes to pod
 
-Instead of manually dev-deploying for every change, you can synchronise your local changes with the pod, using the `devbin/sync.py` script in the Hail repository.
+Instead of manually dev-deploying for every change, you can synchronise your local changes with the k8s pod, using the `devbin/sync.py` script in the Hail repository.
 
 An example usage for making changes to the query API:
 
