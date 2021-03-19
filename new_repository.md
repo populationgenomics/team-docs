@@ -251,7 +251,7 @@ git push --tags
 ## GitHub Actions
 
 It is useful to have a [GitHub Actions](https://github.com/features/actions) workflow
-set for your repository that would do a set of automated tasks, like check the code with
+set for your repository that will do a set of automated tasks, like check the code with
 linters, run tests, and/or package and ship the code. To set up a workflow that would
 check the code with pre-commit on every git push or pull-request event, create a file
 called `.github/workflows/lint.yaml` with the following:
@@ -264,9 +264,9 @@ wget $URL_NEW_REPO/github-workflows-lint.yaml -O .github/workflows/lint.yaml
 If you have an existing workflow, you can just append the `lint` job into it.
 
 This workflow assumes you have a conda environment file named `environment-dev.yml` in
-the root folder of your repository that which specifies all project Python dependencies
-along with `pre-commit` and `pylint` packages (
-see [Conda environment](#conda-dev-environment)).
+the root folder of your repository that specifies all project Python dependencies
+along with `pre-commit` and `pylint` packages (see
+[Conda environment](#conda-dev-environment)).
 
 After pushing `.github` and `environment-dev.yml`, GitHub will know to run linters on
 every push and pull request, and display checks in the web interface.
@@ -290,10 +290,10 @@ wget $URL_NEW_REPO/conda/my-python-project/build.sh -O conda/$PROJECT/build.sh
 ```
 
 In `meta.yaml`, make sure to change the package name from `my-python-project`, as well
-the script name in `my-script` in the `test/command` section (or you can
+as the script name in `my-script` in the `test/command` section (or you can
 change `command` to `imports` for modules without scripts -
-see [conda documentation](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#python-imports))
-. Add additional dependencies if you need so.
+see [conda documentation](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#python-imports)).
+Add additional dependencies if you need so.
 
 The top line of `meta.yaml` means that the recipe will extract the meta information,
 like the version, from `setup.py`:
@@ -302,8 +302,8 @@ like the version, from `setup.py`:
 { % set data=load_setup_py_data() % }
 ```
 
-So it assumes you already have a generic Python `setup.py` file in the project root (
-see [Setting up setup.py](#setting-up-setup.py)).
+So it assumes you already have a generic Python `setup.py` file in the project root
+(see [Setting up setup.py](#setting-up-setup.py)).
 
 At this point, you will be able to build the package with conda-build:
 
@@ -314,18 +314,18 @@ conda build conda/*
 
 ### Adding GitHub Actions
 
-You can set up GitHub actions to build and upload the package to the
+You can set up GitHub Actions to build and upload the package to the
 Anaconda [CPG channel](https://anaconda.org/cpg/), so it becomes available to install
 with `mamba install -c cpg -c conda-forge <my-package>`.
 
 First, you need to create a GitHub secret with the Anaconda token. To find the token,
-first make sure to register at `https://anaconda.org`, and send the software team your
-username, so they add you to the CPG Anaconda organisation. After that, you will be able
-to view the token
+first make sure to register at <https://anaconda.org>, and send the software team your
+username, so they can add you to the CPG Anaconda organisation. After that, you will be
+able to view the token
 at [https://anaconda.org/cpg/settings/access](https://anaconda.org/cpg/settings/access).
 
-After
-that, [create a GitHub secret](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-an-organization)
+After that, create a
+[GitHub secret](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-an-organization)
 called `ANACONDA_TOKEN` with the contents of the token (or ask the software team to do
 that for you if you don't have admin permissions to the repository).
 
@@ -347,7 +347,7 @@ mamba install -c cpg -c conda-forge <my-project>
 ## Making a release
 
 In order to release a new version of a tool that is shipped with conda, you would need
-to bump the version with `bump2version` and and push both the newly created
+to bump the version with `bump2version` and push both the newly created
 "Bump version" commit and git tag. Because direct pushes to the `main` branch are
 disabled by default, you would need to create a branch, and a corresponding pull request
 against that branch. Here is the full list of steps:
