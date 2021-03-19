@@ -55,14 +55,14 @@ hooks with a set of linters that check and/or reformat the files in the reposito
   - `check-merge-conflict` check files that contain merge conflict strings,
   - `detect-private-key` checks for existence of private keys
   - `debug-statements` checks for debugger imports and py37+ breakpoint() calls in
-    python source
+    Python source
   - `check-added-large-files` prevents giant files from being committed (larger than
     500kB);
 - [markdownlint](https://github.com/igorshubovych/markdownlint-cli) checks the style of
   the Markdown code;
 - [pylint](https://www.pylint.org/) and [flake8](https://flake8.pycqa.org/) check Python
   code style in accordance with [PEP8](https://www.python.org/dev/peps/pep-0008/), and
-  perform some static analysis to catch potential programming
+  perform static analysis to catch potential programming
   errors. [flake8-quotes](https://github.com/zheller/flake8-quotes) is a plugin to
   flake8 that checks the consistency of quotes (we chose single quotes to be consistent
   with the [Hail project](https://github.com/hail-is/hail/pull/9931) code style);
@@ -72,20 +72,23 @@ hooks with a set of linters that check and/or reformat the files in the reposito
 ### Setting up pre-commit
 
 When creating a new repository, please add these configuration files into the repository
-root folder (you can skip the last 3 lines if you project is not going to contain any
+root folder (you can skip the last 3 lines if your project is not going to contain any
 Python code):
 
 ```sh
-URL=https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository
-wget $URL/pre-commit-config.yaml -O .pre-commit-config.yaml
-wget $URL/markdownlint.json -O .markdownlint.json
-wget $URL/pyproject.toml -O pyproject.toml
-wget $URL/pylintrc -O .pylintrc
-wget $URL/flake8 -O .flake8
+# make sure you declare this variable since it is used throughout this document
+URL_NEW_REPO=https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository
+
+wget $URL_NEW_REPO/pre-commit-config.yaml -O .pre-commit-config.yaml
+wget $URL_NEW_REPO/markdownlint.json -O .markdownlint.json
+wget $URL_NEW_REPO/pyproject.toml -O pyproject.toml
+wget $URL_NEW_REPO/pylintrc -O .pylintrc
+wget $URL_NEW_REPO/flake8 -O .flake8
 ```
 
-Install pre-commit and pylint into your project environment with pip or conda. You don't
-need to install flake8 or other tools, as pre-commit will do that for you.
+Install pre-commit and pylint into your project environment with pip or conda
+(or [mamba](https://github.com/mamba-org/mamba)). You don't need to install
+flake8 or other tools, as pre-commit will do that for you.
 
 ```sh
 mamba install -c conda-forge pre-commit pylint
@@ -107,8 +110,8 @@ reformatted. If any of the checks didn't pass, or any reformatting was done, the
 actual `git commit` command will not be performed. Instead, you can act upon linters'
 suggestions and re-run the `git commit` command afterwards.
 
-When setting up this for the first time on an existing repository, it is useful to
-tirgger pre-commit manually on all files in the repository with:
+When setting this up for the first time for an existing repository, it is useful to
+trigger pre-commit manually on all files in the repository with:
 
 ```sh
 pre-commit run --all-files
@@ -126,21 +129,21 @@ append `E0401,E1101,I1101` into the comma-separated list `disable` in `.pylintrc
 disable=f-string-without-interpolation,inherit-non-class,too-few-public-methods,C0330,C0326,fixme,E0401,E1101,I1101
 ```
 
-Similar list for flake8 is called `extend-ignore` as can be extended in the
+Similar list for flake8 is called `extend-ignore` and can be extended in the
 `.flake8` file.
 
 To disable a specific inspection for a particular place in code, comment the line that
-pylint reports on with `# pylint: disable=<inpsection-id>`. For examples, look at
-the [Hail code base](https://github.com/hail-is/hail/blob/5b25084d7d8d5ff9908dc48ced1f3583eabd25d2/hail/python/hailtop/hailctl/__main__.py#L60)
-.
+pylint reports on with `# pylint: disable=<inspection-id>`. For examples, look at
+the [Hail code base](https://github.com/hail-is/hail/blob/5b25084d7d8d5ff9908dc48ced1f3583eabd25d2/hail/python/hailtop/hailctl/__main__.py#L60).
 
-Similarly, to hide a piece of code for being reformatted with black, you
+
+Similarly, to hide a piece of code from being reformatted with black, you
 [can surround](https://github.com/psf/black#the-black-code-style)
 your code with `# fmt: off` and `# fmt: on`.
 
 ### Visual Studio Code
 
-Visual Studio Code auto-detects a .pylintrc file in the project root and asks the user
+Visual Studio Code auto-detects a `.pylintrc` file in the project root and asks the user
 whether to install pylint, if it's not installed already.
 
 ### PyCharm
@@ -153,9 +156,9 @@ whether to install pylint, if it's not installed already.
 
    <img src="figures/pycharm_pylint_tool_window.png" width="700"/>
 
-3. You can also enable real-time inspections by going to: Go to Preferences >
+3. You can also enable real-time inspections by going to: Preferences >
    Editor > Inspections > enable "Pylint real-time scan". However, it's not recommended
-   as it's has a negative impact on system performance.
+   as it has a negative impact on system performance.
 
 4. Pylint has a pre-commit hook integrated into a PyCharm commit modal window
    (Cmd+K). Make sure the "Scan with Pylint" checkbox is enabled:
@@ -168,21 +171,23 @@ box; however, they don't fully overlap with pylint, so it's useful to have both.
 ## Conda dev environment
 
 We recommend using [conda](https://github.com/populationgenomics/hail/tree/main/conda)
-as a package manager to describe dependencies for your project. To set up your
-development environment, create a file called `environment-dev.yml` in the root forlder
-of your repository. You can use this command to bootstrap this file with
+(or [mamba](https://github.com/mamba-org/mamba), which is a faster and almost
+drop-in replacement)
+as a package manager to describe dependencies for your project.  To set up your
+development environment, create a file called `environment-dev.yml` in the root
+folder of your repository. You can use this command to bootstrap this file with
 just `pre-commit`, `pylint` and `bump2version` as dependencies:
 
 ```bash
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/environment-dev.yml
+wget $URL_NEW_REPO/environment-dev.yml
 ```
 
-If you already have conda installed, you can use the following command to create the
-development environment:
+If you already have conda/mamba installed, you can use the following command to
+create the development environment:
 
 ```bash
-conda env create --file environment-dev.yml -n my-project
-conda activate my-project
+mamba env create --file environment-dev.yml -n my-project
+conda activate my-project # you can't use mamba to (de)activate environments
 ```
 
 ## Setting up setup.py
@@ -191,7 +196,7 @@ For Python projects, you want to create a `setup.py` file in the root of your pr
 You can bootstrap one by using this template:
 
 ```bash
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/setup.py
+wget $URL_NEW_REPO/setup.py
 ```
 
 Make sure to change the package name assigned to the `PKG` variable, and the script name
@@ -214,13 +219,13 @@ unless you change `setup.py` again.
 To version projects, we use a tool
 called [bump2version](https://pypi.org/project/bump2version/). It helps to avoid editing
 version tags manually, which can be very error-prone. Instead, bump2version can
-incerment the version of the project for you with one command. It relies on a config
+increment the version of the project for you with one command. It relies on a config
 file called `.bumpversion.cfg` to determine the current project version, as well as the
 locations in the code where this version should be updated. To download an initial
 config suitable for Python projects, run:
 
 ```bash
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/bumpversion.cfg -O .bumpversion.cfg
+wget $URL_NEW_REPO/bumpversion.cfg -O .bumpversion.cfg
 ```
 
 It will start with version 1.0.0, and track the version specified in the `setup.py`
@@ -233,7 +238,7 @@ To increment the patch section of the version tag 1.0.0 and make it 1.0.1, run:
 bump2version patch
 ```
 
-`patch` can be replaced with `minor`, `major`, etc - please refer to the bump2version
+`patch` can be replaced with `minor`, `major`, etc. - please refer to the bump2version
 documentation for options.
 
 bump2version will also create a new git tag in a format of `v{version}`. You can then
@@ -246,23 +251,22 @@ git push --tags
 ## GitHub Actions
 
 It is useful to have a [GitHub Actions](https://github.com/features/actions) workflow
-set for your repository that would do a set of automated tasks, like check the code with
+set for your repository that will do a set of automated tasks, like check the code with
 linters, run tests, and/or package and ship the code. To set up a workflow that would
 check the code with pre-commit on every git push or pull-request event, create a file
 called `.github/workflows/lint.yaml` with the following:
 
 ```bash
 mkdir -p .github/workflows
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/github-workflows-lint.yaml\
- -O .github/workflows/lint.yaml
+wget $URL_NEW_REPO/github-workflows-lint.yaml -O .github/workflows/lint.yaml
 ```
 
 If you have an existing workflow, you can just append the `lint` job into it.
 
 This workflow assumes you have a conda environment file named `environment-dev.yml` in
-the root folder of your repository that which specifies all project python dependencies
-along with `pre-commit` and `pylint` packages (
-see [Conda environment](#conda-dev-environment)).
+the root folder of your repository that specifies all project Python dependencies
+along with `pre-commit` and `pylint` packages (see
+[Conda environment](#conda-dev-environment)).
 
 After pushing `.github` and `environment-dev.yml`, GitHub will know to run linters on
 every push and pull request, and display checks in the web interface.
@@ -281,17 +285,15 @@ recipe suitable for pure Python projects with the following commands:
 ```bash
 PROJECT=my-project
 mkdir conda/$PROJECT
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/conda/my-python-project/meta.yaml\
- -O conda/$PROJECT/meta.yaml
-wget https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository/conda/my-python-project/build.sh\
- -O conda/$PROJECT/build.sh
+wget $URL_NEW_REPO/conda/my-python-project/meta.yaml -O conda/$PROJECT/meta.yaml
+wget $URL_NEW_REPO/conda/my-python-project/build.sh -O conda/$PROJECT/build.sh
 ```
 
 In `meta.yaml`, make sure to change the package name from `my-python-project`, as well
-the script name in `my-script` in the `test/command` section (or you can
+as the script name in `my-script` in the `test/command` section (or you can
 change `command` to `imports` for modules without scripts -
-see [conda documentation](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#python-imports))
-. Add additional dependencies if you need so.
+see [conda documentation](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#python-imports)).
+Add additional dependencies if you need so.
 
 The top line of `meta.yaml` means that the recipe will extract the meta information,
 like the version, from `setup.py`:
@@ -300,8 +302,8 @@ like the version, from `setup.py`:
 { % set data=load_setup_py_data() % }
 ```
 
-So it assumes you already have a generic python `setup.py` file in the project root (
-see [Setting up setup.py](#setting-up-setup.py)).
+So it assumes you already have a generic Python `setup.py` file in the project root
+(see [Setting up setup.py](#setting-up-setup.py)).
 
 At this point, you will be able to build the package with conda-build:
 
@@ -312,18 +314,18 @@ conda build conda/*
 
 ### Adding GitHub Actions
 
-You can set up GitHub actions to build and upload the package to the
+You can set up GitHub Actions to build and upload the package to the
 Anaconda [CPG channel](https://anaconda.org/cpg/), so it becomes available to install
 with `mamba install -c cpg -c conda-forge <my-package>`.
 
 First, you need to create a GitHub secret with the Anaconda token. To find the token,
 first make sure to register at `https://anaconda.org`, and send the software team your
-username, so they add you to the CPG Anaconda organisation. After that, you will be able
-to view the token
+username, so they can add you to the CPG Anaconda organisation. After that, you will be
+able to view the token
 at [https://anaconda.org/cpg/settings/access](https://anaconda.org/cpg/settings/access).
 
-After
-that, [create a GitHub secret](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-an-organization)
+After that, create a
+[GitHub secret](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-an-organization)
 called `ANACONDA_TOKEN` with the contents of the token (or ask the software team to do
 that for you if you don't have admin permissions to the repository).
 
@@ -331,9 +333,7 @@ Finally, set up another GitHub workflow:
 
 ```bash
 mkdir -p .github/workflows
-wget https://raw.githubusercontent.
-com/populationgenomics/team-docs/main/new_repository/github-workflows-condarse.yaml\
- -O .github/workflows/condarse.yaml
+wget $URL_NEW_REPO/github-workflows-condarise.yaml -O .github/workflows/condarise.yaml
 ```
 
 Now, whenever you run `git push --tags`, a `Condarise` GitHub workflow will be
@@ -347,7 +347,7 @@ mamba install -c cpg -c conda-forge <my-project>
 ## Making a release
 
 In order to release a new version of a tool that is shipped with conda, you would need
-to bump the version with `bump2version` and and push both the newly created
+to bump the version with `bump2version` and push both the newly created
 "Bump version" commit and git tag. Because direct pushes to the `main` branch are
 disabled by default, you would need to create a branch, and a corresponding pull request
 against that branch. Here is the full list of steps:
