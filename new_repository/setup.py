@@ -3,7 +3,7 @@
 """
 Setup script for the Python package
 - Used for development setup with `pip install --editable .`
-- Parsed by conda-build to extact version and metainfo
+- Parsed by conda-build to extract version and metainfo
 """
 
 import setuptools
