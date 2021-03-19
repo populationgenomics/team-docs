@@ -62,7 +62,7 @@ hooks with a set of linters that check and/or reformat the files in the reposito
   the Markdown code;
 - [pylint](https://www.pylint.org/) and [flake8](https://flake8.pycqa.org/) check Python
   code style in accordance with [PEP8](https://www.python.org/dev/peps/pep-0008/), and
-  perform some static analyses to catch potential programming
+  perform static analysis to catch potential programming
   errors. [flake8-quotes](https://github.com/zheller/flake8-quotes) is a plugin to
   flake8 that checks the consistency of quotes (we chose single quotes to be consistent
   with the [Hail project](https://github.com/hail-is/hail/pull/9931) code style);
