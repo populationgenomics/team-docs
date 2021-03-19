@@ -17,7 +17,7 @@ jobs:
           activate-environment: buildenv
           channels: cpg,conda-forge,bioconda,defaults
           channel-priority: true
-          # Set if in case if the project will be using Hail:
+          # Set in case if the project will be using Hail:
           python-version: 3.7
 
       - name: Setup build env
