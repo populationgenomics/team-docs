@@ -319,7 +319,7 @@ Anaconda [CPG channel](https://anaconda.org/cpg/), so it becomes available to in
 with `mamba install -c cpg -c conda-forge <my-package>`.
 
 First, you need to create a GitHub secret with the Anaconda token. To find the token,
-first make sure to register at <https://anaconda.org>, and send the software team your
+first make sure to register at `https://anaconda.org`, and send the software team your
 username, so they can add you to the CPG Anaconda organisation. After that, you will be
 able to view the token
 at [https://anaconda.org/cpg/settings/access](https://anaconda.org/cpg/settings/access).
