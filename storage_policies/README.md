@@ -171,35 +171,37 @@ accidental deletion.
 
 Permissions are managed through IAM, using access groups.
 
-- `$STACK-restricted-access@populationgenomics.org.au`: human users are added to
-  this group to gain permissions as described above. Membership should usually
-  expire after a year, after which continued access will require a membership
-  renewal. Users should also be added to the corresponding Hail billing project,
-  so they can see the batches launched through the [analysis runner](#analysis-runner).
-- `$STACK-extended-access@populationgenomics.org.au`: grants members admin
-  permissions to all buckets. This should generally only be necessary for
-  service accounts and very rarely for human users (in which case membership
-  should expire after a short amount of time).
+- `$STACK-access@populationgenomics.org.au`: human users are added to this group to
+  gain permissions as described above. Users should also be added to the
+  corresponding Hail billing project, so they can see the batches launched through
+  the [analysis runner](#analysis-runner).
 - `$STACK-release-access@populationgenomics.org.au`: grants members viewer
   permissions to the _release_ bucket. Only required if the releases are not
   public. This usually includes users outside the CPG, in which case they must
-  use Google accounts. Membership should usually expire after a year, after
-  which continued access will require a membership renewal.
+  use Google accounts.
 
 ## Analysis runner
 
 To encourage reproducible workflows and code getting reviewed before it's run on
 "production data", viewer permissions to the _main_ bucket and creator
-permissions to the _analysis_ bucket are available only through the analysis
-runner. The typical workflow looks like this:
+permissions to the _analysis_ bucket are available only through the
+[analysis runner](#analysis-runner).
 
-1. Protoype and iterate on your pipeline using the _test_ bucket for input and
-   the _temporary_ bucket for outputs.
-1. Once you're ready to run your pipeline on the _main_ bucket for input, create
-   a pull request to get your code reviewed.
-1. After your pull request has been merged, note the corresponding git commit
-   hash. Invoke the analysis runner with that commit hash, which will run the
-   pipeline on your behalf and store additional metadata.
+There are three distinct access levels: _test_, _standard_, and _full_.
+
+- Protoype and iterate on your pipeline using the _test_ access level. This will
+  give you permissions to read from the _test_ bucket for input and the _temporary_
+  bucket for outputs. You don't need to get your code reviewed, but it needs to be
+  pushed to a remote branch in the _populationgenomics_ GitHub organization in order
+  for the analysis runner to work.
+- Once you're ready to run your pipeline on the _main_ and _analysis_ buckets for
+  input and the _analysis_ bucket for output, create a pull request to get your code
+  reviewed. Once your code has been merged in the `main` branch, run the analysis
+  runner using the _standard_ access level.
+- If you ever need write access to other buckets, e.g. to initialize data in the
+  _main_ bucket, you can get full write access to all buckets using the _full_ access
+  level. However, to reduce risk of accidental data loss, only request this access
+  level if you really need it.
 
 For more detailed instructions and examples, look at the
 [analysis runner repository](https://github.com/populationgenomics/analysis-runner).
