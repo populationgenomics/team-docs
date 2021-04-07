@@ -323,7 +323,7 @@ analysis-runner \
     path/to/myscript.py -p 3
 ```
 
-See the [analysis runner documentation](https://github.com/populationgenomics/analysis-runner/tree/main/cli) for more information.
+See the [analysis runner documentation](https://github.com/populationgenomics/analysis-runner#cli) for more information.
 
 ## Terra / Cromwell
 
