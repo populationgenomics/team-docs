@@ -14,7 +14,7 @@
   - [Deletion](#deletion)
   - [Access permissions](#access-permissions)
   - [Analysis runner](#analysis-runner)
-  - [Automation](#automation)
+  - [Deployment](#deployment)
 
 This document describes where our production datasets are stored, how
 [object lifecycles](https://cloud.google.com/storage/docs/lifecycle) are
