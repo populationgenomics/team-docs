@@ -218,7 +218,7 @@ git fetch origin
 GITHUB_SHA=$(git rev-parse origin/main)
 curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
     -H "Content-Type:application/json" \
-    -d "{'sha': '$GITHUB_SHA', 'steps': ['deploy_auth', 'deploy_batch', 'deploy_ci', 'deploy_notebook', 'deploy_query', 'deploy_router']}" \
+    -d "{'sha': '$GITHUB_SHA', 'steps': ['deploy_auth', 'deploy_batch', 'deploy_ci', 'deploy_notebook', 'deploy_query']}" \
     https://ci.hail.populationgenomics.org.au/api/v1alpha/prod_deploy
 ```
 
