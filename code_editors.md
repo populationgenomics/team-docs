@@ -1,13 +1,12 @@
 # Code Editors
 
 - [Code Editors](#code-editors)
-  - [Setting up Hail](#setting-up-hail)
-    - [Visual Studio Code](#visual-studio-code)
-    - [PyCharm](#pycharm)
+  - [Hail in Visual Studio Code](#hail-in-visual-studio-code)
+  - [Hail in PyCharm](#hail-in-pycharm)
 
-## Setting up Hail
+## Hail in Visual Studio Code
 
-### Visual Studio Code
+### Python
 
 The Hail team allows line lengths up to 120 characters. In your _Preferences_, select the _Workspace_ tab and search for _Python › Formatting: Black Args_. Set the arguments to `--skip-string-normalization --line-length=120` to prevent `black` from adding lots of formatting changes that will make diffs hard to read.
 
@@ -49,7 +48,28 @@ when using conda.
 If symbols still don't get resolved properly, you might have to reload Visual
 Studio Code.
 
-### PyCharm
+### Scala
+
+If you're working on Hail's Scala code, the setup is slightly different. Assuming you've
+cloned the Hail repository to `$HAIL`, make sure that you open the `hail` subdirectory
+in Visual Studio Code, i.e. `$HAIL/hail` instead of `$HAIL`. That's necessary because
+the Gradle configuration is located at `$HAIL/hail/build.gradle`.
+
+- Install the [Scala (Metals)](https://marketplace.visualstudio.com/items?itemName=scalameta.metals) extension from the Marketplace.
+- Verify that `build.gradle` contains the Bloop-related changes from
+  [#111](https://github.com/populationgenomics/hail/pull/111/files).
+- From the `$HAIL/hail` directory, run:
+
+  ```bash
+  make elasticsearchJar
+  ./gradlew bloopInstall
+  ```
+
+- Back in Visual Studio Code, run the _Metals: Import build_ command. This might take a few minutes to complete.
+- Make sure everything worked out by running the _Metals: Run doctor_ command. It should look like this:
+  ![Metals doctor](figures/metals_doctor.png)
+
+### Hail in PyCharm
 
 Create a new PyCharm project using the Hail source directory.
 
