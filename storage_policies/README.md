@@ -10,6 +10,7 @@
     - [test: `gs://cpg-$STACK-test`](#test-gscpg-stack-test)
     - [analysis: `gs://cpg-$STACK-analysis`](#analysis-gscpg-stack-analysis)
     - [temporary: `gs://cpg-$STACK-temporary`](#temporary-gscpg-stack-temporary)
+    - [web: `gs://cpg-$STACK-web`](#temporary-gscpg-stack-web)
     - [release: `gs://cpg-$STACK-release-requester-pays`](#release-gscpg-stack-release-requester-pays)
   - [Deletion](#deletion)
   - [Access permissions](#access-permissions)
@@ -92,7 +93,7 @@ increase.
   This allows workflows to do post-processing of the data shortly after initial
   creation (e.g. copying windowed regions of raw reads around interesting
   variants) before retrieval becomes expensive.
-- **Access**: restricted to service accounts that run workflows, to avoid
+- **Access**: Restricted to service accounts that run workflows, to avoid
   accidental retrieval costs incurred by human readers.
 
 ### main: `gs://cpg-$STACK-main`
@@ -143,6 +144,16 @@ increase.
   accidentally overwrite / delete each other's results (e.g. by avoiding naming
   collisions through a file name prefix).
 
+### web: `gs://cpg-$STACK-web`
+
+- **Description**: Contains static web content, like QC reports as HTML pages,
+  which is served through an access-restricted web server.
+- **Main use case**: Human-readable analysis results, like reports and notebooks.
+- **Storage**: Standard Storage indefinitely.
+- **Access**: Human users only get viewer permissions, but creator permissions
+  are granted indirectly through the [analysis runner](#analysis-runner)
+  described below.
+
 ### release: `gs://cpg-$STACK-release-requester-pays`
 
 - **Description**: Contains data that's shared with other researchers or is
@@ -190,16 +201,16 @@ permissions to the _analysis_ bucket are available only through the
 There are three distinct access levels: _test_, _standard_, and _full_.
 
 - Protoype and iterate on your pipeline using the _test_ access level. This will
-  give you permissions to read from the _test_ bucket for input and the _temporary_
-  bucket for outputs. You don't need to get your code reviewed, but it needs to be
+  give you permissions to read from the _test_ bucket for input and the _temporary_ / _web_
+  buckets for outputs. You don't need to get your code reviewed, but it needs to be
   pushed to a remote branch in the _populationgenomics_ GitHub organization in order
   for the analysis runner to work.
-- Once you're ready to run your pipeline on the _main_ and _analysis_ buckets for
-  input and the _analysis_ bucket for output, create a pull request to get your code
+- Once you're ready to run your pipeline on the _main_ / _analysis_ buckets for
+  input and the _analysis_ / _web_ buckets for output, create a pull request to get your code
   reviewed. Once your code has been merged in the `main` branch, run the analysis
   runner using the _standard_ access level.
 - If you ever need write access to other buckets, e.g. to initialize data in the
-  _main_ bucket, you can get full write access to all buckets using the _full_ access
+  _main_ bucket, you can get full write / delete access to all buckets using the _full_ access
   level. However, to reduce risk of accidental data loss, only request this access
   level if you really need it.
 
