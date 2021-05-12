@@ -10,7 +10,7 @@
     - [test: `gs://cpg-$STACK-test`](#test-gscpg-stack-test)
     - [analysis: `gs://cpg-$STACK-analysis`](#analysis-gscpg-stack-analysis)
     - [temporary: `gs://cpg-$STACK-temporary`](#temporary-gscpg-stack-temporary)
-    - [web: `gs://cpg-$STACK-web`](#temporary-gscpg-stack-web)
+    - [web: `gs://cpg-$STACK-web`](#web-gscpg-stack-web)
     - [release: `gs://cpg-$STACK-release-requester-pays`](#release-gscpg-stack-release-requester-pays)
   - [Deletion](#deletion)
   - [Access permissions](#access-permissions)
