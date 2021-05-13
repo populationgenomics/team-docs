@@ -319,8 +319,9 @@ Example:
 analysis-runner \
     --dataset <dataset> \
     --description "Description of the run" \
+    --access-level <level>
     --output-dir gs://<bucket> \
-    path/to/myscript.py -p 3
+    python3 path/to/myscript.py -p 3
 ```
 
 See the [analysis runner documentation](https://github.com/populationgenomics/analysis-runner#cli) for more information.
