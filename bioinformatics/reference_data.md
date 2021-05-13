@@ -27,3 +27,7 @@ good idea to document how/when the data was generated/copied below.
       gs://gatk-sv-resources-public/hg38/v0/sv-resources/resources/v1/delly_human.hg38.excl.tsv \
       gs://cpg-reference/hg38/v0/sv-resources/resources/v1/
     ```
+
+- `gs://cpg-reference/gnomad/gnomad_loadings_90k_liftover.ht`
+
+  - Copied Apr2021 from `gs://cpg-ancestry-temporary/gnomad_loadings_liftover_2.1/v0`. Used for selecting variants for PCA analysis. Variants were lifted over from GRCh37 to GRCh38, using the gnomad version 2.1 loadings (gs://gcp-public-data--gnomad/release/2.1/pca). Size: approximately 20MB.
