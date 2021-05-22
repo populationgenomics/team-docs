@@ -210,12 +210,12 @@ There are three distinct access levels: _test_, _standard_, and _full_.
     - **Output**: _temporary_ / _web_
     - **GitHub**: no PR, just push to remote branch
 - **standard**: Once you're ready to run your pipeline on the _main_ / _analysis_ buckets for
-  input and the _analysis_ / _web_ buckets for output, create a pull request to get your code
+  input and the _analysis_ / _temporary_ / _web_ buckets for output, create a pull request to get your code
   reviewed. Once your code has been merged in the `main` branch, run the analysis
   runner using the _standard_ access level. In summary:
     - **Access**: _standard_
     - **Input**: _main_ / _analysis_
-    - **Output**: _analysis_ / _web_
+    - **Output**: _analysis_ / _temporary_ / _web_
     - **GitHub**: PR merged to `main` branch
 - **full**: If you ever need write access to other buckets, e.g. to initialize data in the
   _main_ bucket, you can get full write / delete access to all buckets using the _full_ access
