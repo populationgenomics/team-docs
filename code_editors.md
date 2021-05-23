@@ -1,12 +1,17 @@
 # Code Editors
 
 - [Code Editors](#code-editors)
-  - [Hail in Visual Studio Code](#hail-in-visual-studio-code)
-  - [Hail in PyCharm](#hail-in-pycharm)
+  - [Hail](#hail)
+    - [Hail in Visual Studio Code](#hail-in-visual-studio-code)
+    - [Hail in PyCharm](#hail-in-pycharm)
+  - [WDL](#wdl)
 
-## Hail in Visual Studio Code
 
-### Python
+## Hail
+
+### Hail in Visual Studio Code
+
+#### Python
 
 The Hail team allows line lengths up to 120 characters. In your _Preferences_, select the _Workspace_ tab and search for _Python › Formatting: Black Args_. Set the arguments to `--skip-string-normalization --line-length=120` to prevent `black` from adding lots of formatting changes that will make diffs hard to read.
 
@@ -48,7 +53,7 @@ when using conda.
 If symbols still don't get resolved properly, you might have to reload Visual
 Studio Code.
 
-### Scala
+#### Scala
 
 If you're working on Hail's Scala code, the setup is slightly different. Assuming you've
 cloned the Hail repository to `$HAIL`, make sure that you open the `hail` subdirectory
@@ -115,3 +120,25 @@ root by clicking in the "plus" symbol:
 <img src="figures/pycharm-pythonpath-3.png" width="400"/>
 
 Now PyCharm should resolve internal module imports in the code.
+
+## WDL
+
+There are two runners for WDL:
+
+1. [Cromwell](https://github.com/broadinstitute/cromwell) / WOMTool (for validating)
+1. [MiniWDL](https://github.com/chanzuckerberg/miniwdl)
+
+It's recommended to validate with both WOMTool (the Cromwell validator) and MiniWDL, as sometimes they can return inconsistent results. You can validate a workflow called `workflow.wdl` with:
+
+```shell
+java -jar womtool-63.jar validate <workflow.wdl>
+miniwdl check <workflow.wdl
+```
+
+### WDL in Visual Studio Code
+
+In VSCode, we'd recommend installing the [WDL DevTools extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=broadinstitute.wdl-devtools). It provides syntax highlighting, and uses MiniWDL to provide immediate feedback about syntax and linting.
+
+Installing [shellcheck](https://github.com/koalaman/shellcheck#:~:text=ShellCheck-,on%20macos,-OS) will give you additional linting support within the command block.
+
+
