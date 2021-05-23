@@ -140,5 +140,3 @@ miniwdl check <workflow.wdl
 In VSCode, we'd recommend installing the [WDL DevTools extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=broadinstitute.wdl-devtools). It provides syntax highlighting, and uses MiniWDL to provide immediate feedback about syntax and linting.
 
 Installing [shellcheck](https://github.com/koalaman/shellcheck#:~:text=ShellCheck-,on%20macos,-OS) will give you additional linting support within the command block.
-
-
