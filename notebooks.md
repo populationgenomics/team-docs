@@ -18,7 +18,7 @@ Note the following settings in the screenshot below:
 - _Environment:_ The "R" environments include both Python and R notebook options.
 - _Machine type:_ These are standard VM types. Pick the smallest configuration that's not sluggish to work with -- you can see the impact on price in the upper right corner.
 - _Permission:_ If you pick "Single user only", only you will be able to access the instance. Otherwise you can share the instance with everybody who has access to the dataset that corresponds to the service account (see below).
-- _Identity and API access:_ Make sure to unselect "Use Compute Engine default service account" here. The service account to enter here has the form `notebook-<dataset>@notebooks-314505.iam.gserviceaccount.com`. Replace `<dataset>` with `fewgenomes`, `tob-wgs`, as required.
+- _Identity and API access:_ Make sure to unselect "Use Compute Engine default service account" here. Use a service account of the form `notebook-<dataset>@notebooks-314505.iam.gserviceaccount.com`. Replace `<dataset>` with `fewgenomes`, `tob-wgs`, etc. as required.
 
 ![notebook creation](figures/notebook_creation.png)
 
