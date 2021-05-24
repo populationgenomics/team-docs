@@ -14,6 +14,7 @@ the `#team-software` or `#team-analysis` channels).
 - [Reproducible analyses](reproducible_analyses.md)
 - [Storage policies](storage_policies)
 - [Setting up code editors](code_editors.md)
+- [Notebooks](notebooks.md)
 - [Setting up a new repository](new_repository.md)
 - [Hail Batch developer setup](hail_batch_dev.md)
 - [Setting up your terminal](terminal.md)
