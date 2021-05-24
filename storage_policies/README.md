@@ -4,14 +4,14 @@
   - [Typical data flow](#typical-data-flow)
   - [Buckets](#buckets)
     - [reference: `gs://cpg-reference`](#reference-gscpg-reference)
-    - [upload: `gs://cpg-$STACK-upload`](#upload-gscpg-stack-upload)
-    - [archive: `gs://cpg-$STACK-archive`](#archive-gscpg-stack-archive)
-    - [main: `gs://cpg-$STACK-main`](#main-gscpg-stack-main)
-    - [test: `gs://cpg-$STACK-test`](#test-gscpg-stack-test)
-    - [analysis: `gs://cpg-$STACK-analysis`](#analysis-gscpg-stack-analysis)
-    - [temporary: `gs://cpg-$STACK-temporary`](#temporary-gscpg-stack-temporary)
-    - [web: `gs://cpg-$STACK-web`](#web-gscpg-stack-web)
-    - [release: `gs://cpg-$STACK-release-requester-pays`](#release-gscpg-stack-release-requester-pays)
+    - [upload: `gs://cpg-<dataset>-upload`](#upload-gscpg-dataset-upload)
+    - [archive: `gs://cpg-<dataset>-archive`](#archive-gscpg-dataset-archive)
+    - [main: `gs://cpg-<dataset>-main`](#main-gscpg-dataset-main)
+    - [test: `gs://cpg-<dataset>-test`](#test-gscpg-dataset-test)
+    - [analysis: `gs://cpg-<dataset>-analysis`](#analysis-gscpg-dataset-analysis)
+    - [temporary: `gs://cpg-<dataset>-temporary`](#temporary-gscpg-dataset-temporary)
+    - [web: `gs://cpg-<dataset>-web`](#web-gscpg-dataset-web)
+    - [release: `gs://cpg-<dataset>-release-requester-pays`](#release-gscpg-dataset-release-requester-pays)
   - [Deletion](#deletion)
   - [Access permissions](#access-permissions)
   - [Analysis runner](#analysis-runner)
@@ -43,9 +43,9 @@ This motivates two somewhat unusual principles in the design:
 
 ## Buckets
 
-In this context, a stack corresponds to a particular project / effort, e.g.
+In this context, a dataset corresponds to a particular project / effort, e.g.
 _TOB-WGS_ or _RDNow_, with separate buckets and permission groups. Below,
-`$STACK` is a placeholder for the name of that effort, e.g. `$STACK` =
+`<dataset>` is a placeholder for the name of that effort, e.g. `<dataset>` =
 `tob-wgs`.
 
 Currently, all buckets reside in the `australia-southeast1` GCP region. It's
@@ -53,7 +53,7 @@ therefore essential that all computation happens in that region too, to avoid
 network egress costs.
 
 In general, all datasets within buckets should be versioned, using a simple
-major-minor naming scheme like `gs://cpg-$STACK-main/qc/v1.2/`. We don't have a
+major-minor naming scheme like `gs://cpg-<dataset>-main/qc/v1.2/`. We don't have a
 strict semantic definition to distinguish between major and minor version
 increments. The addition of significant numbers of samples or the use of a
 substantially different analysis method usually justifies a major version
@@ -62,14 +62,14 @@ increase.
 ### reference: `gs://cpg-reference`
 
 - **Description**: Contains reference data that's independent of any particular
-  stack, e.g. the GRCh38 human reference genome sequences used for alignment,
+  dataset, e.g. the GRCh38 human reference genome sequences used for alignment,
   the GENCODE GTF used for functional annotations, the version of dbSNP used to
   add rsIDs, etc. These resource "bundles" are versioned together.
   Most pipelines will depend on this bucket to some degree.
 - **Storage**: Standard Storage indefinitely.
 - **Access**: Everybody in the organisation has viewer permissions.
 
-### upload: `gs://cpg-$STACK-upload`
+### upload: `gs://cpg-<dataset>-upload`
 
 - **Description**: Contains files uploaded from sequencing providers, as a
   staging area.
@@ -83,7 +83,7 @@ increase.
 - **Access**: Restricted to service accounts that run workflows. Sequencing
   providers have creator permissions, using a service account.
 
-### archive: `gs://cpg-$STACK-archive`
+### archive: `gs://cpg-<dataset>-archive`
 
 - **Description**: Contains files for _archival purposes_, where long term
   storage is cheap, but _retrieval is very expensive_.
@@ -96,7 +96,7 @@ increase.
 - **Access**: Restricted to service accounts that run workflows, to avoid
   accidental retrieval costs incurred by human readers.
 
-### main: `gs://cpg-$STACK-main`
+### main: `gs://cpg-<dataset>-main`
 
 - **Description**: Contains _input_ files that are frequently accessed for
   analysis. Long term storage is expensive, but retrieval is cheap.
@@ -109,7 +109,7 @@ increase.
   reviewed. See the _test_ bucket below if you're developing / prototyping a new
   pipeline.
 
-### test: `gs://cpg-$STACK-test`
+### test: `gs://cpg-<dataset>-test`
 
 - **Description**: Contains _input_ test data, which usually corresponds to a
   subset of the data stored in the _main_ bucket. Long term storage is
@@ -121,7 +121,7 @@ increase.
 - **Access**: Human users only get viewer permissions, so pipeline code doesn't
   need to be reviewed before this data can be read.
 
-### analysis: `gs://cpg-$STACK-analysis`
+### analysis: `gs://cpg-<dataset>-analysis`
 
 - **Description**: Contains files frequently accessed for analysis.
   Long term storage is expensive, but retrieval is cheap.
@@ -132,7 +132,7 @@ increase.
   are granted indirectly through the [analysis runner](#analysis-runner)
   described below.
 
-### temporary: `gs://cpg-$STACK-temporary`
+### temporary: `gs://cpg-<dataset>-temporary`
 
 - **Description**: Contains files that only need to be retained _temporarily_
   during analysis or workflow execution. Retrieval is cheap, but old files get
@@ -144,7 +144,7 @@ increase.
   accidentally overwrite / delete each other's results (e.g. by avoiding naming
   collisions through a file name prefix).
 
-### web: `gs://cpg-$STACK-web`
+### web: `gs://cpg-<dataset>-web`
 
 - **Description**: Contains static web content, like QC reports as HTML pages,
   which is served through an access-restricted web server.
@@ -154,7 +154,7 @@ increase.
   are granted indirectly through the [analysis runner](#analysis-runner)
   described below.
 
-### release: `gs://cpg-$STACK-release-requester-pays`
+### release: `gs://cpg-<dataset>-release-requester-pays`
 
 - **Description**: Contains data that's shared with other researchers or is
   publicly available. Long term storage is expensive, but network egress costs
@@ -182,11 +182,11 @@ accidental deletion.
 
 Permissions are managed through IAM, using access groups.
 
-- `$STACK-access@populationgenomics.org.au`: human users are added to this group to
+- `<dataset>-access@populationgenomics.org.au`: human users are added to this group to
   gain permissions as described above. Users should also be added to the
   corresponding Hail billing project, so they can see the batches launched through
   the [analysis runner](#analysis-runner).
-- `$STACK-release-access@populationgenomics.org.au`: grants members viewer
+- `<dataset>-release-access@populationgenomics.org.au`: grants members viewer
   permissions to the _release_ bucket. Only required if the releases are not
   public. This usually includes users outside the CPG, in which case they must
   use Google accounts.
