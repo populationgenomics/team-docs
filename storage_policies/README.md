@@ -128,7 +128,7 @@ increase.
 - **Main use case**: Analysis results derived from the _main_
   bucket, which in turn can become inputs for further analyses.
 - **Storage**: Standard Storage indefinitely.
-- **Access**: Human users only get viewer permissions, but creator permissions
+- **Access**: Human users only get listing permissions, but creator permissions
   are granted indirectly through the [analysis runner](#analysis-runner)
   described below.
 
@@ -205,26 +205,26 @@ There are three distinct access levels: _test_, _standard_, and _full_.
   buckets for outputs. You don't need to get your code reviewed, but it needs to be
   pushed to a remote branch in the _populationgenomics_ GitHub organization in order
   for the analysis runner to work. In summary:
-    - **Access**: _test_
-    - **Input**: _test_
-    - **Output**: _temporary_ / _web_
-    - **GitHub**: no PR, just push to remote branch
+  - **Access**: _test_
+  - **Input**: _test_
+  - **Output**: _temporary_ / _web_
+  - **GitHub**: no PR, just push to remote branch
 - **standard**: Once you're ready to run your pipeline on the _main_ / _analysis_ buckets for
   input and the _analysis_ / _temporary_ / _web_ buckets for output, create a pull request to get your code
   reviewed. Once your code has been merged in the `main` branch, run the analysis
   runner using the _standard_ access level. In summary:
-    - **Access**: _standard_
-    - **Input**: _main_ / _analysis_
-    - **Output**: _analysis_ / _temporary_ / _web_
-    - **GitHub**: PR merged to `main` branch
+  - **Access**: _standard_
+  - **Input**: _main_ / _analysis_
+  - **Output**: _analysis_ / _temporary_ / _web_
+  - **GitHub**: PR merged to `main` branch
 - **full**: If you ever need write access to other buckets, e.g. to initialize data in the
   _main_ bucket, you can get full write / delete access to all buckets using the _full_ access
   level. However, to reduce risk of accidental data loss, only request this access
   level if you really need it. In summary:
-    - **Access**: _full_
-    - **Input**: anywhere
-    - **Output**: anywhere
-    - **GitHub**: PR merged to `main` branch
+  - **Access**: _full_
+  - **Input**: anywhere
+  - **Output**: anywhere
+  - **GitHub**: PR merged to `main` branch
 
 For more detailed instructions and examples, look at the
 [analysis runner repository](https://github.com/populationgenomics/analysis-runner).
