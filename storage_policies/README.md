@@ -154,6 +154,8 @@ increase.
   are granted indirectly through the [analysis runner](#analysis-runner)
   described below.
 
+  Files in this bucket can be viewed easily through URLs of the form `https://web.populationgenomics.org.au/<dataset>/filepath/example.html`, which serves the file at `gs://cpg-<dataset>-web/filepath/example.html`. Access to this web server is controlled through the same permissions group as the bucket.
+
 ### release: `gs://cpg-<dataset>-release-requester-pays`
 
 - **Description**: Contains data that's shared with other researchers or is
