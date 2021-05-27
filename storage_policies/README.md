@@ -8,9 +8,8 @@
     - [archive: `gs://cpg-<dataset>-archive`](#archive-gscpg-dataset-archive)
     - [main: `gs://cpg-<dataset>-main`](#main-gscpg-dataset-main)
     - [test: `gs://cpg-<dataset>-test`](#test-gscpg-dataset-test)
-    - [analysis: `gs://cpg-<dataset>-analysis`](#analysis-gscpg-dataset-analysis)
-    - [temporary: `gs://cpg-<dataset>-temporary`](#temporary-gscpg-dataset-temporary)
-    - [web: `gs://cpg-<dataset>-web`](#web-gscpg-dataset-web)
+    - [tmp: `gs://cpg-<dataset>-{main,test}-tmp`](#tmp-gscpg-dataset-maintest-tmp)
+    - [web: `gs://cpg-<dataset>-{main,test}-web`](#web-gscpg-dataset-maintest-web)
     - [release: `gs://cpg-<dataset>-release-requester-pays`](#release-gscpg-dataset-release-requester-pays)
   - [Deletion](#deletion)
   - [Access permissions](#access-permissions)
@@ -41,7 +40,16 @@ This motivates two somewhat unusual principles in the design:
 
 ![data flow](figures/dataflow.svg)
 
-## Buckets
+## `main` vs `test`
+
+The above workflow of quick iteration on the _test_ bucket with subsequent "production" runs on the _main_ bucket works best if:
+
+- The **structure** of the data in the _test_ bucket mirrors the _main_ bucket closely (e.g. same folder organization, table schemas, etc).
+- The **content** of the data in the _test_ bucket is a consistent subset of the _main_ bucket. E.g. an initial joint-called MatrixTable contains 20 samples in _test_ vs 20k samples in _main_.
+
+Whenever a subsequent analysis is run, ideally the derived results should be generated in both the _main_ and _test_ buckets. For example, aggregate statistics for the above MatrixTable should be generated for the 20 samples in _test_ in the same way as the 20k samples in _main_. This makes subsequent prototyping of pipelines much easier.
+
+## Bucket details
 
 In this context, a dataset corresponds to a particular project / effort, e.g.
 _TOB-WGS_ or _RDNow_, with separate buckets and permission groups. Below,
@@ -98,10 +106,10 @@ increase.
 
 ### main: `gs://cpg-<dataset>-main`
 
-- **Description**: Contains _input_ files that are frequently accessed for
+- **Description**: Contains files that are frequently accessed for
   analysis. Long term storage is expensive, but retrieval is cheap.
 - **Main use case**: Hail tables (e.g. merged GVCF files), metadata, SV caller
-  outputs, transcript abundance files, etc.
+  outputs, transcript abundance files, analysis outputs, etc.
 - **Storage**: Standard Storage indefinitely.
 - **Access**: Human users only get listing permissions, but viewer permissions
   are granted indirectly through the [analysis runner](#analysis-runner)
@@ -111,28 +119,17 @@ increase.
 
 ### test: `gs://cpg-<dataset>-test`
 
-- **Description**: Contains _input_ test data, which usually corresponds to a
-  subset of the data stored in the _main_ bucket. Long term storage is
-  expensive, but retrieval is cheap.
+- **Description**: Contains test data, which usually has identical structure to what's
+  stored in the _main_ bucket, but it's only a small subset of the of the overall
+  dataset. Long term storage is expensive, but retrieval is cheap.
 - **Main use case**: Iterate quickly on new pipelines during development.
   This bucket contains representative data, but given the much smaller dataset
   size the risk of accidental high cloud computing costs is greatly reduced.
 - **Storage**: Standard Storage indefinitely.
-- **Access**: Human users only get viewer permissions, so pipeline code doesn't
-  need to be reviewed before this data can be read.
+- **Access**: Human users get admin permissions, so pipeline code doesn't need to be
+  reviewed before this data can be read or written.
 
-### analysis: `gs://cpg-<dataset>-analysis`
-
-- **Description**: Contains files frequently accessed for analysis.
-  Long term storage is expensive, but retrieval is cheap.
-- **Main use case**: Analysis results derived from the _main_
-  bucket, which in turn can become inputs for further analyses.
-- **Storage**: Standard Storage indefinitely.
-- **Access**: Human users only get listing permissions, but creator permissions
-  are granted indirectly through the [analysis runner](#analysis-runner)
-  described below.
-
-### temporary: `gs://cpg-<dataset>-temporary`
+### tmp: `gs://cpg-<dataset>-{main,test}-tmp`
 
 - **Description**: Contains files that only need to be retained _temporarily_
   during analysis or workflow execution. Retrieval is cheap, but old files get
@@ -140,19 +137,16 @@ increase.
 - **Main use case**: Hail "checkpoints" that cache results while repeatedly
   running an analysis during development.
 - **Storage**: Files that are older than 30 days get deleted automatically.
-- **Access**: Human users get admin permissions, so care must be taken not to
-  accidentally overwrite / delete each other's results (e.g. by avoiding naming
-  collisions through a file name prefix).
+- **Access**: Same as the corresponding _main_ and _test_ buckets.
 
-### web: `gs://cpg-<dataset>-web`
+### web: `gs://cpg-<dataset>-{main,test}-web`
 
 - **Description**: Contains static web content, like QC reports as HTML pages,
   which is served through an access-restricted web server.
 - **Main use case**: Human-readable analysis results, like reports and notebooks.
 - **Storage**: Standard Storage indefinitely.
-- **Access**: Human users only get viewer permissions, but creator permissions
-  are granted indirectly through the [analysis runner](#analysis-runner)
-  described below.
+- **Access**: Same as the corresponding _main_ and _test_ buckets, with additional
+  viewer permissions for humans.
 
   Files in this bucket can be viewed easily through URLs of the form `https://web.populationgenomics.org.au/<dataset>/filepath/example.html`, which serves the file at `gs://cpg-<dataset>-web/filepath/example.html`. Access to this web server is controlled through the same permissions group as the bucket.
 
@@ -171,10 +165,10 @@ increase.
 ## Deletion
 
 By default, human users can't delete objects in any bucket except for the
-_temporary_ bucket. This avoids accidental deletion of results and makes sure
+_test_ buckets. This avoids accidental deletion of results and makes sure
 our pipelines stay reproducible. However, it will sometimes be necessary to
-delete obsolete results, mainly to reduce storage costs. Please coordinate
-directly with the software team in such cases.
+delete obsolete results, mainly to reduce storage costs. The necessary permissions
+are granted through the [`full` access level](#analysis-runner).
 
 All buckets retain one noncurrent object version for 30 days, after which
 noncurrent files get deleted. This allows "undelete" recovery in case of
@@ -196,36 +190,31 @@ Permissions are managed through IAM, using access groups.
 ## Analysis runner
 
 To encourage reproducible workflows and code getting reviewed before it's run on
-"production data", viewer permissions to the _main_ bucket and creator
-permissions to the _analysis_ bucket are available only through the
+"production data", access to the _main_ bucket are available only through the
 [analysis runner](#analysis-runner).
 
 There are three distinct access levels: _test_, _standard_, and _full_.
 
-- **test**: Prototype and iterate on your pipeline using the _test_ access level. This will
-  give you permissions to read from the _test_ bucket for input and the _temporary_ / _web_
-  buckets for outputs. You don't need to get your code reviewed, but it needs to be
-  pushed to a remote branch in the _populationgenomics_ GitHub organization in order
-  for the analysis runner to work. In summary:
-  - **Access**: _test_
-  - **Input**: _test_
-  - **Output**: _temporary_ / _web_
+- **test**: Prototype and iterate on your pipeline using the _test_ access level. This
+  will give you permissions to view and create files in all the _test_ buckets. You don't
+  need to get your code reviewed, but it needs to be pushed to a remote branch in the
+  _populationgenomics_ GitHub organization in order for the analysis runner to work. This access level also applies when using [notebooks](../notebooks.md). In
+  summary:
+  - **Access level**: _test_
+  - **View / create**: Any _test_ bucket
   - **GitHub**: no PR, just push to remote branch
-- **standard**: Once you're ready to run your pipeline on the _main_ / _analysis_ buckets for
-  input and the _analysis_ / _temporary_ / _web_ buckets for output, create a pull request to get your code
-  reviewed. Once your code has been merged in the `main` branch, run the analysis
-  runner using the _standard_ access level. In summary:
-  - **Access**: _standard_
-  - **Input**: _main_ / _analysis_
-  - **Output**: _analysis_ / _temporary_ / _web_
+- **standard**: Once you're ready to run your pipeline on the _main_ buckets, create
+  a pull request to get your code reviewed. Once your code has been merged in the `main`
+  branch, run the analysis runner using the _standard_ access level. In summary:
+  - **Access level**: _standard_
+  - **View / create**: Any _main_ or _test_ bucket
   - **GitHub**: PR merged to `main` branch
-- **full**: If you ever need write access to other buckets, e.g. to initialize data in the
-  _main_ bucket, you can get full write / delete access to all buckets using the _full_ access
+- **full**: If you ever need write access to other buckets, e.g. to move data from the
+  _upload_ bucket or delete files in the _main_ bucket, you can get full write / delete access to all buckets using the _full_ access
   level. However, to reduce risk of accidental data loss, only request this access
   level if you really need it. In summary:
-  - **Access**: _full_
-  - **Input**: anywhere
-  - **Output**: anywhere
+  - **Access level**: _full_
+  - **View / create / delete**: anywhere
   - **GitHub**: PR merged to `main` branch
 
 For more detailed instructions and examples, look at the
