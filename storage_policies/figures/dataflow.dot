@@ -3,16 +3,17 @@ digraph dataflow {
 
     upstream_pipeline [label="upstream pipeline"]
     downstream_pipeline [label="downstream pipeline", fillcolor=5]
-    test_pipeline [label="test pipeline", fillcolor=3]
+    test_pipeline [label="test pipeline", fillcolor=6]
     upload_processor [label="upload processor"]
     reference [shape=box]
     upload [shape=box]
     archive [shape=box]
     main [shape=box, fillcolor=5]
-    test [shape=box, fillcolor=3]
-    temporary [shape=box, fillcolor=6]
-    analysis [shape=box, fillcolor=5]
-    web [shape=box]
+    test [shape=box, fillcolor=6]
+    "main-tmp" [shape=box, fillcolor=5]
+    "main-web" [shape=box, fillcolor=5]
+    "test-tmp" [shape=box, fillcolor=6]
+    "test-web" [shape=box, fillcolor=6]
     release [shape=box]
 
     reference -> upstream_pipeline
@@ -20,11 +21,12 @@ digraph dataflow {
     upload -> upload_processor
     upload_processor -> archive
     upload_processor -> main
-    main -> downstream_pipeline
-    downstream_pipeline -> temporary [dir=both]
-    downstream_pipeline -> analysis [dir=both]
-    downstream_pipeline -> web
+    main -> downstream_pipeline [dir=both]
+    downstream_pipeline -> "main-tmp" [dir=both]
+    downstream_pipeline -> "main-web"
     downstream_pipeline -> release
-    test -> test_pipeline
-    test_pipeline -> temporary [dir=both]
+    downstream_pipeline -> test
+    test -> test_pipeline [dir=both]
+    test_pipeline -> "test-tmp" [dir=both]
+    test_pipeline -> "test-web"
 }
