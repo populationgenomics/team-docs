@@ -26,3 +26,11 @@ Note the following settings in the screenshot below:
 As the notebook runs on a VM, the cost for keeping the notebook running is identical to keeping a VM running. It's therefore a good idea to stop notebooks when you're not using them and to delete them when they're no longer needed. Make sure to "check" the corresponding notebook instance on the left side in the [notebooks overview page](https://console.cloud.google.com/vertex-ai/notebooks/list/instances?project=notebooks-314505) to start / stop an instance, as shown in the screenshot below.
 
 ![notebook management](figures/notebook_management.png)
+
+## Hail
+
+To be able to access GCS paths (`gs://...`) directly in Hail, you need to install the [GCS Connector](https://github.com/GoogleCloudDataproc/hadoop-connectors/tree/master/gcs). Run the following after installing Hail:
+
+```
+cd $(find_spark_home.py) && curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop2-2.0.1.jar && cd -
+```
