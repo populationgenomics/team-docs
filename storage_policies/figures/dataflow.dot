@@ -11,8 +11,10 @@ digraph dataflow {
     main [shape=box, fillcolor=5]
     test [shape=box, fillcolor=6]
     "main-tmp" [shape=box, fillcolor=5]
+    "main-metadata" [shape=box, fillcolor=5]
     "main-web" [shape=box, fillcolor=5]
     "test-tmp" [shape=box, fillcolor=6]
+    "test-metadata" [shape=box, fillcolor=6]
     "test-web" [shape=box, fillcolor=6]
     release [shape=box]
 
@@ -23,10 +25,12 @@ digraph dataflow {
     upload_processor -> main
     main -> downstream_pipeline [dir=both]
     downstream_pipeline -> "main-tmp" [dir=both]
+    downstream_pipeline -> "main-metadata" [dir=both]
     downstream_pipeline -> "main-web"
     downstream_pipeline -> release
     downstream_pipeline -> test
     test -> test_pipeline [dir=both]
     test_pipeline -> "test-tmp" [dir=both]
+    test_pipeline -> "test-metadata" [dir=both]
     test_pipeline -> "test-web"
 }
