@@ -144,7 +144,7 @@ increase.
 
 - **Description**: Contains metadata files, like QC metrics for sequencing results,
   sample and variant QC summaries, phenotypical information, pedigrees, tables derived
-  from the sample metadata database, etc.
+  from the [sample metadata database](https://github.com/populationgenomics/sample-metadata), etc.
 - **Main use case**: Summary information from analyses, but also inputs for e.g. GWAS.
   Often, these files will be processed further to produce human-readable reports in the
   `web` bucket.
