@@ -320,7 +320,7 @@ analysis-runner \
     --dataset <dataset> \
     --description "Description of the run" \
     --access-level <level>
-    --output-dir <directory-within-the-bucket> \
+    --output-dir <directory-within-bucket> \
     python3 path/to/myscript.py -p 3
 ```
 
