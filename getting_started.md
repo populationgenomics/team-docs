@@ -320,7 +320,7 @@ analysis-runner \
     --dataset <dataset> \
     --description "Description of the run" \
     --access-level <level>
-    --output-dir gs://<bucket> \
+    --output-dir <directory-within-bucket> \
     python3 path/to/myscript.py -p 3
 ```
 
@@ -336,6 +336,4 @@ While [Terra](https://terra.bio/) is a great way to run such workflows, there
 are still a few features missing that would allow us to run production workflows
 in Australia.
 
-For now, the best way to run workflows written in CWL or WDL is therefore to set
-up your own Cromwell server, which is fairly straightforward using our
-[config templates](https://github.com/populationgenomics/cromwell-configs).
+For now, the best way to run workflows written in WDL is therefore to use the analysis-runner, which is integrated with our Cromwell server.
