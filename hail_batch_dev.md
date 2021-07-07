@@ -118,7 +118,10 @@ The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have art
 
    1. Navigate to `https://internal.hail.populationgenomics.org.au/$NAMESPACE/batch/batches` in your browser. Select Batch > Billing Projects and add `$NAMESPACE` to the `test` billing project.
 
-   1. Give your Google Service Account _Storage Admin_ permissions to a Hail bucket used for submitting batches, e.g. in your "dev" GCP project.
+   1. Give your `$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com` Google Service Account the following permissions:
+
+   - _Artifact Registry Reader_ for the `australia-southeast1-docker.pkg.dev/hail-295901/hail` repository (otherwise file localization won't work).
+   - _Storage Admin_ permissions for a Hail bucket used for submitting batches, e.g. in your "dev" GCP project.
 
 1. You can now switch to your development namespace like this:
 
