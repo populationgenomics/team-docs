@@ -163,7 +163,7 @@ increase.
 - **Access**: Same as the corresponding _main_ and _test_ buckets, with additional
   viewer permissions for humans.
 
-  Files in this bucket can be viewed easily through URLs of the form `https://main-web.populationgenomics.org.au/<dataset>/filepath/example.html`, which serves the file at `gs://cpg-<dataset>-main-web/filepath/example.html`. Analogously, there's a `test-web.populationgenomics.org.au` domain for the `test-web` bucket. Access to this web server is controlled through the same access permissions group as the dataset buckets.
+  Files in this bucket can be viewed easily through URLs of the form `https://main-web.populationgenomics.org.au/<dataset>/filepath/example.html`, which serves the file at `gs://cpg-<dataset>-main-web/filepath/example.html`. Analogously, there's a `test-web.populationgenomics.org.au` domain for the `test-web` bucket. Access to this web server is controlled through the `<dataset>-web-access@populationgenomics.org.au` group.
 
 ### release: `gs://cpg-<dataset>-release-requester-pays`
 
