@@ -80,8 +80,8 @@ increase.
 
 ### upload: `gs://cpg-<dataset>-upload`
 
-- **Description**: Contains files uploaded from sequencing providers, as a
-  staging area.
+- **Description**: Contains files uploaded from collaborators and sequencing providers,
+  as a general staging area.
 - **Main use case**: Raw sequencing reads (e.g. CRAM files) and derived data
   from initial production pipelines: QC metrics including coverage results,
   additional outputs from variant callers (e.g. structural variants,
@@ -89,8 +89,10 @@ increase.
   files into the _archive_ and _main_ buckets in batches, creating new releases.
 - **Storage**: Standard Storage indefinitely, but cleared up regularly by
   the upload processor.
-- **Access**: Restricted to service accounts that run workflows. Sequencing
-  providers have creator permissions, using a service account.
+- **Access**: Human users get viewer permissions, to inspect the files before e.g.
+  moving a subset of the data to the _test_ bucket. Moving data from the _upload_
+  bucket to the _main_ bucket is restricted to service accounts that run workflows.
+  Sequencing providers have creator permissions, using a service account.
 
 ### archive: `gs://cpg-<dataset>-archive`
 
