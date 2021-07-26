@@ -213,7 +213,7 @@ Whenever we make a change that isn't purely specific to CPG (like deployment set
 
 After a change has been merged to the `main` branch, it is automatically deployed to the `default` namespace by calling the `prod deploy` API endpoint from a [GitHub workflow](https://github.com/populationgenomics/hail/blob/main/.github/workflows/prod_deploy.yaml). You should therefore only rarely have to start a `prod deploy` manually.
 
-`prod deploy` requires specifying a GitHub commit (SHA), which should generally point at the current `HEAD`, unless you need to roll back. Similar to a `dev deploy`, you can specify the steps from `build.yaml` that should be run. Unless there's a good reason to only deploy a particular service, you should use the set listed below. This is a partial list of steps that is specific to the CPG setup, and excludes services we don't use, for example the blog or image fetcher.
+`prod deploy` requires specifying a GitHub commit (SHA), which should generally point at the current `HEAD`, unless you need to roll back. Similar to a `dev deploy`, you can specify the steps from `build.yaml` that should be run (see the [GitHub workflow](https://github.com/populationgenomics/hail/blob/main/.github/workflows/prod_deploy.yaml) for details). Unless there's a good reason to only deploy a particular service, you should replace `$STEPS` below with the same set of steps.
 
 ```bash
 cd ~/hail
@@ -221,7 +221,7 @@ git fetch origin
 GITHUB_SHA=$(git rev-parse origin/main)
 curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
     -H "Content-Type:application/json" \
-    -d "{'sha': '$GITHUB_SHA', 'steps': ['deploy_auth', 'deploy_batch', 'deploy_ci', 'deploy_notebook', 'deploy_query']}" \
+    -d "{'sha': '$GITHUB_SHA', 'steps': $STEPS}" \
     https://ci.hail.populationgenomics.org.au/api/v1alpha/prod_deploy
 ```
 
