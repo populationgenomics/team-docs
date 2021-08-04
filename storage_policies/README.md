@@ -242,7 +242,7 @@ process improvements together.
 
 ## Dependencies
 
-For analyses like joint-calling, it's often necessary to combine multiple datasets. It's possible to specify such dependencies, which grants access to the _test_ / _main_ bucket of such dependencies, based on the acess level. Such dependencies are configured as part of the [deployment configuration](#deployment).
+For operations like joint-calling, it's often necessary to combine multiple datasets. Such dependencies are configured as part of the [deployment configuration](#deployment). Effectively this grants access to the _test_ / _main_ bucket of additional datasets, based on the acess level.
 
 ## Deployment
 
