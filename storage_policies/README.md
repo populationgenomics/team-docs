@@ -15,6 +15,7 @@
   - [Deletion](#deletion)
   - [Access permissions](#access-permissions)
   - [Analysis runner](#analysis-runner)
+  - [Dependencies](#dependencies)
   - [Deployment](#deployment)
 
 This document describes where our production datasets are stored, how
@@ -238,6 +239,10 @@ For more detailed instructions and examples, look at the
 If this causes too much friction in your daily work, please don't work around
 the restrictions. Instead, reach out to the software team, so we can work on
 process improvements together.
+
+## Dependencies
+
+For operations like joint-calling, it's often necessary to combine multiple datasets. Such dependencies are configured as part of the [deployment configuration](#deployment). Effectively this grants access to the _test_ / _main_ buckets of additional datasets, based on the access level.
 
 ## Deployment
 
