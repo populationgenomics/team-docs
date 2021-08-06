@@ -4,7 +4,7 @@
   - [Typical data flow](#typical-data-flow)
   - [Buckets](#buckets)
     - [reference: `gs://cpg-reference`](#reference-gscpg-reference)
-    - [upload: `gs://cpg-<dataset>-upload`](#upload-gscpg-dataset-upload)
+    - [upload: `gs://cpg-<dataset>-{main,test}-upload`](#upload-gscpg-dataset-maintest-upload)
     - [archive: `gs://cpg-<dataset>-archive`](#archive-gscpg-dataset-archive)
     - [main: `gs://cpg-<dataset>-main`](#main-gscpg-dataset-main)
     - [test: `gs://cpg-<dataset>-test`](#test-gscpg-dataset-test)
@@ -79,21 +79,24 @@ increase.
 - **Storage**: Standard Storage indefinitely.
 - **Access**: Everybody in the organisation has viewer permissions.
 
-### upload: `gs://cpg-<dataset>-upload`
+### upload: `gs://cpg-<dataset>-{main,test}-upload`
 
 - **Description**: Contains files uploaded from collaborators and sequencing providers,
   as a general staging area.
 - **Main use case**: Raw sequencing reads (e.g. CRAM files) and derived data
   from initial production pipelines: QC metrics including coverage results,
   additional outputs from variant callers (e.g. structural variants,
-  repeat expansions, etc.), and GVCFs. An upload processor pipeline moves these
-  files into the _archive_ and _main_ buckets in batches, creating new releases.
+  repeat expansions, etc.), and GVCFs. After registration through the sample metadata
+  server, uploads get moved from the _upload_ bucket to the _archive_ and _main_ buckets
+  through the upload processor. Also used for uploads from collaborators, e.g. for rare
+  disease samples for seqr that get processed by the seqr loading pipeline.
 - **Storage**: Standard Storage indefinitely, but cleared up regularly by
   the upload processor.
 - **Access**: Human users get viewer permissions, to inspect the files before e.g.
-  moving a subset of the data to the _test_ bucket. Moving data from the _upload_
+  moving a subset of the data to the _test_ bucket. Moving data from the _main-upload_
   bucket to the _main_ bucket is restricted to service accounts that run workflows.
-  Sequencing providers have creator permissions, using a service account.
+  Sequencing providers have admin permissions (as composite uploads in GCP need to
+  delete temporary files), using a service account.
 
 ### archive: `gs://cpg-<dataset>-archive`
 
