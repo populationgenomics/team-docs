@@ -14,8 +14,14 @@ A *dataset* is a defined collection of resources, with an associated permissions
 - [Hail Batch](https://github.com/populationgenomics/hail)
 - Hail Query (currently through Dataproc)
 - [Analysis-runner](https://github.com/populationgenomics/analysis-runner)
-- [Sample-metadata server](https://github.com/populationgenomics/sample-metadata)
-- [Cromwell](https://github.com/broadinstitute/cromwell)
+    - A user submits a dataset, access_level, repo, commit and command to the analysis-runner,
+    - The analysis-runner confirms the user has access to the _dataset_,
+    - Using hail batch as the _service-account_ with the appropriate permissions, it checks out the repository at a specific commit
+    - Runs the command on the freshly checked out repository.
+- [Sample-metadata server](https://github.com/populationgenomics/sample-metadata): Stores metadata about participants, samples, sequences and families.
+- [Cromwell](https://github.com/broadinstitute/cromwell): Used for running WDL workflows.
+    - Access is only available through the analysis-runner.
+    - A service account is provided to Cromwell, which runs the workflow as that service-account.
 - [Seqr](https://github.com/populationgenomics/seqr):
     - Elasticsearch - managed through the GCP Marketplace.
     - Postgres - managed through the Cloud SQL.
