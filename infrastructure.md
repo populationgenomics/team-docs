@@ -13,8 +13,13 @@ A *dataset* is a defined collection of resources, with an associated permissions
 
 - [Hail Batch](https://github.com/populationgenomics/hail)
 - Hail Query (currently through Dataproc)
-- Analysis-runner
-- Sample-metadata server
+- [Analysis-runner](https://github.com/populationgenomics/analysis-runner)
+- [Sample-metadata server](https://github.com/populationgenomics/sample-metadata)
+- [Cromwell](https://github.com/broadinstitute/cromwell)
+- [Seqr](https://github.com/populationgenomics/seqr):
+    - Elasticsearch - managed through the GCP Marketplace.
+    - Postgres - managed through the Cloud SQL.
+    - Authentication using OAuth2 through the Identity-Aware Proxy.
 
 
 ## Permissions
@@ -27,29 +32,35 @@ The [storage policies](storage_policies) document has more information about the
 
 ## Example: seqr loading pipeline
 
-The seqr loading pipeline is good example, as it uses almost every single piece of architecture that the CPG offers.
+The seqr loading pipeline is good example, as it uses most components within the CPG's infrastructure.
 
-This relies on:
+This relies on the collaborator providing us their:
 
-- samples being loaded into a `dataset-main*` bucket
-- sample metadata being loaded into the sample-metadata system
+- Sequencing data (in fastqs, bams, or crams)
+    - And uploaded to our `dataset-main*` GCS bucket.
+- Relevant metadata having been uploaded to the sample-metadata system:
     - Including pedigree data, individual level metadata (eg: HPO terms)
+    - The _seqr_ wizard will pass this metadata from seqr directly.
 
 Entrypoint: [GH: hail-elasticsearch-pipelines::batch_seqr_loader/batch_workflow.py](https://github.com/populationgenomics/hail-elasticsearch-pipelines/blob/main/batch_seqr_loader/batch_workflow.py)
 
 1. The batch_workflow script is submitted to the analysis-runner, to use `main` data
-1. This script first contacts the sample-metadata system to get the active samples for the current project.
-1. It uses state in the sample-metadata to work out which samples still need to realigned, and variant called
-1. After potential alignment and variant calling, it determines the samples to add to the joint-call
-1. Spin up a dataproc cluster with vep, and submit `batch_seqr_loader/scripts/load_project_to_es.py` to the dataproc cluster.
-1. The `load_project_to_es` workflow uses hail to annotate the joint-call set with VEP, and a number of other clinical databases, before loading into elasticsearch.
+1. This script uses the sample-metadata database to get the active samples for the current project.
+1. The input data is validated:
+    - Perform relatedness checks to check the pedigree matches the genetic data.
+1. It uses state in the sample-metadata to work out which samples need to be:
+    1. Aligned (in Hail Batch)
+    2. Run germline short variant discovery to get SNPs and indels (ie: HaplotypeCaller, in Hail Batch)
+    3. (Future) Call structural variants using GATK-SV (in Cromwell from Hail Batch)
+1. Update the sample-metadata system as each of the previous results are available.
+1. Spin up a dataproc cluster to joint-call the SNPs and Indel variants for the cohort:
+    1. Run the variant combiner (in `Hail`) to add new samples to the latest joint-call set.
+1. Spin up a dataproc cluster with vep, to run the hail pipeline `batch_seqr_loader/scripts/load_project_to_es.py`:
+    1. Annotate the joint-call set with VEP and other clinical databases
+    1. Export the annotated variants into a new index on the managed ElasticSearch instance
 
 Now that the elastic search index has been created:
 
-- The seqr project can be created (if not already),
-- Export the following from the sample-metadata server and load into seqr:
-    - Pedigree
-    - (_in-progress_) family phenotypes
-    - Individual ID,Cram path,Internal SampleID map
-    - Participant-id to internal sample id map, import with the ES index name
-    - Individual level metadata
+- Link the seqr project with the new elasticsearch index:
+    - Seqr queries ES to check for the newly added samples
+- Link the aligned crams with the seqr project (for the embedded [IGV browser](https://software.broadinstitute.org/software/igv/))
