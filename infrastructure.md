@@ -2,16 +2,17 @@
 
 ## Dataset
 
-A dataset is one defined collection of resources. It has:
+A *dataset* is a defined collection of resources, with an associated permissions group for controlling access. It has:
 
 - A GCP project
-- A set of buckets
+- A set of GCS buckets
 - A set of secrets to manage access (access_group_cache, cromwell access keys)
-- A set of allowed_repositories
+- A set of GitHub repositories, whose code is allowed to access this data
 
 ## Components
 
-- Hail query / batch
+- [Hail Batch](https://github.com/populationgenomics/hail)
+- Hail Query (currently through Dataproc)
 - Analysis-runner
 - Sample-metadata server
 
