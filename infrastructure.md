@@ -25,16 +25,18 @@ A *dataset* is a defined collection of resources, with an associated permissions
 - [Cromwell](https://github.com/broadinstitute/cromwell): Used for running WDL workflows.
     - Access is only available through the analysis-runner.
     - A service account is provided to Cromwell, which runs the workflow as that service-account.
+    - Eventually we'd like to replace our managed Cromwell with [Terra](https://terra.bio/) + [WorkFlow Launcher](https://broadinstitute.github.io/wfl/terra/)
 - [Seqr](https://github.com/populationgenomics/seqr):
+    - Django app - load balanced through a managed VM instance group.
+        - Authentication using OAuth2 through the Identity-Aware Proxy.
     - Managed Elasticsearch - holds the annotated variant data, gets queried by the Django app. Managed through the GCP Marketplace.
     - Managed Postgres (Cloud SQL).
-    - Authentication using OAuth2 through the Identity-Aware Proxy.
     - Reference database is updated using Cloud Scheduler and a separately hosted Cloud Run instance of _seqr_.
 
 
 ## Permissions
 
-The [storage policies](storage_policies) document has more information about the different ways we store data in the CPG, but broadly, each dataset has three levels:
+We manage our permissions through Pulumi ([config](https://github.com/populationgenomics/analysis-runner/blob/main/stack/__main__.py)). All permissions are mirrored for each dataset. The [storage policies](storage_policies) document has more information about the different ways we store data in the CPG, but broadly, each dataset has three levels:
 
 - `test`: can run any commit on the allowed repositories, on the `dataset-test*` buckets
 - `standard`: commit MUST be on the main branch, allowed READ / WRITE access to `dataset-main*` buckets
@@ -63,9 +65,8 @@ Entrypoint: [GH: hail-elasticsearch-pipelines::batch_seqr_loader/batch_workflow.
     2. Run germline short variant discovery to get SNPs and indels (ie: HaplotypeCaller, in Hail Batch)
     3. (Future) Call structural variants using GATK-SV (in Cromwell from Hail Batch)
 1. Update the sample-metadata system as each of the previous results are available.
-1. Spin up a dataproc cluster to joint-call the SNPs and Indel variants for the cohort:
-    1. Run the `vcf_combiner` (in Hail Query) to add new samples to the latest joint-call set.
-1. Spin up a dataproc cluster with vep, to run the hail pipeline `batch_seqr_loader/scripts/load_project_to_es.py`:
+1. Joint-call the SNPs and Indel variants for the cohort using [`gatk GenotypeGVCFs`](https://github.com/populationgenomics/hail-elasticsearch-pipelines/blob/ddd3fd747bed12b2baedc067d92e8df332fca195/batch_seqr_loader/batch_workflow.py#L1655-L1656)
+1. Spin up a dataproc cluster with vep and to run the hail pipeline `batch_seqr_loader/scripts/load_project_to_es.py`:
     1. Annotate the joint-call set with VEP and other clinical databases
     1. Export the annotated variants into a new index on the managed Elasticsearch instance
 
