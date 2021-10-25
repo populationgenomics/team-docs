@@ -4,7 +4,7 @@
 
 A *dataset* is a defined collection of resources, with an associated permissions group for controlling access. It has:
 
-- A GCP project
+- A GCP project with associated billing thresholds
 - A set of GCS buckets
 - A set of secrets to manage access (access_group_cache, cromwell access keys)
 - A set of GitHub repositories, whose code is allowed to access this data
@@ -17,19 +17,19 @@ A *dataset* is a defined collection of resources, with an associated permissions
     - A user submits a dataset, access_level, repo, commit and command to the analysis-runner,
     - The analysis-runner confirms the user has access to the _dataset_,
     - Using hail batch as the _service-account_ with the appropriate permissions, it checks out the repository at a specific commit
-    - Runs the command on the freshly checked out repository.
+    - Runs the command on the freshly checked out repository: this often constructs a longer pipeline that's run in Hail Batch ("batch-in-batch").
 - [Sample-metadata server](https://github.com/populationgenomics/sample-metadata): Stores metadata about participants, samples, sequences and families.
-    - Manually managed MariaDB server (with system-versioned tables)
-    - API layer (hosted on CloudRun)
+    - Manually managed MariaDB server (with system-versioned tables).
+    - API layer hosted on Cloud Run, to check permissions and avoid direct access to SQL tables.
     - Permissions managed through secrets generated on Pulumi.
 - [Cromwell](https://github.com/broadinstitute/cromwell): Used for running WDL workflows.
     - Access is only available through the analysis-runner.
     - A service account is provided to Cromwell, which runs the workflow as that service-account.
 - [Seqr](https://github.com/populationgenomics/seqr):
-    - Elasticsearch - managed through the GCP Marketplace.
-    - Postgres - managed through the Cloud SQL.
+    - Managed Elasticsearch - holds the annotated variant data, gets queried by the Django app. Managed through the GCP Marketplace.
+    - Managed Postgres (Cloud SQL).
     - Authentication using OAuth2 through the Identity-Aware Proxy.
-    - Reference database is updated using Cloud Scheduler and a separately hosted CloudRun instance of _seqr_.
+    - Reference database is updated using Cloud Scheduler and a separately hosted Cloud Run instance of _seqr_.
 
 
 ## Permissions
@@ -54,7 +54,7 @@ This relies on the collaborator providing us their:
 
 Entrypoint: [GH: hail-elasticsearch-pipelines::batch_seqr_loader/batch_workflow.py](https://github.com/populationgenomics/hail-elasticsearch-pipelines/blob/main/batch_seqr_loader/batch_workflow.py)
 
-1. The batch_workflow script is submitted to the analysis-runner, to use `main` data
+1. The batch_workflow script is submitted to the analysis-runner, to use `main` data.
 1. This script uses the sample-metadata database to get the active samples for the current project.
 1. The input data is validated:
     - Perform relatedness checks to check the pedigree matches the genetic data.
