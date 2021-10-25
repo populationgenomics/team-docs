@@ -60,12 +60,12 @@ Entrypoint: [GH: hail-elasticsearch-pipelines::batch_seqr_loader/batch_workflow.
     3. (Future) Call structural variants using GATK-SV (in Cromwell from Hail Batch)
 1. Update the sample-metadata system as each of the previous results are available.
 1. Spin up a dataproc cluster to joint-call the SNPs and Indel variants for the cohort:
-    1. Run the variant combiner (in `Hail`) to add new samples to the latest joint-call set.
+    1. Run the `vcf_combiner` (in Hail Query) to add new samples to the latest joint-call set.
 1. Spin up a dataproc cluster with vep, to run the hail pipeline `batch_seqr_loader/scripts/load_project_to_es.py`:
     1. Annotate the joint-call set with VEP and other clinical databases
-    1. Export the annotated variants into a new index on the managed ElasticSearch instance
+    1. Export the annotated variants into a new index on the managed Elasticsearch instance
 
-Now that the elastic search index has been created:
+Now that the Elasticsearch index has been created:
 
 - Link the seqr project with the new elasticsearch index:
     - Seqr queries ES to check for the newly added samples
