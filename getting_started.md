@@ -185,6 +185,8 @@ conda channel:
    mamba create --name hail -c cpg -c bioconda -c conda-forge hail
    conda activate hail
    ```
+   
+> **_NOTE:_**  Some users have experienced issues installing hail, typically manifesting in a `nothing provides requested hail` message from conda/mamba. This has been solved by downgrading the system python to 3.7.
 
 It's a good idea to update your Hail package regularly as follows:
 
