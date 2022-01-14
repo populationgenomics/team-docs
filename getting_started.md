@@ -182,9 +182,11 @@ conda channel:
 2. Run the following to create a conda environment called `hail`:
 
    ```bash
-   mamba create --name hail -c cpg -c bioconda -c conda-forge hail
+   mamba create --name hail python=3.7 -c cpg -c bioconda -c conda-forge hail
    conda activate hail
    ```
+   
+> **_NOTE:_**  Some users have experienced issues installing hail for some system python versions. At time of writing hail only supports 3.6 and 3,7; outside of those versions conda/mamba builds will fail with a `nothing provides requested hail` message. This can be resolved by using `python=3.7` as a build argument when generating the conda environment.
 
 It's a good idea to update your Hail package regularly as follows:
 
