@@ -9,7 +9,7 @@ The interactivity of notebooks is somewhat at odds with reproducibility and code
 
 ## Creating a new notebook
 
-All notebooks should be created in the `notebooks-314505` GCP project. [Click here](https://console.cloud.google.com/vertex-ai/workbench/create-managed?project=notebooks-314505) to create a notebook instance.
+All notebooks should be created in the `notebooks-314505` GCP project. [Click here](https://console.cloud.google.com/vertex-ai/workbench/create-instance?project=notebooks-314505) to create a notebook instance.
 
 Note the following settings in the screenshot below:
 
