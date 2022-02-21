@@ -143,7 +143,7 @@ increase.
   automatically deleted.
 - **Main use case**: Hail "checkpoints" that cache results while repeatedly
   running an analysis during development.
-- **Storage**: Files that are older than 30 days get deleted automatically.
+- **Storage**: Files that are older than 8 days get deleted automatically.
 - **Access**: Same as the corresponding _main_ and _test_ buckets.
 
 ### metadata: `gs://cpg-<dataset>-{main,test}-metadata`
