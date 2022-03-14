@@ -170,7 +170,7 @@ box; however, they don't fully overlap with pylint, so it's useful to have both.
 
 ## Conda dev environment
 
-We recommend using [conda](https://github.com/populationgenomics/hail/tree/main/conda)
+We recommend using [conda](https://docs.conda.io/en/latest/)
 (or [mamba](https://github.com/mamba-org/mamba), which is a faster and almost
 drop-in replacement)
 as a package manager to describe dependencies for your project.  To set up your
