@@ -3,6 +3,20 @@
 By default, all our repositories should be public, unless there's a specific reason
 that's not possible.
 
+This document describes how to set up a new repository:
+* Within GitHub (user permissions, branch protection)
+* Applying code linters (black, pylint)
+* As a package source (setup.py, conda preparation)
+
+The [cpg-python-template-repo](https://github.com/populationgenomics/cpg-python-template-repo) template contains a 
+README & software license, and has linter configuration & github actions configured. This can be used as a starting 
+template to simplify setup. 
+
+To use this template you can either create a new repository and select this from the drop-down templates, 
+or navigate to the template repository and click `Use This Template` to begin. Branch protection rules, user access, 
+and conda/pip packaging (where appropriate) still need to be added manually. 
+---
+
 After you have created a GitHub repository, you should change the following settings:
 
 ![merge settings](figures/merge.png)
