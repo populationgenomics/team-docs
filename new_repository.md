@@ -393,6 +393,4 @@ at [https://anaconda.org/cpg](https://anaconda.org/cpg).
 
 ### Hail
 
-We also [maintain](https://github.com/populationgenomics/hail/tree/main/conda/hail)
-a `hail` conda package in the `cpg` conda channel, which is built automatically on every
-merge to main.
+We also maintain a [`hail` PyPI package](https://pypi.org/project/cpg-hail/), which is built automatically on every merge to main.
