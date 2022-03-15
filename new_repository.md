@@ -89,20 +89,20 @@ hooks with a set of linters that check and/or reformat the files in the reposito
 
 ### Setting up pre-commit
 
-When creating a new repository, please add these configuration files into the repository
-root folder (you can skip the last 3 lines if your project is not going to contain any
-Python code):
+Instead of setting up fresh pre-commit configuration, the [template repository](https://github.com/populationgenomics/cpg-python-template-repo)
+already has the following content:
 
-```sh
-# make sure you declare this variable since it is used throughout this document
-URL_NEW_REPO=https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository
+* .pre-commit-config.yaml - contains inspection settings for each tool
+* .markdownlint.json - settings for [markdownlint](https://github.com/igorshubovych/markdownlint-cli)
+* pyproject.toml - settings for [black](https://github.com/psf/black)
+* .pylintrc - settings for [pylint](https://www.pylint.org/)
+* .flake8 - specific settings for [flake8](https://flake8.pycqa.org/)
 
-wget $URL_NEW_REPO/pre-commit-config.yaml -O .pre-commit-config.yaml
-wget $URL_NEW_REPO/markdownlint.json -O .markdownlint.json
-wget $URL_NEW_REPO/pyproject.toml -O pyproject.toml
-wget $URL_NEW_REPO/pylintrc -O .pylintrc
-wget $URL_NEW_REPO/flake8 -O .flake8
-```
+Editing the content of these files can modify the behaviour of individual tools. If you want to add these files to an
+existing repository, or start a non-template repository, instructions on how to acquire these configuration files is in
+[Pre-Commit setup](pre-commit.md).
+
+### Enabling pre-commit plugins
 
 Install pre-commit and pylint into your project environment with pip or conda
 (or [mamba](https://github.com/mamba-org/mamba)). You don't need to install
