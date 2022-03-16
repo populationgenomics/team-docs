@@ -390,7 +390,3 @@ git pull --rebase main
 
 After the GitHub Actions job is complete, make sure that the new version has appeared
 at [https://anaconda.org/cpg](https://anaconda.org/cpg).
-
-### Hail
-
-We also maintain a [`hail` PyPI package](https://pypi.org/project/cpg-hail/), which is built automatically on every merge to main.

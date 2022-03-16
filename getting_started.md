@@ -174,10 +174,10 @@ genomic data analysis, developed at the Broad Institute. Given its proven
 scalability and our good relationship with the Hail development team, it's the
 Centre's main analysis platform.
 
-To install Hail, use [CPG's package](https://pypi.org/project/cpg-hail/) in PyPI:
+To install Hail, run:
 
 ```bash
-pip3 install cpg-hail
+pip3 install hail
 ```
 
 The Hail [documentation](https://hail.is/docs/0.2/index.html) is a good starting
