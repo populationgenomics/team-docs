@@ -108,8 +108,8 @@ The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have art
 
       ```sql
       use $NAMESPACE;
-
-      INSERT INTO users (state, username, email, is_developer, is_service_account, tokens_secret_name, gsa_email, gsa_key_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
+      
+      INSERT INTO users (state, username, email, is_developer, is_service_account, tokens_secret_name, hail_identity, hail_credentials_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
 
       INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', 6);
       ```

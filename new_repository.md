@@ -13,7 +13,7 @@ Under _Branches_, add a _branch protection rule_ to enforce reviews for the `mai
 
 ![branch rule](figures/branch_rule.png)
 
-Under _Manage Access_, add collaborators. Prefer to add teams instead of individual people. It's common to add `populationgenomics/software-team` and `populationgenomics/analysis-team` with _write_ permissions.
+Under _Manage Access_, add collaborators. Prefer to add teams instead of individual people. It's common to add `populationgenomics/software-team` and `populationgenomics/genomic-analysis-team` with _write_ permissions.
 
 The next step is to initiate a `README.md`, add an MIT license, and a `.gitignore`
 file, unless these files were already added previously via the GitHub web interface.
