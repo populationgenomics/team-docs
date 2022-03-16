@@ -31,7 +31,7 @@ Under _Branches_, add a _branch protection rule_ to enforce reviews for the `mai
 
 ![branch rule](figures/branch_rule.png)
 
-Under _Manage Access_, add collaborators. Prefer to add teams instead of individual people. It's common to add `populationgenomics/software-team` and `populationgenomics/analysis-team` with _write_ permissions.
+Under _Manage Access_, add collaborators. Prefer to add teams instead of individual people. It's common to add `populationgenomics/software-team` and `populationgenomics/genomic-analysis-team` with _write_ permissions.
 
 The next step is to initiate a `README.md`, add an MIT license, and a `.gitignore`
 file, unless these files were already added previously via the GitHub web interface.
@@ -188,7 +188,7 @@ box; however, they don't fully overlap with pylint, so it's useful to have both.
 
 ## Conda dev environment
 
-We recommend using [conda](https://github.com/populationgenomics/hail/tree/main/conda)
+We recommend using [conda](https://docs.conda.io/en/latest/)
 (or [mamba](https://github.com/mamba-org/mamba), which is a faster and almost
 drop-in replacement)
 as a package manager to describe dependencies for your project.  To set up your
@@ -408,9 +408,3 @@ git pull --rebase main
 
 After the GitHub Actions job is complete, make sure that the new version has appeared
 at [https://anaconda.org/cpg](https://anaconda.org/cpg).
-
-### Hail
-
-We also [maintain](https://github.com/populationgenomics/hail/tree/main/conda/hail)
-a `hail` conda package in the `cpg` conda channel, which is built automatically on every
-merge to main.
