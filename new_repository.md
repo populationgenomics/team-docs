@@ -3,6 +3,24 @@
 By default, all our repositories should be public, unless there's a specific reason
 that's not possible.
 
+This document describes how to set up a new repository:
+
+* Within GitHub (user permissions, branch protection)
+* Applying code linters (black, pylint)
+* As a package source (setup.py, conda preparation)
+
+## Repository Template
+
+The [cpg-python-template-repo](https://github.com/populationgenomics/cpg-python-template-repo) template contains a
+README & software license, and has linter configuration & github actions configured. This can be used as a starting
+template to simplify setup.
+
+To use this template you can either create a new repository and select this from the drop-down templates, or navigate
+to the template repository and click `Use This Template` to begin. Branch protection rules, user access, and conda/pip
+packaging (where appropriate) still need to be added manually.
+
+---
+
 After you have created a GitHub repository, you should change the following settings:
 
 ![merge settings](figures/merge.png)
@@ -22,20 +40,20 @@ Following that, you may want to set up linters for code style and error checks, 
 if the project can be shipped as a package - set up versioning and automated artifact
 builds. This document provides tips on how to set these things up.
 
-- [Linters](#linters)
-  - [Setting up pre-commit](#setting-up-pre-commit)
-  - [Disabling inspections](#disabling-inspections)
-  - [Visual Studio Code](#visual-studio-code)
-  - [PyCharm](#pycharm)
-- [Conda dev environment](#conda-dev-environment)
-- [Setting up setup.py](#setting-up-setuppy)
-- [Versioning project](#versioning-project)
-- [GitHub Actions](#github-actions)
-- [Packaging with conda](#packaging-with-conda)
-  - [Setting up recipe](#setting-up-recipe)
-  - [Adding GitHub Actions](#adding-github-actions)
-- [Making a release](#making-a-release)
-  - [Hail](#hail)
+* [Linters](#linters)
+  * [Setting up pre-commit](#setting-up-pre-commit)
+  * [Disabling inspections](#disabling-inspections)
+  * [Visual Studio Code](#visual-studio-code)
+  * [PyCharm](#pycharm)
+* [Conda dev environment](#conda-dev-environment)
+* [Setting up setup.py](#setting-up-setuppy)
+* [Versioning project](#versioning-project)
+* [GitHub Actions](#github-actions)
+* [Packaging with conda](#packaging-with-conda)
+  * [Setting up recipe](#setting-up-recipe)
+  * [Adding GitHub Actions](#adding-github-actions)
+* [Making a release](#making-a-release)
+  * [Hail](#hail)
 
 ## Linters
 
@@ -43,48 +61,48 @@ To help us in implementing a consistent coding style throughout our code base, w
 git [pre-commit](https://github.com/pre-commit/pre-commit)
 hooks with a set of linters that check and/or reformat the files in the repository.
 
-- pre-commit comes with
+* pre-commit comes with
   a [set of hooks](https://github.com/pre-commit/pre-commit-hooks#hooks-available) that
   perform some very useful inspections:
-  - `check-yaml` to check YAML file correctness,
-  - `end-of-file-fixer` that automatically makes sure every file ends with exactly one
+  * `check-yaml` to check YAML file correctness,
+  * `end-of-file-fixer` that automatically makes sure every file ends with exactly one
     line end character,
-  - `trailing-whitespace` that removes whitespace in line ends,
-  - `check-case-conflict` checks for files with names that would conflict on a
+  * `trailing-whitespace` that removes whitespace in line ends,
+  * `check-case-conflict` checks for files with names that would conflict on a
     case-insensitive filesystems like MacOS,
-  - `check-merge-conflict` check files that contain merge conflict strings,
-  - `detect-private-key` checks for existence of private keys
-  - `debug-statements` checks for debugger imports and py37+ breakpoint() calls in
+  * `check-merge-conflict` check files that contain merge conflict strings,
+  * `detect-private-key` checks for existence of private keys
+  * `debug-statements` checks for debugger imports and py37+ breakpoint() calls in
     Python source
-  - `check-added-large-files` prevents giant files from being committed (larger than
+  * `check-added-large-files` prevents giant files from being committed (larger than
     500kB);
-- [markdownlint](https://github.com/igorshubovych/markdownlint-cli) checks the style of
-  the Markdown code;
-- [pylint](https://www.pylint.org/) and [flake8](https://flake8.pycqa.org/) check Python
+  * [markdownlint](https://github.com/igorshubovych/markdownlint-cli) checks the style of
+    the Markdown code;
+* [pylint](https://www.pylint.org/) and [flake8](https://flake8.pycqa.org/) check Python
   code style in accordance with [PEP8](https://www.python.org/dev/peps/pep-0008/), and
   perform static analysis to catch potential programming
   errors. [flake8-quotes](https://github.com/zheller/flake8-quotes) is a plugin to
   flake8 that checks the consistency of quotes (we chose single quotes to be consistent
   with the [Hail project](https://github.com/hail-is/hail/pull/9931) code style);
-- [black](https://github.com/psf/black) reformats Python code to make it conform
+* [black](https://github.com/psf/black) reformats Python code to make it conform
   to [PEP8](https://www.python.org/dev/peps/pep-0008/).
 
 ### Setting up pre-commit
 
-When creating a new repository, please add these configuration files into the repository
-root folder (you can skip the last 3 lines if your project is not going to contain any
-Python code):
+Instead of setting up fresh pre-commit configuration, the [template repository](https://github.com/populationgenomics/cpg-python-template-repo)
+already has the following content:
 
-```sh
-# make sure you declare this variable since it is used throughout this document
-URL_NEW_REPO=https://raw.githubusercontent.com/populationgenomics/team-docs/main/new_repository
+* .pre-commit-config.yaml - contains inspection settings for each tool
+* .markdownlint.json - settings for [markdownlint](https://github.com/igorshubovych/markdownlint-cli)
+* pyproject.toml - settings for [black](https://github.com/psf/black)
+* .pylintrc - settings for [pylint](https://www.pylint.org/)
+* .flake8 - specific settings for [flake8](https://flake8.pycqa.org/)
 
-wget $URL_NEW_REPO/pre-commit-config.yaml -O .pre-commit-config.yaml
-wget $URL_NEW_REPO/markdownlint.json -O .markdownlint.json
-wget $URL_NEW_REPO/pyproject.toml -O pyproject.toml
-wget $URL_NEW_REPO/pylintrc -O .pylintrc
-wget $URL_NEW_REPO/flake8 -O .flake8
-```
+Editing the content of these files can modify the behaviour of individual tools. If you want to add these files to an
+existing repository, or start a non-template repository, instructions on how to acquire these configuration files is in
+[Pre-Commit setup](pre-commit.md).
+
+### Enabling pre-commit plugins
 
 Install pre-commit and pylint into your project environment with pip or conda
 (or [mamba](https://github.com/mamba-org/mamba)). You don't need to install
@@ -352,7 +370,7 @@ to bump the version with `bump2version` and push both the newly created
 disabled by default, you would need to create a branch, and a corresponding pull request
 against that branch. Here is the full list of steps:
 
-- Create a branch (the name can be arbitrary as this branch will be automatically
+* Create a branch (the name can be arbitrary as this branch will be automatically
   deleted after the pull request gets merged):
 
 ```bash
@@ -361,21 +379,21 @@ git fetch origin
 git reset --hard origin/main
 ```
 
-- Bump a new version (can be `minor` or `major` instead of `patch`):
+* Bump a new version (can be `minor` or `major` instead of `patch`):
 
 ```bash
 bump2version patch
 ```
 
-- Push the "Bump version" commit:
+* Push the "Bump version" commit:
 
 ```bash
 git push
 ```
 
-- Create a pull request against this `release` branch, and request a review.
+* Create a pull request against this `release` branch, and request a review.
 
-- After the pull request is merged, push the tag:
+* After the pull request is merged, push the tag:
 
 ```bash
 git push --tags
