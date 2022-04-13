@@ -1,7 +1,7 @@
 # Setting up Pre-Commit
 
-When creating a new Python code repository, the preferred approach is to create a new branch from the template repo 
-(see [new repository template](new_repository.md#Repository Template)). Where that is not possible e.g. adding 
+When creating a new Python code repository, the preferred approach is to create a new branch from the template repo
+(see [new repository template](new_repository.md#Repository Template)). Where that is not possible e.g. adding
 pre-commit to an existing repository, please add these configuration files into the root folder.
 
 (you can skip the last 3 lines if your project is not going to contain any Python code):
