@@ -9,7 +9,7 @@
     - [main: `gs://cpg-<dataset>-main`](#main-gscpg-dataset-main)
     - [test: `gs://cpg-<dataset>-test`](#test-gscpg-dataset-test)
     - [tmp: `gs://cpg-<dataset>-{main,test}-tmp`](#tmp-gscpg-dataset-maintest-tmp)
-    - [metadata: `gs://cpg-<dataset>-{main,test}-metadata`](#metadata-gscpg-dataset-maintest-metadata)
+    - [analysis: `gs://cpg-<dataset>-{main,test}-analysis`](#analysis-gscpg-dataset-maintest-analysis)
     - [web: `gs://cpg-<dataset>-{main,test}-web`](#web-gscpg-dataset-maintest-web)
     - [release: `gs://cpg-<dataset>-release-requester-pays`](#release-gscpg-dataset-release-requester-pays)
   - [Deletion](#deletion)
@@ -115,8 +115,8 @@ increase.
 
 - **Description**: Contains files that are frequently accessed for
   analysis. Long term storage is expensive, but retrieval is cheap.
-- **Main use case**: Hail tables (e.g. merged GVCF files), metadata, SV caller
-  outputs, transcript abundance files, analysis outputs, etc.
+- **Main use case**: Hail tables (e.g. merged GVCF files), SV caller
+  outputs, transcript abundance files, etc.
 - **Storage**: Standard Storage indefinitely.
 - **Access**: Human users only get listing permissions, but viewer permissions
   are granted indirectly through the [analysis runner](#analysis-runner)
@@ -146,11 +146,10 @@ increase.
 - **Storage**: Files that are older than 8 days get deleted automatically.
 - **Access**: Same as the corresponding _main_ and _test_ buckets.
 
-### metadata: `gs://cpg-<dataset>-{main,test}-metadata`
+### analysis: `gs://cpg-<dataset>-{main,test}-analysis`
 
-- **Description**: Contains metadata files, like QC metrics for sequencing results,
-  sample and variant QC summaries, phenotypical information, pedigrees, tables derived
-  from the [sample metadata database](https://github.com/populationgenomics/sample-metadata), etc.
+- **Description**: Contains derived results which should be human-readable, e.g. summary
+  tables in CSV format, QC metrics, etc.
 - **Main use case**: Summary information from analyses, but also inputs for e.g. GWAS.
   Often, these files will be processed further to produce human-readable reports in the
   `web` bucket.
