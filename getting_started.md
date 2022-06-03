@@ -93,10 +93,8 @@ If there are items for the author to address, then submit your review with
 "Request Changes". Otherwise, once you are happy with the changes and all
 comments have been addressed, you can "Approve" the PR.
 
-After approving, you can also merge the PR. Unless you added any feedback (even
-minor one: thoughts, minor suggestions, pointers to something related) - in this
-case, it's preferrable to leave merging to the author in case the author wants
-to act on your feedback.
+Unless you left new feedback, or unless the author of the PR asked otherwise, you
+should also merge the PR after approving.
 
 Before merging, double-check that all review comments have been addressed. Preferably
 use "squash merging" to keep the history clean; the exception to this are upstream
