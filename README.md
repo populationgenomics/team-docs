@@ -19,3 +19,4 @@ the `#team-software` or `#team-analysis` channels).
 - [Hail Batch developer setup](hail_batch_dev.md)
 - [Setting up your terminal](terminal.md)
 - [Data sharing](data_sharing.md)
+- [R style guide](r_style_guide.md)
