@@ -11,7 +11,7 @@
     - [tmp: `gs://cpg-<dataset>-{main,test}-tmp`](#tmp-gscpg-dataset-maintest-tmp)
     - [analysis: `gs://cpg-<dataset>-{main,test}-analysis`](#analysis-gscpg-dataset-maintest-analysis)
     - [web: `gs://cpg-<dataset>-{main,test}-web`](#web-gscpg-dataset-maintest-web)
-    - [release: `gs://cpg-<dataset>-release-requester-pays`](#release-gscpg-dataset-release-requester-pays)
+    - [release: `gs://cpg-<dataset>-release`](#release-gscpg-dataset-release)
   - [Deletion](#deletion)
   - [Access permissions](#access-permissions)
   - [Analysis runner](#analysis-runner)
@@ -174,7 +174,7 @@ increase.
   
   For example, adding `gs://cpg-<dataset>-main-web/some_group/.access` will control the access for all files under `gs://cpg-<dataset>-main-web/some_group/`, including files in lower subdirectories, like `gs://cpg-<dataset>-main-web/some_group/subdir/report.html`.
 
-### release: `gs://cpg-<dataset>-release-requester-pays`
+### release: `gs://cpg-<dataset>-release`
 
 - **Description**: Contains data that's shared with other researchers or is
   publicly available. Long term storage is expensive, but network egress costs
