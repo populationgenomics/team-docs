@@ -1,6 +1,6 @@
 # Configuration
 
-The [cpg-utils library](https://github.com/populationgenomics/cpg-utils) ([pypi](https://pypi.org/project/cpg-utils/)) contains a streamlined config management tool. This config management is used by the seqr-loader pipeline, but is useful in projects at any scale.
+The [cpg-utils library](https://github.com/populationgenomics/cpg-utils) ([pypi](https://pypi.org/project/cpg-utils/)) contains a streamlined config management tool. This config management is used by most production CPG workflows, but is useful in projects or scripts at any scale.
 
 This configuration tool uses one or more `TOML` files, and creates a dictionary of key-value attributes which can be accessed at any point, without explicitly passing a configuration object.
 
