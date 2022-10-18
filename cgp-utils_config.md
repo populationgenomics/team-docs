@@ -1,6 +1,6 @@
 # Configuration
 
-The cpg-utils library [link]() [pypi](https://pypi.org/project/cpg-utils/) contains a streamlined config management tool [link](https://github.com/populationgenomics/cpg-utils/blob/main/cpg_utils/config.py). This config management is used by the seqr-loader pipeline, but is useful in projects at any scale.
+The [cpg-utils library](https://github.com/populationgenomics/cpg-utils) ([pypi](https://pypi.org/project/cpg-utils/)) contains a streamlined config management tool. This config management is used by the seqr-loader pipeline, but is useful in projects at any scale.
 
 This configuration tool uses one or more `TOML` files, and creates a dictionary of key-value attributes which can be accessed at any point, without explicitly passing a configuration object.
 
@@ -51,16 +51,17 @@ Configuration files can be set in two ways:
 1. Set the `CPG_CONFIG_PATH` environment variable
 2. Use `set_config_paths` to point to one or more config TOMLs
 
-`CPG_CONFIG_PATH` can be a comma-delimited String, and the argument to `set_config_paths` is a list of `strings`. The 
+`CPG_CONFIG_PATH` can be a comma-delimited String, and the argument to `set_config_paths` is a list of `strings`. The
 config functionality allows for multiple files to be specified, applied in the following way:
 
-1. The cpg-utils repository contains a template config, 
+1. The cpg-utils repository contains a template config,
 [toml template](https://github.com/populationgenomics/cpg-utils/blob/main/cpg_utils/config-template.toml); this is loaded first and becomes the base config.
 2. For each additional config file in order, recursively update the base config with further content. New content is added, and content with the exact same key is updated/replaced.
 
 #### config loading example
 
 First file:
+
 ```toml
 [file]
 name = "first.toml"
@@ -69,6 +70,7 @@ square = 4
 ```
 
 Second file:
+
 ```toml
 [file]
 name = "second.toml"
