@@ -20,4 +20,4 @@ the `#team-software` or `#team-analysis` channels).
 - [Setting up your terminal](terminal.md)
 - [Data sharing](data_sharing.md)
 - [R style guide](r_style_guide.md)
-- [cpg-utils config guide](cgp-utils_config.md)
+- [`cpg-utils` config guide](cpg_utils_config.md)
