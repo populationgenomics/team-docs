@@ -2,7 +2,7 @@
 
 The [`cpg-utils` library](https://github.com/populationgenomics/cpg-utils) ([pypi](https://pypi.org/project/cpg-utils/)) contains a streamlined config management tool. This config management is used by most production CPG workflows, but is useful in projects or scripts at any scale.
 
-This configuration tool uses one or more `TOML` files, and creates a dictionary of key-value attributes which can be accessed at any point, without explicitly passing a configuration object.
+This configuration tool uses one or more `TOML` files, and creates a dictionary of key-value attributes which can be accessed at any point, without explicitly passing a configuration object. If jobs are set up using `analysis-runner`, config will be set up automatically within each job environment. Please see the end section of this document for extra details on how to set up config outside analysis-runner. 
 
 ## TOML
 
@@ -71,7 +71,7 @@ Result:
 
 It's important to note that the config files are loaded 'left-to-right', so when multiple configuration files are loaded, only the right-most value for any overlapping keys will be retained.  
 
-This configuration template contains a number of 'live' attributes, as well as many which are commented out (which is permitted in TOML). These commented out attributes provide examples of useful content in the configuration file, and logical places to place them in the overall config structure (e.g. many examples of content expected to appear in `['workflow']`).
+This configuration template contains a number of 'live' attributes, as well as many which are commented out (which is permitted in TOML). These commented out attributes provide examples of useful content in the configuration file, and logical places to place them in the overall config structure (e.g. many examples of content expected to appear in `['workflow']`). If you find a useful config parameter missing from the base template, please create a PR adding new content into the template.
 
 
 
@@ -88,7 +88,7 @@ The `--config` flag can be used multiple times, which will cause the argument fi
 
 If batch jobs are run in containers, passing the environment variable to those containers will allow the same configuration file to be used throughout the Hail Batch. The `cpg-utils.hail_batch.copy_common_env` [method](https://github.com/populationgenomics/cpg-utils/blob/main/cpg_utils/hail_batch.py#L54) facilitates this environment duplication, and [container authentication](https://github.com/populationgenomics/cpg-utils/blob/main/cpg_utils/hail_batch.py#L427-L454) is required to make the file path in GCP accessible.
 
-Even without additional configurations, analysis-runner will load the template, and supplement the content with some run-specific attributes, e.g.
+Even without additional configurations, analysis-runner will load the template, and supplement with run-specific attributes, e.g.
 
 - `get_config()['workflow']['access_level']` e.g. test, or standard
 - `get_config()['workflow']['dataset']` e.g. tob-wgs, or acute-care
@@ -101,7 +101,7 @@ To use the `cpg_utils.config` functions, import `get_config` into any code:
 from cpg_utils.config import get_config
 ```
 
-Once configuration paths are set, values can be retrieved at any point using `get_config`. The first call to `get_config` sets the global config dictionary and returns the content, subsequent calls will just return the config dictionary.
+The first call to `get_config` sets the global config dictionary and returns the content, subsequent calls will just return the config dictionary.
 
 ```python
 assert get_config()['file'] == 'second.toml'
@@ -113,9 +113,10 @@ Because configuration is loaded lazily, start-up overhead is minimal, but can re
 
 ## Config outside Analysis-Runner
 
-The config management functions can be used outside `analysis-runner`, which requires the user to manually set the config file(s) to be read. Configuration files can be set in two ways:
+The config utility can be used outside `analysis-runner`, requiring the user to manually set the config file(s) to be read. Configuration files can be set in two ways:
 
 1. Set the `CPG_CONFIG_PATH` environment variable
 2. Use `set_config_paths` to point to one or more config TOMLs
+    - `from cpg_utils.config import set_config_paths`  
 
-Outside of `analysis-runner`, the configuration will be loaded on top of the base template in `cpg-utils`.
+When configuration is loaded outside `analysis-runner`, the content is still loaded on top of the base template in the `cpg-utils` package.
