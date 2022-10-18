@@ -56,7 +56,7 @@ config functionality allows for multiple files to be specified, applied in the f
 
 1. The cpg-utils repository contains a template config, 
 [toml template](https://github.com/populationgenomics/cpg-utils/blob/main/cpg_utils/config-template.toml); this is loaded first and becomes the base config.
-2. For each additional config file in order, recursively update the base config with any new content. New content is added, and content with the exact same key is updated.
+2. For each additional config file in order, recursively update the base config with further content. New content is added, and content with the exact same key is updated/replaced.
 
 #### config loading example
 
@@ -109,4 +109,4 @@ The `--config` flag can be used multiple times, which will cause the argument fi
 4. The env. variable `CPG_CONFIG_PATH` is set to this new TOML location
 5. Within the driver image `get_config()` can be called safely with no further manual config setting
 
-If batch jobs are run in containers, passing the environment variable to those containers will allow the same configuration file to be used throughout the Hail Batch. The `cpg-utils.hail_batch.copy_common_env` [method](https://github.com/populationgenomics/cpg-utils/blob/main/cpg_utils/hail_batch.py#L54) facilitates this environment duplication.
+If batch jobs are run in containers, passing the environment variable to those containers will allow the same configuration file to be used throughout the Hail Batch. The `cpg-utils.hail_batch.copy_common_env` [method](https://github.com/populationgenomics/cpg-utils/blob/main/cpg_utils/hail_batch.py#L54) facilitates this environment duplication, and [container authentication](https://github.com/populationgenomics/cpg-utils/blob/main/cpg_utils/hail_batch.py#L427-L454) is required to make the file path in GCP accessible.
