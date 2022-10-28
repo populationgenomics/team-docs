@@ -8,6 +8,7 @@
     "allowed_elements": ["details", "img"]
   },
   "ul-indent": false,          // To allow indenting the whole list to distinguish it visually
-  "no-multiple-blanks": false  // To allow multiple blank lines between a header and
+  "no-multiple-blanks": false, // To allow multiple blank lines between a header and
                                // the previous paragraph
+  "no-inline-html": false      // allow anchors
 }
