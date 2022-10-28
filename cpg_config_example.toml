@@ -1,0 +1,60 @@
+# Example of a config containing values typically used by functions in 
+# the `cpg-utils`. These values would be normally set by the analysis-runner
+# automatically.
+
+[workflow]
+# Access level (test, standard, full). Translates into the storage and inputs
+# namespace (test or main).
+access_level = 'standard'
+
+# Dataset name to write intermediate files and use as hail billing project,
+# (unless specified in hail.hail_billing_project).
+dataset = 'seqr'
+
+# Prefix to find docker images referenced in `image_config_yaml_path`.
+image_registry_prefix = 'australia-southeast1-docker.pkg.dev/cpg-common/images'
+
+# Prefix to find reference files referenced in `refdata_yaml_path`
+reference_prefix = 'gs://cpg-reference'
+
+# Template to build HTTP URLs matching the dataset_path of category
+# "web". Should be parametrised by namespace and dataset in Jinja format:
+web_url_template = 'https://{namespace}-web.populationgenomics.org.au/{dataset}'
+
+# GCP project to activate with gcloud, as well as for requester-pays buckets. 
+dataset_gcp_project = 'seqr-308602'
+
+# Hail Batch and Query parameters:
+[hail]
+billing_project = 'seqr'  # passed to ServiceBackend(...)
+pool_label = 'seqr'  # passed to Batch(...)
+# cancel_after_n_failures =  # passed to Batch(...)
+# default_timeout =  # passed to Batch(...)
+# default_memory =  # passed to Batch(...)
+delete_scratch_on_exit = false  # passed to Batch.run(...)
+dry_run = false  # passed to Batch.run(...)
+
+# Docker image URLs, relatives to `[workflow].image_registry_prefix`,
+# can be used as `cpg_utils.hail_batch.image_path('gatk')`
+[images]
+gatk = 'gatk:4.2.6.1'
+# ...
+
+[references]
+genome_build = 'GRCh38'
+
+# Reference files paths, relative to `[workflow].reference_prefix`
+# can be used as `cpg_utils.hail_batch.reference_path('liftover_38_to_37')`
+liftover_38_to_37 = 'liftover/grch38_to_grch37.over.chain.gz'
+# ...
+
+[references.broad]
+# Path to a copy of the Broad reference bucket
+# gs://gcp-public-data--broad-references/hg38/v0
+prefix = 'hg38/v0'
+# This `prefix` here means that `cpg_utils.hail_batch.reference_path('broad/ref_fasta')`
+# assuming `reference_prefix='gs://cpg-reference'`, would return:
+# 'gs://cpg-reference/hg38/v0/dragen_reference/Homo_sapiens_assembly38_masked.fasta'
+
+ref_fasta = 'dragen_reference/Homo_sapiens_assembly38_masked.fasta'
+# ...
