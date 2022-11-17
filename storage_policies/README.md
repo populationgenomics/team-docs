@@ -254,6 +254,6 @@ For operations like joint-calling, it's often necessary to combine multiple data
 
 ## Deployment
 
-See the [analysis runner repository](https://github.com/populationgenomics/analysis-runner/tree/main/stack)
+See the [cpg-infrastructure repository](https://github.com/populationgenomics/cpg-infrastructure/tree/main/stack)
 for the deployment configuration that can be used to bring up a stack
 corresponding to a dataset.
