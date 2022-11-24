@@ -169,6 +169,13 @@ in mind that any non-public genomic data is highly sensitive. Leaving the data
 in the cloud also avoids incurring any egress costs that apply when downloading
 the data.
 
+## Genomics Overview
+If you're new to genomics (or would be interested in a refresher) you might like to explore the [learngenomics.dev](https://learngenomics.dev/) resource.
+
+It was written by and for computer scientists and engineers, and provides an awesome overview of pertinent biological concepts.
+
+Note, while the resource approaches the topics from the lens of cancer genomics, most of the topics are still very relevant to our current work. 
+
 ## Hail
 
 [Hail](https://hail.is) is an amazing open source library and platform for
