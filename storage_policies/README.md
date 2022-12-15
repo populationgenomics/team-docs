@@ -3,7 +3,7 @@
 - [Storage policies](#storage-policies)
   - [Typical data flow](#typical-data-flow)
   - [Buckets](#buckets)
-    - [reference: `gs://cpg-reference`](#reference-gscpg-reference)
+    - [reference: `gs://cpg-common-main/references`](#reference-gscpg-reference)
     - [upload: `gs://cpg-<dataset>-{main,test}-upload`](#upload-gscpg-dataset-maintest-upload)
     - [archive: `gs://cpg-<dataset>-archive`](#archive-gscpg-dataset-archive)
     - [main: `gs://cpg-<dataset>-main`](#main-gscpg-dataset-main)
@@ -69,7 +69,7 @@ increments. The addition of significant numbers of samples or the use of a
 substantially different analysis method usually justifies a major version
 increase.
 
-### reference: `gs://cpg-reference`
+### reference: `gs://cpg-common-main/references`
 
 - **Description**: Contains reference data that's independent of any particular
   dataset, e.g. the GRCh38 human reference genome sequences used for alignment,
