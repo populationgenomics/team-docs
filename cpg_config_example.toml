@@ -15,7 +15,7 @@ dataset = 'seqr'
 image_registry_prefix = 'australia-southeast1-docker.pkg.dev/cpg-common/images'
 
 # Prefix to find reference files referenced in `refdata_yaml_path`
-reference_prefix = 'gs://cpg-reference'
+reference_prefix = 'gs://cpg-common-main/references'
 
 # Template to build HTTP URLs matching the dataset_path of category
 # "web". Should be parametrised by namespace and dataset in Jinja format:
@@ -53,8 +53,8 @@ liftover_38_to_37 = 'liftover/grch38_to_grch37.over.chain.gz'
 # gs://gcp-public-data--broad-references/hg38/v0
 prefix = 'hg38/v0'
 # This `prefix` here means that `cpg_utils.hail_batch.reference_path('broad/ref_fasta')`
-# assuming `reference_prefix='gs://cpg-reference'`, would return:
-# 'gs://cpg-reference/hg38/v0/dragen_reference/Homo_sapiens_assembly38_masked.fasta'
+# assuming `reference_prefix='gs://cpg-common-main/references'`, would return:
+# 'gs://cpg-common-main/references/hg38/v0/dragen_reference/Homo_sapiens_assembly38_masked.fasta'
 
 ref_fasta = 'dragen_reference/Homo_sapiens_assembly38_masked.fasta'
 # ...
