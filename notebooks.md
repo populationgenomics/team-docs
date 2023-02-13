@@ -34,3 +34,32 @@ Our [Hail notebook image](https://github.com/populationgenomics/images/blob/main
 ```bash
 cd $(find_spark_home.py)/jars && curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop2-2.0.1.jar && cd -
 ```
+
+## Using Visual Studio Code as a notebook IDE
+
+Instead of the default Jupyter notebook IDE in the browser, you can also use Visual Studio Code on your local machine and connect to the notebook kernel running remotely.
+
+![VS Code notebook screenshot](figures/vs_code_notebook.png)
+
+There are a few steps to go through the first time you want to connect to a newly started notebook running on Google Cloud, but it's quick to reconnect afterwards.
+
+The following instructions are a summary of [this guide](https://medium.com/google-cloud/choose-the-ide-you-want-and-develop-on-vertex-ai-workbench-part-i-94d19ca1d2ff):
+
+1. Create a new notebook as explained [above](#creating-a-new-notebook).
+1. Install the [Google Cloud Code](https://marketplace.visualstudio.com/items?itemName=GoogleCloudTools.cloudcode) extension.
+1. In the status bar at the bottom, switch to the `notebooks-314505` project.
+1. Select the _Cloud Code_ extension, navigate to `Compute Engine`, and connect to your notebook VM using SSH.
+1. On the remote machine, enter `whoami` and note the result, which should look like `jane_doe_population`.
+1. Run `sudo usermod -aG docker $USER` on the remote machine.
+1. Disconnect (`exit`) and back on your local machine, run:
+
+   ```sh
+   gcloud --project=notebooks-314505 compute config-ssh
+   ```
+
+1. This should have populated your `~/.ssh/config` file. Open this file and find the `Host` associated with your notebook (based on its name). In that section, add the line `User=jane_doe_population`, copying the correct value from the previous step above.
+1. Back in VS Code, run the _Remote-SSH: Connect to Host..._ command and select your notebook VM. This should open a new window.
+1. In the new window, run the _Dev Containers: Attach to Running Container..._ command. Select the `/payload-container` entry. This will open up yet another window!
+1. In the new window, attached to the container, install the _Python_ and _Jupyter_ extensions in the container.
+1. Run the _Create: New Jupyter Notebook_ command.
+1. In the upper right, select the `python310` kernel.
