@@ -175,7 +175,7 @@ If you're new to genomics (or would be interested in a refresher) you might like
 
 It was written by and for computer scientists and engineers, and provides an awesome overview of pertinent biological concepts.
 
-Note, while the resource approaches the topics from the lens of cancer genomics, most of the topics are still very relevant to our current work. 
+Note, while the resource approaches the topics from the lens of cancer genomics, most of the topics are still very relevant to our current work.
 
 ## Hail
 
