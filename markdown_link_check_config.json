@@ -1,7 +1,10 @@
 {
   "ignorePatterns": [
     {
-      "pattern": "batch.hail.populationgenomics.org.au$"
+      "pattern": "batch.hail.populationgenomics.org.au"
+    },
+    {
+      "pattern": "github.com/populationgenomics/cpg-infrastructure-private"
     }
   ],
   "httpHeaders": [
