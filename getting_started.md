@@ -169,7 +169,7 @@ in mind that any non-public genomic data is highly sensitive. Leaving the data
 in the cloud also avoids incurring any egress costs that apply when downloading
 the data.
 
-## Genomics Overview
+## Genomics overview
 
 If you're new to genomics (or would be interested in a refresher) you might like to explore the [learngenomics.dev](https://learngenomics.dev/) resource.
 
