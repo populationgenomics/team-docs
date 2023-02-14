@@ -254,6 +254,6 @@ For operations like joint-calling, it's often necessary to combine multiple data
 
 ## Deployment
 
-See the [cpg-infrastructure repository](https://github.com/populationgenomics/cpg-infrastructure/tree/main/stack)
-for the deployment configuration that can be used to bring up a stack
-corresponding to a dataset.
+See the [cpg-infrastructure-private repository](https://github.com/populationgenomics/cpg-infrastructure-private)
+for the deployment configuration that can be used to bring up
+resources for a dataset.

@@ -36,7 +36,7 @@ A *dataset* is a defined collection of resources, with an associated permissions
 
 ## Permissions
 
-We manage our permissions through Pulumi ([config](https://github.com/populationgenomics/cpg-infrastructure/blob/main/stack/__main__.py)). All permissions are mirrored for each dataset. The [storage policies](storage_policies) document has more information about the different ways we store data in the CPG, but broadly, each dataset has three levels:
+We manage our permissions through Pulumi ([cpg-infrastructure](https://github.com/populationgenomics/cpg-infrastructure/blob/main/cpg_infra/driver.py)). All permissions are mirrored for each dataset. The [storage policies](storage_policies) document has more information about the different ways we store data in the CPG, but broadly, each dataset has three levels:
 
 - `test`: can run any commit on the allowed repositories, on the `dataset-test*` buckets
 - `standard`: commit MUST be on the main branch, allowed READ / WRITE access to `dataset-main*` buckets
