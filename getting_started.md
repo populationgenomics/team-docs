@@ -170,6 +170,7 @@ in the cloud also avoids incurring any egress costs that apply when downloading
 the data.
 
 ## Genomics Overview
+
 If you're new to genomics (or would be interested in a refresher) you might like to explore the [learngenomics.dev](https://learngenomics.dev/) resource.
 
 It was written by and for computer scientists and engineers, and provides an awesome overview of pertinent biological concepts.
