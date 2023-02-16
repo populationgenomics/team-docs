@@ -76,7 +76,7 @@ increase.
   the GENCODE GTF used for functional annotations, the version of dbSNP used to
   add rsIDs, etc. These resource "bundles" are versioned together.
   Most pipelines will depend on this bucket to some degree.
-- **Storage**: Standard Storage indefinitely.
+- **Storage**: [Autoclass](https://cloud.google.com/storage/docs/autoclass).
 - **Access**: Everybody in the organisation has viewer permissions.
 
 ### upload: `gs://cpg-<dataset>-{main,test}-upload`
@@ -90,8 +90,7 @@ increase.
   server, uploads get moved from the _upload_ bucket to the _archive_ and _main_ buckets
   through the upload processor. Also used for uploads from collaborators, e.g. for rare
   disease samples for seqr that get processed by the seqr loading pipeline.
-- **Storage**: Standard Storage indefinitely, but cleared up regularly by
-  the upload processor.
+- **Storage**: [Autoclass](https://cloud.google.com/storage/docs/autoclass), but should be cleared up regularly by the upload processor.
 - **Access**: Human users get viewer permissions, to inspect the files before e.g.
   moving a subset of the data to the _test_ bucket. Moving data from the _main-upload_
   bucket to the _main_ bucket is restricted to service accounts that run workflows.
@@ -104,10 +103,7 @@ increase.
   storage is cheap, but _retrieval is very expensive_.
 - **Main use case**: Raw sequencing reads (e.g. CRAM files) and potentially
   GVCFs (after conversion to Hail MatrixTables).
-- **Storage**: Standard Storage for 30 days, before changing to Archive Storage.
-  This allows workflows to do post-processing of the data shortly after initial
-  creation (e.g. copying windowed regions of raw reads around interesting
-  variants) before retrieval becomes expensive.
+- **Storage**: Immediate Archive Storage, which means that both reading of data is [very expensive](https://cloud.google.com/storage/pricing#retrieval-pricing) as well as [early deletion fees](https://cloud.google.com/storage/pricing-examples#early-delete) apply, which includes moving / renaming files.
 - **Access**: Restricted to service accounts that run workflows, to avoid
   accidental retrieval costs incurred by human readers.
 
@@ -117,7 +113,7 @@ increase.
   analysis. Long term storage is expensive, but retrieval is cheap.
 - **Main use case**: Hail tables (e.g. merged GVCF files), SV caller
   outputs, transcript abundance files, etc.
-- **Storage**: Standard Storage indefinitely.
+- **Storage**: [Autoclass](https://cloud.google.com/storage/docs/autoclass).
 - **Access**: Human users only get listing permissions, but viewer permissions
   are granted indirectly through the [analysis runner](#analysis-runner)
   described below. This avoids high costs through code that hasn't been
@@ -132,7 +128,7 @@ increase.
 - **Main use case**: Iterate quickly on new pipelines during development.
   This bucket contains representative data, but given the much smaller dataset
   size the risk of accidental high cloud computing costs is greatly reduced.
-- **Storage**: Standard Storage indefinitely.
+- **Storage**: [Autoclass](https://cloud.google.com/storage/docs/autoclass).
 - **Access**: Human users get admin permissions, so pipeline code doesn't need to be
   reviewed before this data can be read or written.
 
@@ -143,7 +139,7 @@ increase.
   automatically deleted.
 - **Main use case**: Hail "checkpoints" that cache results while repeatedly
   running an analysis during development.
-- **Storage**: Files that are older than 8 days get deleted automatically.
+- **Storage**: Standard Storage, but files that are older than 8 days get deleted automatically.
 - **Access**: Same as the corresponding _main_ and _test_ buckets.
 
 ### analysis: `gs://cpg-<dataset>-{main,test}-analysis`
@@ -153,7 +149,7 @@ increase.
 - **Main use case**: Summary information from analyses, but also inputs for e.g. GWAS.
   Often, these files will be processed further to produce human-readable reports in the
   `web` bucket.
-- **Storage**: Standard Storage indefinitely.
+- **Storage**: [Autoclass](https://cloud.google.com/storage/docs/autoclass).
 - **Access**: Same as the corresponding _main_ and _test_ buckets, with additional
   viewer permissions for humans.
 
@@ -162,7 +158,7 @@ increase.
 - **Description**: Contains static web content, like QC reports as HTML pages,
   which is served through an access-restricted web server.
 - **Main use case**: Human-readable analysis results, like reports and notebooks.
-- **Storage**: Standard Storage indefinitely.
+- **Storage**: [Autoclass](https://cloud.google.com/storage/docs/autoclass).
 - **Access**: Same as the corresponding _main_ and _test_ buckets, with additional
   viewer permissions for humans.
 
@@ -182,7 +178,7 @@ increase.
 - **Main use case**: Aggregate results that are made publicly available or
   snapshots of datasets that are shared with other researchers through
   restricted access.
-- **Storage**: Standard Storage indefinitely.
+- **Storage**: [Autoclass](https://cloud.google.com/storage/docs/autoclass).
 - **Access**: Human users only get viewer permissions, to reduce the risk of
   accidental modification / deletion of files.
 
