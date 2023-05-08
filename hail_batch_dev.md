@@ -281,6 +281,7 @@ At the moment, this just covers the Google Cloud deployment.
    gcloud config set project hail-295901
    gcloud config set compute/zone australia-southeast1-b
    gcloud auth configure-docker australia-southeast1-docker.pkg.dev
+   gcloud components install gke-gcloud-auth-plugin
    gcloud container clusters get-credentials vdc
    ```
 
@@ -305,6 +306,10 @@ At the moment, this just covers the Google Cloud deployment.
    kubectl delete pods -l "app in ($SERVICES_TO_RESTART)"
    ```
 
-1. [Verify in a browser](https://batch.hail.populationgenomics.org.au/) that the expiration date for the certificate has been extended.
+1. Verify that the expiration date for the certificate has been extended:
+
+    ```bash
+    echo | openssl s_client -servername batch.hail.populationgenomics.org.au -connect batch.hail.populationgenomics.org.au:443 2>/dev/null | openssl x509 -noout -dates
+    ```
 
 1. Don't forget to stop the [`hail-setup` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-setup?project=hail-295901). Please don't delete it!
