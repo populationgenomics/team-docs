@@ -249,3 +249,60 @@ When users submit a batch, they specify a billing project which will be charged 
 Billing projects also determine the visibility of batches. If two users use the same billing project, they can see each other's batches submitted under that billing project.
 
 For each of our [datasets](storage_policies), we have a dedicated Hail billing project. Whenever someone gets added to the dataset's permission group, they should also be added to the corresponding Hail Batch billing project.
+
+## Updating TLS (HTTPS) certificates
+
+At the moment, this just covers the Google Cloud deployment.
+
+1. Start the [`hail-setup` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-setup?project=hail-295901).
+1. Connect to the VM using SSH:
+
+  ```bash
+   gcloud --project=hail-295901 compute ssh hail-setup
+   ```
+
+1. Once connected, clone the GitHub repository (if not already done):
+
+  ```bash
+  git clone https://github.com/populationgenomics/hail.git
+  ```
+
+1. Make sure you're up-to-date with the `main` branch.
+
+  ```bash
+  cd hail
+  git switch main
+  git pull
+  ```
+
+1. Make sure the Google Cloud credentials have been set up:
+
+  ```bash
+  gcloud config set project hail-295901
+  gcloud config set compute/zone australia-southeast1-b
+  gcloud auth configure-docker australia-southeast1-docker.pkg.dev
+  gcloud container clusters get-credentials vdc
+  ```
+
+1. Now regenerate the certificates, which might take a couple of minutes:
+
+  ```bash
+  cd letscencrypt
+  make run NAMESPACE=default
+  ```
+
+1. Once the above command  has finished successfully, it's time to [restart the Hail services](https://github.com/populationgenomics/hail/blob/main/dev-docs/tls-cookbook.md#regenerate-all-the-certificates) to pick up the new certificates. This will cause a very short downtime, but won't interrupt any running batches.
+
+  ```bash
+  export HAIL=$HOME/hail
+
+  SERVICES_TO_RESTART=$(python3 -c 'import os
+  import yaml
+  hail_dir = os.getenv("HAIL")
+  x = yaml.safe_load(open(f"{hail_dir}/tls/config.yaml"))["principals"]
+  print(",".join(x["name"] for x in x))')
+
+  kubectl delete pods -l "app in ($SERVICES_TO_RESTART)"
+  ```
+
+1. [Verify in a browser](https://batch.hail.populationgenomics.org.au/) that the expiration date for the certificate has been extended.
