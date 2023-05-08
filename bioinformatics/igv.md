@@ -9,7 +9,7 @@ tool used for the scalable visualisation of genomics data and annotations in
 several file formats (e.g. BAM, CRAM, VCF, BED etc.).
 
 For installation of the Java desktop application, follow the
-[download instructions](http://software.broadinstitute.org/software/igv/download).
+[download instructions](https://software.broadinstitute.org/software/igv/download)
 Mac users can extract the App from the downloaded zip file and drag it into
 their Applications folder.
 
