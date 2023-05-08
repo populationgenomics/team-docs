@@ -291,7 +291,7 @@ At the moment, this just covers the Google Cloud deployment.
    make run NAMESPACE=default
    ```
 
-1. Once the above command  has finished successfully, it's time to [restart the Hail services](https://github.com/populationgenomics/hail/blob/main/dev-docs/tls-cookbook.md#regenerate-all-the-certificates) to pick up the new certificates. This will cause a very short downtime, but won't interrupt any running batches.
+1. Once the above command  has finished successfully, it's time to [restart the Hail services](https://github.com/populationgenomics/hail/blob/main/dev-docs/tls-cookbook.md#regenerate-all-the-certificates) to pick up the new certificates. This will cause a very short downtime, but won't interrupt any running batches:
 
    ```bash
    export HAIL=$HOME/hail
