@@ -307,4 +307,4 @@ At the moment, this just covers the Google Cloud deployment.
 
 1. [Verify in a browser](https://batch.hail.populationgenomics.org.au/) that the expiration date for the certificate has been extended.
 
-1. Don't forget to shut down the [`hail-setup` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-setup?project=hail-295901). Please don't delete it!
+1. Don't forget to stop the [`hail-setup` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-setup?project=hail-295901). Please don't delete it!
