@@ -261,7 +261,13 @@ At the moment, this just covers the Google Cloud deployment.
    gcloud --project=hail-295901 compute ssh hail-setup
    ```
 
-1. Once connected, clone the GitHub repository (if not already done):
+1. Add yourself to the `docker` group (if not already done previously). Make sure to log out and back in again after running this command:
+
+   ```bash
+   sudo usermod -aG docker $USER
+   ```
+
+1. Once connected, clone the GitHub repository (if not already done previously):
 
    ```bash
    git clone https://github.com/populationgenomics/hail.git
