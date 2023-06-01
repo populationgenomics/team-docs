@@ -8,7 +8,7 @@ Some _you should knows_ from the start:
     - Compute through Dataproc and notebooks DO get assigned to the GCP project.
 - Hail maintains its own set of [_cumulative_ budgets](https://batch.hail.populationgenomics.org.au/billing_limits), in USD.
 - GCP budgets are _monthly_ and _reset_ on the 1st of each month (in Pacific Time, about 5 PM AEST).
-    - GCP budgets are managed in cpg-infrastructure-private (except Hail).
+    - GCP budgets are managed in [cpg-infrastructure-private](https://github.com/populationgenomics/cpg-infrastructure-private) (except Hail).
 
 ## Costs
 
@@ -38,7 +38,7 @@ Storage:
 1. You should make sure the budget for DATASET's GCP project is set to cover the extra files you intend to produce.
     1. Follow the steps above to bump the budget for DATASET's project.
 1. Estimate the cost of analysis (in AUD) and ensure:
-    1. The GCP budget for `hail-295901` has been updated to include the AUD cost of your analysis (including the cost of running Hail + other people's analysis). This must be done manually through the [budgets page](https://console.cloud.google.com/billing/01D012-20A6A2-CBD343/budgets?organizationId=648561325637).
+    1. The GCP budget for `hail-295901` has been updated to include the AUD cost of your analysis (including the cost of running Hail + other people's analysis). This must be done manually through the [budgets page](https://console.cloud.google.com/billing/01D012-20A6A2-CBD343/budgets?organizationId=648561325637). Currently any of the data team leads have the permissions to alter this budget.
     1. The hail cumulative budget for SEQR has been updated through the [billing project limits page](https://batch.hail.populationgenomics.org.au/billing_limits). This must be done by a "developer" (Hail concept).
 1. Watch the budgets through your analysis, if Hail runs out, it will stop the Hail batch cluster, although your analysis will be fine, stopping compute jobs in the middle cause a restart, and can be economically costly as that work must be redone.
 
