@@ -25,7 +25,7 @@ Storage:
 
 ## Situations
 
-> I'm want to transfer 2.5 TB of data into $DATASET
+> I want to transfer 2.5 TB of data into $DATASET
 
 1. Estimate how much storage will cost for the data you're ingesting (2.5 TB * $38 = $95 AUD per month)
 2. Consider the analysis you intend to do for this project, including storing the results. This might initially be 2-3 times the initial storage cost.
