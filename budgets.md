@@ -14,7 +14,7 @@ Some _you should knows_ from the start:
 
 ### GCP
 
-Egress: $0.19 USD per GB (~$0.30 AUD per GB) 
+Egress: $0.19 USD per GB (~$0.30 AUD per GB)
 
 Storage:
 
@@ -28,9 +28,9 @@ Storage:
 > I want to transfer 2.5 TB of data into $DATASET
 
 1. Estimate how much storage will cost for the data you're ingesting (2.5 TB * $38 = $95 AUD per month)
-2. Consider the analysis you intend to do for this project, including storing the results. This might initially be 2-3 times the initial storage cost.
-2. Bump the GCP budget for the project to $300 AUD per month, by submitting a pull request to [cpg-infrastructure-private `$DATASET/budgets.yaml`](https://github.com/populationgenomics/cpg-infrastructure-private) file.
-3. Reviewers will be automatically selected, and the budget will get updated shortly after merging.
+1. Consider the analysis you intend to do for this project, including storing the results. This might initially be 2-3 times the initial storage cost.
+1. Bump the GCP budget for the project to $300 AUD per month, by submitting a pull request to [cpg-infrastructure-private `$DATASET/budgets.yaml`](https://github.com/populationgenomics/cpg-infrastructure-private) file.
+1. Reviewers will be automatically selected, and the budget will get updated shortly after merging.
 
 
 > I'm running a large compute job for seqr, eg: alignment, variant calling, joint-calling, etc.
@@ -61,8 +61,10 @@ Storage:
           monthly_budget: 400
           shared_total_budget: 450
         ```
+
 1. Reviewers will be automatically selected, and the budget / shared project / bucket will get updated shortly after merging.
 1. Create credentials for the `shared-sa` machine account
+
     ```bash
     # gcp project ID (may include numbers)
     export GCP_PROJECT="$DATASET"
