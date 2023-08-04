@@ -21,4 +21,4 @@ the `#team-software` or `#team-analysis` channels).
 - [Data sharing](data_sharing.md)
 - [R style guide](r_style_guide.md)
 - [`cpg-utils` config guide](cpg_utils_config.md)
-- [Budgets](#budgets.md)
+- [Budgets](budgets.md)
