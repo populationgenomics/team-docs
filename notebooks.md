@@ -29,7 +29,13 @@ As the notebook runs on a VM, the cost for keeping the notebook running is ident
 
 ## Hail
 
-Our [Hail notebook image](https://github.com/populationgenomics/images/blob/main/images/hail-gcp-notebook/Dockerfile) already has this set up, but in case you're using a different image: To be able to access GCS paths (`gs://...`) directly in Hail, you need to install the [GCS Connector](https://github.com/GoogleCloudDataproc/hadoop-connectors/tree/master/gcs). Run the following after installing Hail:
+Our [Hail notebook image](https://github.com/populationgenomics/images/blob/main/images/hail-gcp-notebook/Dockerfile) already has this set up, but in case you're using a different image: To be able to access GCS paths (`gs://...`) directly in Hail, you need to install the [GCS Connector](https://github.com/GoogleCloudDataproc/hadoop-connectors/tree/master/gcs). To install, run the following command:
+
+```bash
+curl https://raw.githubusercontent.com/broadinstitute/install-gcs-connector/master/install_gcs_connector.py | python3
+```
+
+Then run the following after installing Hail:
 
 ```bash
 cd $(find_spark_home.py)/jars && curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop2-2.0.1.jar && cd -
