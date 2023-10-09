@@ -46,6 +46,6 @@ Jupyter Notebooks or RMarkdown reports (**TODO @pdiakumis**):
   - [GitHub repo](https://github.com/QuantStack/ipyigv)
   - [Blog post](https://blog.jupyter.org/genomic-data-representation-in-jupyter-c57a5bb518d6)
 - **igvR** (R Bioconductor package):
-  - [GitHub repo](https://github.com/paul-shannon/igvR)
+  - [GitHub repo](https://github.com/gladkia/igvR)
   - [Bioconductor](https://bioconductor.org/packages/release/bioc/html/igvR.html)
-  - [Website](https://paul-shannon.github.io/igvR/index.html)
+  - [Website](https://gladkia.github.io/igvR/)
