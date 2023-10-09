@@ -5,9 +5,9 @@ document. This is meant for developers that work on the Hail Batch codebase.
 
 The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have articles on developer focused guides to Hail. For example, see [this introduction](https://github.com/hail-is/hail/blob/main/dev-docs/hail-for-new-engineers.md) for a brief history of Hail and an overview of its various components.
 
-1. Instead of using the standard sign-up link, ask another existing Hail developer to create a Hail developer account for you. If you've already signed up, that's okay too, but [a little more work to fix](https://github.com/hail-is/hail/blob/main/dev-docs/creating-a-developer-account.md).
+1. Instead of using the standard sign-up link, ask another existing Hail developer to create a Hail developer account for you. If you've already signed up, that's okay too, but [a little more work to fix](https://github.com/hail-is/hail/blob/main/dev-docs/services/creating-a-developer-account.md).
 1. Ask to be added to the `hail-dev@populationgenomics.org.au` permissions group.
-1. Follow the instructions to add an [OAuth 2.0 redirect URI](https://github.com/hail-is/hail/blob/main/dev-docs/creating-a-developer-account.md), but note that our GCP project is called `hail-295901`. If your email address is `jane.doe@populationgenomics.org.au`, your Hail `$USERNAME` will be `janedoe` (i.e. does not contain a dot).
+1. Follow the instructions to add an [OAuth 2.0 redirect URI](https://github.com/hail-is/hail/blob/main/dev-docs/services/creating-a-developer-account.md), but note that our GCP project is called `hail-295901`. If your email address is `jane.doe@populationgenomics.org.au`, your Hail `$USERNAME` will be `janedoe` (i.e. does not contain a dot).
 1. Install Hail:
 
    ```bash
@@ -227,7 +227,7 @@ curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
 
 This will print a link to the [CI dashboard](https://ci.hail.populationgenomics.org.au/batches) batch.
 
-**Warning**: Any changes that involve a database migration will result in the batch service being shut down. You'll then need to [bring it back up manually](https://github.com/hail-is/hail/blob/main/dev-docs/development_process.md#merge--deploy).
+**Warning**: Any changes that involve a database migration will result in the batch service being shut down. You'll then need to [bring it back up manually](https://github.com/hail-is/hail/blob/main/dev-docs/development-process.md#merge--deploy).
 
 ## Infrastructure
 
@@ -298,7 +298,7 @@ At the moment, this just covers the Google Cloud deployment.
    make run NAMESPACE=default
    ```
 
-1. Once the above command  has finished successfully, it's time to [restart the Hail services](https://github.com/populationgenomics/hail/blob/main/dev-docs/tls-cookbook.md#regenerate-all-the-certificates) to pick up the new certificates. This will cause a very short downtime, but won't interrupt any running batches:
+1. Once the above command  has finished successfully, it's time to [restart the Hail services](https://github.com/populationgenomics/hail/blob/main/dev-docs/services/tls-cookbook.md#regenerate-all-the-certificates) to pick up the new certificates. This will cause a very short downtime, but won't interrupt any running batches:
 
    ```bash
    export HAIL=$HOME/hail
