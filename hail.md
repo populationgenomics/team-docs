@@ -123,7 +123,9 @@ The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have art
 
 1. Instead of using the standard sign-up link, ask another existing Hail developer to create a Hail developer account for you. If you've already signed up, that's okay too, but [a little more work to fix](https://github.com/hail-is/hail/blob/main/dev-docs/services/creating-a-developer-account.md).
 1. Ask to be added to the `hail-dev@populationgenomics.org.au` permissions group.
-1. Follow the instructions to add an [OAuth 2.0 redirect URI](https://github.com/hail-is/hail/blob/main/dev-docs/services/creating-a-developer-account.md), but note that our GCP project is called `hail-295901`. If your email address is `jane.doe@populationgenomics.org.au`, your Hail `$USERNAME` will be `janedoe` (i.e. does not contain a dot).
+1. Follow the instructions to add an [OAuth 2.0 redirect URI](https://github.com/hail-is/hail/blob/main/dev-docs/services/creating-a-developer-account.md), but note that our GCP project is called `hail-295901`.
+Where those instructions say "Click _auth_", our equivalent is _Hail_ --- click on the existing Client ID entry to add another personalised redirect URI within it.
+If your email address is `jane.doe@populationgenomics.org.au`, your Hail `$USERNAME` will be `janedoe` (i.e. does not contain a dot).
 
 ## Hail Batch Job Resources
 
@@ -229,7 +231,7 @@ There are 3 categories of machines:
       echo $TOKEN
       ```
 
-   1. You'll now need to add your user to the "auth table" in the SQL instance. First, get a list of all pods, then pick an auth pod, e.g. "auth-6d559bd9b6-npw56".
+   1. Once the dev deploy batch has finished, you'll now need to add your user to the "auth table" in the SQL instance. First, get a list of all pods, then pick an auth pod, e.g. "auth-6d559bd9b6-npw56".
 
       ```bash
       kubectl --namespace $NAMESPACE get pod
