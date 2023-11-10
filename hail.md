@@ -643,3 +643,41 @@ At the moment, this just covers the Google Cloud deployment.
 1. Don't forget to stop the [`hail-dev` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-dev?project=hail-295901). Please don't delete it!
 
 1. Schedule a Slack message or other reminder to do this again in three months!
+
+## Building a new boot disk image
+
+From time to time, upstream hail updates mean that we need to build a new [`batch-worker-NN` boot disk image](https://console.cloud.google.com/compute/images?project=hail-295901&tab=images).
+This is another process that is done on the `hail-dev` VM.
+
+1. Start the [`hail-dev` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-dev?project=hail-295901).
+
+1. Connect to the VM using SSH:
+
+   ```bash
+   gcloud --project=hail-295901 compute ssh hail-dev
+   ```
+
+1. Clone CPG's hail repository (if you haven't previously on this VM) and ensure the branch from which you wish to build a boot disk is checked out:
+
+   ```bash
+   git clone https://github.com/populationgenomics/hail.git
+   git fetch
+   git switch BRANCH
+   ```
+
+1. Set a `$HAIL` environment variable (very few scripts in the hail repository actually use this and probably none involved in this process, but it doesn't hurt). You probably also need to have the various `gcloud config` credentials set up as per SSL renewal.
+
+   ```bash
+   cd hail
+   export HAIL=$PWD
+   ```
+
+1. Run hail's batch-worker creation script:
+
+   ```bash
+   NAMESPACE=default $HAIL/batch/gcp-create-worker-image.sh
+   ```
+
+1. Verify that the expected [boot dist image has appeared](https://console.cloud.google.com/compute/images?project=hail-295901&tab=images).
+
+1. Don't forget to stop the [`hail-dev` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-dev?project=hail-295901). Please don't delete it!
