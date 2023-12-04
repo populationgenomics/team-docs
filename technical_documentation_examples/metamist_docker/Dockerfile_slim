@@ -1,0 +1,12 @@
+# python:3.10-slim doesn't work when trying to install fastqe
+FROM python:3.10-slim
+
+# WORKDIR /app
+
+ARG VERSION=${VERSION:-0.3.1}
+
+# COPY test_fastqe.py /app/test_fastqe.py
+# COPY test_fq_r1.fq /app/test_fq_r1.fq
+# COPY test_fq_r2.fq /app/test_fq_r2.fq
+
+RUN pip install fastqe==${VERSION}
