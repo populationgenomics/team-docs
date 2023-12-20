@@ -5,6 +5,8 @@ repos:
       - id: check-yaml
         exclude: '\.*conda/.*'
       - id: check-case-conflict
+      - id: trailing-whitespace
+        exclude: '\.txt$|\.tsv$'
       - id: check-merge-conflict
       - id: detect-private-key
       - id: debug-statements

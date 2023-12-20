@@ -1,3 +1,85 @@
+## Hail
+
+[Hail](https://hail.is) is an amazing open source library and platform for genomic data analysis, developed at the Broad Institute. Given its proven scalability and our good relationship with the Hail development team, it's the Centre's main analysis platform.
+
+To install Hail, run:
+
+```bash
+pip3 install hail
+```
+
+The Hail [documentation](https://hail.is/docs/0.2/index.html) is a good starting point. In particular, the [tutorials](https://hail.is/docs/0.2/tutorials-landing.html) are worth looking into. You may also find the following [workshop](https://www.youtube.com/watch?v=GolxWJ477FM&list=PLlMMtlgw6qNg7im-zHSWu7M1N8xigpv4m) recording helpful if you would prefer to watch a live demonstration. Both the tutorials and workshops cover an introduction to Hail through the exploration and analysis of the public 1000 Genomes dataset.
+
+Don't feel discouraged if the "lazy evaluation" model of Hail feels unintuitive at first. It takes some time getting used to, but it's extremely powerful.
+
+To understand how Hail works on GCP, read the [How to Cloud with Hail](https://github.com/danking/hail-cloud-docs/blob/master/how-to-cloud-with-hail.md) guide.
+
+At the moment, using Hail requires launching a Dataproc (Spark) cluster. Please always set a maximum age for the cluster (`--max-age` below), to avoid accidental spending in case you forget to stop the cluster after your job has completed:
+
+```bash
+hailctl dataproc start --max-age 2h --region australia-southeast1 my-cluster
+```
+
+There's also a [workshop recording](https://drive.google.com/file/d/1c5us8YSApSGl81CrojeR426wTS2QA53d/view?usp=sharing) that contains a lot of useful tips, although not everything is applicable to the Centre.
+
+If you have any Hail related questions, feel free to ask on Slack in the `#team-analysis` channel. The Hail team is also very responsive in the [Zulip chat](https://hail.zulipchat.com), but you'll have to take the time zone difference into account. Finally, there's also an official [discussion forum](https://discuss.hail.is/).
+
+If you're interested in the Hail internals, this developer focussed [overview](https://github.com/hail-is/hail/blob/main/dev-docs/hail-overview.md) is very helpful. To understand how a query gets translated from Python all the way to the Query backend, see this [description of the query lifecycle](https://github.com/hail-is/hail/blob/main/dev-docs/hail-query-lifecycle.md).
+
+## Hail Batch
+
+[Hail Batch](https://hail.is/docs/batch/service.html) is a generic job scheduling system: you describe a workflow using a Python API as a series of jobs consisting of Docker container commands, input and output files, and job interdependencies. Hail Batch then runs that workflow in GCP using a dynamically scaled pool of workers.
+
+In the near future, Hail Batch will integrate nicely with the Hail _Query_ component, which means that you won't need to run a Dataproc cluster anymore. Instead, you'll be able to run scalable Hail analyses directly from Batch, using a shared pool of worker VMs that also process your other jobs.
+
+To avoid network egress costs, we run our own Hail Batch deployment in Australia using the `hail.populationgenomics.org.au` domain. Consequently, the worker VMs are located in the `australia-southeast1` region, which is typically colocated with the buckets that store our datasets.
+
+The `hailctl` tool you've installed previously can also be used to interact with Hail Batch. To point it at the correct domain, you have to set up a deployment configuration:
+
+<!-- markdownlint-disable -->
+
+```bash
+mkdir ~/.hail
+
+echo '{"location": "external", "default_namespace": "default", "domain": "hail.populationgenomics.org.au"}' > ~/.hail/deploy-config.json
+```
+
+<!-- markdownlint-restore -->
+
+_Note:_ If you're going to work on the Hail codebase as a developer, don't sign up as
+described below. Instead, you should follow the more involved [developer setup](hail_batch_dev.md).
+
+To create a Hail Batch account, visit the
+[sign-up page](https://auth.hail.populationgenomics.org.au/signup) using your
+@populationgenomics.org.au Google Workspace account. Navigate to the [user
+page](https://auth.hail.populationgenomics.org.au/user) to see your account
+details, including your GCP service account email address.
+
+You should now be able to authenticate from the commandline:
+
+```bash
+hailctl auth login
+```
+
+To get familiar with the Hail Batch API, check out the
+[tutorial](https://hail.is/docs/batch/tutorial.html). There's also a
+[workshop recording](https://drive.google.com/file/d/1_Uo_OlKw6dJsBsa6bH5NwMinfLahDX6U/view?usp=sharing)
+that explains how to run workflows in Hail Batch.
+
+Note that billing projects in Hail are distinct from GCP projects. Initially,
+you're assigned a small trial project. Let the software team know in case your
+user needs to have access to an existing billing project or if you need to
+create a new billing project.
+
+You can submit jobs to Hail Batch by running the "driver" program (which
+defines the batch) locally, which is handy for prototyping and testing.
+However, that's problematic in terms of
+[reproducibility](reproducible_analyses.md) for analyses run on production data,
+as local changes might not be committed to a repository. Instead, you should
+use the [analysis runner](https://github.com/populationgenomics/analysis-runner),
+which builds a Batch pipeline from a specific commit in a GitHub repository by
+running the driver itself on Hail Batch.
+
 # Hail Batch developer setup
 
 If you only intend to use Hail Batch for running your pipelines, you can skip this

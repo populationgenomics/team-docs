@@ -1,6 +1,6 @@
 # Budgets
 
-Budgets at the CPG are managed _mostly_ through GitHub, and there are a few places where budgets need to be managed.
+Budgets at the CPG are managed _mostly_ through GitHub, but there are a few places where budgets need to be managed.
 
 Some _you should knows_ from the start:
 

@@ -113,6 +113,6 @@ The config utility can be used outside `analysis-runner` and CPG infrastructure,
 
 1. Set the `CPG_CONFIG_PATH` environment variable
 2. Use `set_config_paths` to point to one or more config TOMLs:
-    - `from cpg_utils.config import set_config_paths`  
+    - `from cpg_utils.config import set_config_paths`
 
 You can refer to [the example configuration TOML](cpg_config_example.toml) in this repository and use it as a template.

@@ -163,11 +163,11 @@ increase.
   viewer permissions for humans.
 
   Files in this bucket can be viewed easily through URLs of the form `https://main-web.populationgenomics.org.au/<dataset>/filepath/example.html`, which serves the file at `gs://cpg-<dataset>-main-web/filepath/example.html`. Analogously, there's a `test-web.populationgenomics.org.au` domain for the `test-web` bucket.
-  
+
   Access to this web server is controlled through the `<dataset>-web-access@populationgenomics.org.au` group, which grants access to _all_ files in the bucket.
 
   Particularly when working with external collaborators, it's often useful to grant access to a _subset of files_ within the web bucket. This can be configured for the _first level of subdirectories_ by adding `.access` files, which list one email address per line. Those email addresses are verified using Google's OAuth log-in and must therefore be associated with a Google account.
-  
+
   For example, adding `gs://cpg-<dataset>-main-web/some_group/.access` will control the access for all files under `gs://cpg-<dataset>-main-web/some_group/`, including files in lower subdirectories, like `gs://cpg-<dataset>-main-web/some_group/subdir/report.html`.
 
 ### release: `gs://cpg-<dataset>-release`

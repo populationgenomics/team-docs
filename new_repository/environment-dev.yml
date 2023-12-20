@@ -1,9 +1,0 @@
-name: env-dev
-
-channels:
-  - conda-forge
-
-dependencies:
-  - pre-commit
-  - pylint
-  - bump2version

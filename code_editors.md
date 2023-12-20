@@ -1,11 +1,54 @@
 # Code Editors
 
+We're flexible at the centre, but a majority of us use VSCode, and some use PyCharm.
+
 - [Code Editors](#code-editors)
   - [Hail](#hail)
     - [Hail in Visual Studio Code](#hail-in-visual-studio-code)
     - [Hail in PyCharm](#hail-in-pycharm)
   - [WDL](#wdl)
 
+## Visual Studio Code
+
+VSCode is the most prominent IDE at the centre as it very quickly supports languages, extensions and code sharing.
+
+### VSCode - Python
+
+For Python, we recommend enabling the following settings:
+
+- Black formatter (on save)
+- Type Checking: strict (through your `settings.json`)
+- Ruff
+- iSort (configure the extra `black` mode in your `settings.json`)
+
+![Alt text](code_editors/python-settings.png)
+
+Some cherry-picked `settings.json` options that might be handy:
+
+```json
+{
+    "python.analysis.typeCheckingMode": "strict",
+    "isort.args": [
+        "--profile=black"
+    ],
+    "[python]": {
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            {
+                "column": 88,
+                "color": "#ff9900"
+            }
+        ],
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.fixAll": "explicit"
+        },
+    },
+
+}
+```
 
 ## Hail
 
