@@ -6,19 +6,15 @@ Tips on setting up your terminal and shell.
 
 ## Shell prompt
 
-When working with tools like conda, git, gcloud, and Hail, you might need to frequently
-switch between conda environments, git branches, Google Cloud projects, and Hail namespaces. It's helpful to always display them in your prompt, as context for an operation:
+When working with tools like python, git, gcloud, and Hail, you might need to frequently switch between virtual environments, git branches, Google Cloud projects, and Hail namespaces. It can be helpful to display the environment name in your prompt, as context for an operation:
 
 ![prompt](figures/prompt-powerlevel10k.png)
 
-`zsh` is the default shell on Mac OS. [Powerlevel10k](#powerlevel10k) will work for
-`zsh`. See the [custom](#custom-configuration) configuration below for `bash` or `zsh`, and [other
-shells](#other-shells) for alternatives like `fish`.
+`zsh` is the default shell on Mac OS. [Powerlevel10k](#powerlevel10k) will work for `zsh`. See the [custom](#custom-configuration) configuration below for `bash` or `zsh`, and [other shells](#other-shells) for alternatives like `fish`.
 
 ### Powerlevel10k
 
-[Powerlevel10k](https://github.com/romkatv/powerlevel10k) is a `zsh` theme with a
-great out-of-the-box experience. It comes with lots of [status segments](https://github.com/romkatv/powerlevel10k#batteries-included) by default.
+[Powerlevel10k](https://github.com/romkatv/powerlevel10k) is a `zsh` theme with a great out-of-the-box experience. It comes with lots of [status segments](https://github.com/romkatv/powerlevel10k#batteries-included) by default.
 
 If you want to always show the current `gcloud` project, open `~/.p10k.zsh` and comment out the following line:
 
@@ -26,9 +22,7 @@ If you want to always show the current `gcloud` project, open `~/.p10k.zsh` and 
 typeset -g POWERLEVEL9K_GCLOUD_SHOW_ON_COMMAND='gcloud|gcs'
 ```
 
-If you've installed the Meslo Nerd Font as part of the Powerlevel10k setup and you're
-using Visual Studio Code, make sure to update the font setting for the integrated
-terminal:
+If you've installed the Meslo Nerd Font as part of the Powerlevel10k setup and you're using Visual Studio Code, you can update the font setting for the integrated terminal:
 
 ```json
 "terminal.integrated.fontFamily": "MesloLGS NF"
@@ -59,10 +53,9 @@ gcp_project() {
   echo "$PROJECT"
 }
 
-conda_env() {
-  # Returns current activated conda environment, assuming it's activated
-  # with `conda activate`. For deactivated state, returns "base" or empty string.
-  echo "$CONDA_DEFAULT_ENV"
+virtual_env_name() {
+  # When a virtual environment is set,
+  echo $(basename $VIRTUAL_ENV)
 }
 
 hail_namespace() {
@@ -71,7 +64,7 @@ hail_namespace() {
 }
 
 _statuses() {
-  echo "$(hail_namespace)·$(git_rev)·$(gcp_project)·$(conda_env)"
+  echo "$(hail_namespace)·$(git_rev)·$(gcp_project)·$(virtual_env_name)"
 }
 
 # For zsh:

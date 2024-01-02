@@ -19,9 +19,25 @@ If you need a new repository, please reach out to the software team. As a princi
 Please add your `@populationgenomics.org.au` email address in your GitHub
 account settings and use this address when setting up your `git` user config, though you could also consider using the noreply email address found in your GitHub profile.
 
-It's also a good idea to send any notifications for the populationgenomics
-organization to your work email address using GitHub's [Custom Routing](https://github.com/settings/notifications/custom_routing) feature..
-settings under Notifications.
+```shell
+git config --global user.email "<yourusername>@users.noreply.github.com"
+git config --global user.name "<yourname>"
+
+# could consider setting up the remote branch automatically to
+# avoid the git push --set-upstream=origin/<branch-name> on first push
+git config --global push.autoSetupRemote true
+```
+
+It's also a good idea to send any notifications for the populationgenomics organization to your work email address using GitHub's [Custom Routing](https://github.com/settings/notifications/custom_routing) feature settings under Notifications.
+
+We strongly encourage setting up the [Github x Slack notification bot](https://slack.github.com/):
+
+```text
+/github signin
+```
+
+[Scheduled reminders](https://github.com/settings/reminders) ([documentation](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-your-membership-in-organizations/managing-your-scheduled-reminders)) is the place to setup daily reminders for outstanding PRs, and real-time alerts for events like being assigned to a PR, your PR is approved, etc.
+
 
 ### Connection protocol
 
@@ -95,7 +111,9 @@ This is one suggestion, but we plan to formalise this in early to mid 2024:
 
 > PR titles could follow the format:
 >
->     <TYPE>[<scope>]: <MESSAGE>`
+>   ```text
+>   <TYPE>[<scope>]: <MESSAGE>
+>   ```
 >
 > The type is one of the following:
 >
