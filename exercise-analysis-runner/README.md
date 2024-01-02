@@ -2,11 +2,11 @@
 
 As explained in other docs [Getting Started #Analysis-runner](../getting_started.md#analysis-runner), and [Reproducible analysis](../reproducible_analyses.md), the analysis-runner is the gate keeper of running analysis at the CPG.
 
-We don't allow users to run scripts directly on production data, we require code to be commited, reviewed, and then ran. The analysis-runner is the mechanism we use for that indrection. The analysis-runner builds a Batch pipeline from a specific commit in a GitHub repository.
+We don't allow users to run scripts directly on production data, we require code to be commited, reviewed, and then ran. The analysis-runner is the mechanism we use for that indrection. You can sort of think of it like a HPC job manager (like Slurm / PBS).
 
-You can sort of think of it like a HPC job manager (like Slurm / PBS).
+When we say analysis-runner, we mean the process of an analyst through the CLI, submitting a request for analysis to be run, the AR server accepts the request, authorises that the user can request the analysis, constructs a Batch pipeline from a specific commit in a GitHub repository, and submits as the requested user.
 
-In this exercise, we'll run some existing code through the analysis-runner, modify it and run it again.
+In this exercise, we'll run some existing code through the analysis-runner, dig through the steps and processes - modify the code and run it again.
 
 ## Preconditions
 
