@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
 This script sets up a two-step Hail batch workflow:
 
-1. the first job generates a personalized greeting, writing the contents to a file, and 
+1. the first job generates a personalized greeting, writing the contents to a file, and
 1. the second job prints that greeting.
 
 The `wait=False` parameter during the run ensures that the script doesn't hang while waiting for the batch to complete, which is particularly useful when running Hail batch within another Hail batch.
@@ -145,7 +145,7 @@ Also, take note of the `CPG_CONFIG_PATH` environment variable, we'll have a look
 
 As our code is itself submitting another Hail Batch, in the logs you'll find something like:
 
-```
+```text
 Submitted batch 431194, see https://batch.hail.populationgenomics.org.au/batches/431194
 ```
 
@@ -155,7 +155,7 @@ If we go to that batch, we'll see two jobs!
 
     - Puts the string "Hello, <name>" into a file:
 
-        ```
+        ```shell
         # other setup stuff here
         echo 'Hello, michael.franklin' > ${BATCH_TMPDIR}/first_job-3AIfz/out
         ```
@@ -182,11 +182,13 @@ We should have enough information here to re-run the job.
 
 ### CPG_CONFIG_PATH
 
+> More information in the [configuration guide](/cpg_utils_config.md).
+
 The configurations are a big part of our portable analysis methodology. This allows you to run the same code, across multiple datasets, namespaces and even clouds without any change to your code. A TOML file is another key-value file format.
 
 You should have access to view the config locally, for example:
 
-```
+```shell
 gsutil cat gs://cpg-config/d98df8fb-5607-4562-adbe-5f594a272d0d.toml | less
 ```
 
@@ -218,7 +220,7 @@ Woah, that was a lot of info! Now let's modify the original workflow, and run th
 
 As we need our code to be pushed to GitHub, and our `main` branches are protected, we'll need to create a branch:
 
-```
+```shell
 git checkout -b onboarding-example-YOURNAME
 ```
 
@@ -237,7 +239,7 @@ git push
 
 Now kick off the analysis-runner again:
 
-```
+```shell
 analysis-runner \
     --access-level test \
     --dataset fewgenomes \
@@ -252,7 +254,7 @@ How'd you go?!
 
 ## Wrapping up
 
-Great work! You've now been exposed to analysis at the CPG, from a script on your computer, to running also limitlessly on the cloud! 
+Great work! You've now been exposed to analysis at the CPG, from a script on your computer, to running also limitlessly on the cloud!
 
 Just to recap:
 
