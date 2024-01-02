@@ -2,8 +2,8 @@
 
 - [Storage policies](#storage-policies)
   - [Typical data flow](#typical-data-flow)
-  - [Buckets](#buckets)
-    - [reference: `gs://cpg-common-main/references`](#reference-gscpg-reference)
+  - [Buckets](#bucket-details)
+    - [reference: `gs://cpg-common-main/references`](#reference-gscpg-common-mainreferences)
     - [upload: `gs://cpg-<dataset>-{main,test}-upload`](#upload-gscpg-dataset-maintest-upload)
     - [archive: `gs://cpg-<dataset>-archive`](#archive-gscpg-dataset-archive)
     - [main: `gs://cpg-<dataset>-main`](#main-gscpg-dataset-main)

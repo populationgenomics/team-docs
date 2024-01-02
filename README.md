@@ -7,15 +7,15 @@ This repository contains documentation you might find useful as you onboard, but
 If you need help more urgently, don't hesitate to ask directly on Slack (e.g. in
 the `#team-data` or `#software-questions` channels).
 
-- [Getting started](/getting_started.md)
+- [Getting started](getting_started.md)
 - Setup:
-    - [Getting started](/getting_started.md)
+    - [Getting started](getting_started.md)
     - [Setting up your terminal](terminal.md)
-    - [Git + Github](/git.md)
-    - [Python](/python.md)
-    - [Setting up code editors](/code_editors.md)
+    - [Git + Github](git.md)
+    - [Python](python.md)
+    - [Setting up code editors](code_editors.md)
     - [Notebooks](notebooks.md)
-    - [Hail query and Hail Batch](/hail.md)
+    - [Hail query and Hail Batch](hail.md)
 - About the centre
     - [Reproducible analyses](reproducible_analyses.md)
     - [Storage policies](storage_policies)

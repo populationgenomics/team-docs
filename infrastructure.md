@@ -58,7 +58,7 @@ _Important_: Please never copy non-public data from the corresponding GCP projec
 
 ### Hail + Hail batch
 
-> See [Hail](/hail.md) for more information
+> See [Hail](hail.md) for more information
 
 Hail Batch is our pipelining platform of choice. Our [production-pipelines](https://github.com/populationgenomics/production-pipelines) builds Hail Batch pipelines, you can visit [batch.hail.populationgenomics.org.au](https://batch.hail.populationgenomics.org.au) to visit our deployed GCP deployed instance.
 
@@ -91,7 +91,7 @@ And three _access levels_:
 - `standard`: commit MUST be on the main branch, allowed READ / WRITE access to `dataset-main*` buckets
 - `test`: can run any commit on the allowed repositories, on the `dataset-test*` buckets
 
-If you want to affect genomics data, or metadata - you'll usually need to write a script, publish it to a populationgenomics repository and ask the [_analysis-runner_](#analysis-runner) to run that script for you. If you want to affect _main_ namespaced data, your script will need to be on the `main` branch (which requires a code review).
+If you want to affect genomics data, or metadata - you'll usually need to write a script, publish it to a populationgenomics repository and ask the [_analysis-runner_](getting_started.md#analysis-runner) to run that script for you. If you want to affect _main_ namespaced data, your script will need to be on the `main` branch (which requires a code review).
 
 
 ## Example: seqr loading pipeline

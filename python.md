@@ -49,4 +49,4 @@ complete -F _activate_completion activate
 
 ## Visual Studio Code
 
-See [Code editors](/code_editors.md#vscode---python) for more information on configuring Python in VSCode.
+See [Code editors](code_editors.md#vscode---python) for more information on configuring Python in VSCode.

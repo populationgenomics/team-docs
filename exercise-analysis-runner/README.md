@@ -1,6 +1,6 @@
 # Analysis-runner
 
-As explained in other docs [Getting Started #Analysis-runner](/getting_started.md#analysis-runner), and [Reproducible analysis](/reproducible_analyses.md), the analysis-runner is the gate keeper of running analysis at the CPG.
+As explained in other docs [Getting Started #Analysis-runner](../getting_started.md#analysis-runner), and [Reproducible analysis](../reproducible_analyses.md), the analysis-runner is the gate keeper of running analysis at the CPG.
 
 We don't allow users to run scripts directly on production data, we require code to be commited, reviewed, and then ran. The analysis-runner is the mechanism we use for that indrection. The analysis-runner builds a Batch pipeline from a specific commit in a GitHub repository.
 
@@ -18,7 +18,7 @@ You'll need to:
 - be added to the fewgenomes analysis group (speak to your manager if you're unsure about this one)
 - have the analysis-runner CLI tool installed
 
-    - we recommend creating a virtual environment (see [Python](/python.md) for setting up python, and a virtual env trick), and installing the `analysis-runner`.
+    - we recommend creating a virtual environment (see [Python](../python.md) for setting up python, and a virtual env trick), and installing the `analysis-runner`.
 
         ```shell
         virtualenv analysis-runner
@@ -182,7 +182,7 @@ We should have enough information here to re-run the job.
 
 ### CPG_CONFIG_PATH
 
-> More information in the [configuration guide](/cpg_utils_config.md).
+> More information in the [configuration guide](../cpg_utils_config.md).
 
 The configurations are a big part of our portable analysis methodology. This allows you to run the same code, across multiple datasets, namespaces and even clouds without any change to your code. A TOML file is another key-value file format.
 
@@ -228,7 +228,7 @@ Make some change to the workflow, you could consider:
 
 - Changing the string to print
 - Changing the name of the jobs to include the name to print
-- Advanced: reducing the amount of resources allocated to the job (see [Hail Batch Job Resources](/hail.md#hail-batch-job-resources) for more information).
+- Advanced: reducing the amount of resources allocated to the job (see [Hail Batch Job Resources](../hail.md#hail-batch-job-resources) for more information).
 
 After you've made the change, commit, push and rerun!
 

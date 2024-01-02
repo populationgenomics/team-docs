@@ -6,7 +6,7 @@ This document describes the commonly used technologies at the Centre, together w
   - [Genomics overview](#genomics-overview)
   - [Brew](#brew)
   - [Analysis flow at the CPG](#analysis-flow-at-the-cpg)
-  - [Infrastructure](#infrastrucutre)
+  - [Infrastructure](#infrastructure)
 
 ## Genomics overview
 
@@ -22,7 +22,7 @@ If you're on Mac, then [`brew`](https://brew.sh/) is a great way to install lots
 
 ## Analysis flow at the CPG
 
-At the CPG, we organise data into logical _dataset_ efforts. Around each dataset is a billing boundary, a set of cloud buckets, and machine accounts. More information is available in our [Storage Policies](/storage_policies/) doc.
+At the CPG, we organise data into logical _dataset_ efforts. Around each dataset is a billing boundary, a set of cloud buckets, and machine accounts. More information is available in our [Storage Policies](storage_policies/) doc.
 
 We mostly store genomics data in blobs our the specific blob storage (GCP / Azure). We store structured metadata in metamist - our metadata database as a service. We sometimes refer to metamist as the _state_ of analysis at the centre.
 
@@ -43,7 +43,7 @@ There's a handy CLI tool too (`pip install analysis-runner`)!
 
 Make sure you have:
 
-- the name of the [dataset](/storage_policies/), as this controls what data you can access and which code repositories are available,
+- the name of the [dataset](storage_policies/), as this controls what data you can access and which code repositories are available,
 - authenticated with your GCP account using `gcloud auth application-default login`,
 - ensured your `@populationgenomics.org.au` account has been added to the permission group corresponding to the dataset (ask in the `#team-data` channel if you need to get access).
 - You're in the repository you're trying to submit code from (the CLI will automatically detect the repo / commit).
@@ -63,11 +63,13 @@ analysis-runner \
     python3 path/to/myscript.py -p 3
 ```
 
+> Tutorial: [Analysis Runner](exercise-analysis-runner/)
+
 See the [analysis runner documentation](https://github.com/populationgenomics/analysis-runner#cli) for more information.
 
 
-## Infrastrucutre
+## Infrastructure
 
-> See [infrastructure](/infrastructure) for more information.
+> See [infrastructure](infrastructure.md) for more information.
 
 The CPG integrates a number of products into our ecosystem, mostly using Pulumi to coordinate this. From Google Cloud Platform, Hail Batch, Cromwell, Metamist and more.

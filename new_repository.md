@@ -36,17 +36,10 @@ builds. This document provides tips on how to set these things up.
 * [Linters](#linters)
   * [Setting up pre-commit](#setting-up-pre-commit)
   * [Disabling inspections](#disabling-inspections)
-  * [Visual Studio Code](#visual-studio-code)
-  * [PyCharm](#pycharm)
-* [Conda dev environment](#conda-dev-environment)
 * [Setting up setup.py](#setting-up-setuppy)
 * [Versioning project](#versioning-project)
 * [GitHub Actions](#github-actions)
-* [Packaging with conda](#packaging-with-conda)
-  * [Setting up recipe](#setting-up-recipe)
   * [Adding GitHub Actions](#adding-github-actions)
-* [Making a release](#making-a-release)
-  * [Hail](#hail)
 
 ## Linters
 

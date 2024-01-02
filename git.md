@@ -10,7 +10,7 @@ yet.
 
 ## New repositories
 
-> See [New repository](/new_repository.md) for more information
+> See [New repository](new_repository.md) for more information
 
 If you need a new repository, please reach out to the software team. As a principle, we try to use public repositories with an MIT license whenever possible. Unless the repo is forked, only enable the "squash merge" button, and enable branch protection rules.
 
