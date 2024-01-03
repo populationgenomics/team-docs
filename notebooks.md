@@ -14,7 +14,7 @@ All notebooks should be created in the `notebooks-314505` GCP project. [Click he
 Note the following settings in the screenshot below:
 
 - _Region_: Make sure this is set to an Australian region, to avoid egress costs when accessing locally stored datasets.
-- _Environment:_ The "R" environments include both Python and R notebook options. To run Hail, select _Custom Container_ and enter `australia-southeast1-docker.pkg.dev/cpg-common/images/hail-gcp-notebook:0.2.97` (or a later version of the [hail-gcp-notebook image](https://github.com/populationgenomics/images/blob/main/images/hail-gcp-notebook/Dockerfile)) for the _Docker container image_ field.
+- _Environment:_ The "R" environments include both Python and R notebook options. To run Hail, select _Custom Container_ and enter `australia-southeast1-docker.pkg.dev/cpg-common/images/hail-gcp-notebook:0.2.126` (or a later version of the [hail-gcp-notebook image](https://github.com/populationgenomics/images/blob/main/images/hail-gcp-notebook/Dockerfile)) for the _Docker container image_ field.
 - _Machine type:_ These are standard VM types. Pick the smallest configuration that's not sluggish to work with -- you can see the impact on price in the upper right corner.
 - _Permission:_ If you pick "Single user only", only you will be able to access the instance. Otherwise you can share the instance with everybody who has access to the dataset that corresponds to the service account (see below).
 - _Identity and API access:_ Make sure to unselect "Use Compute Engine default service account" here. Use a service account of the form `notebook-<dataset>@notebooks-314505.iam.gserviceaccount.com`. Replace `<dataset>` with `fewgenomes`, `tob-wgs`, etc. as required.

@@ -1,30 +1,153 @@
-# Hail Batch developer setup
+# Hail Query and Hail Batch
 
-If you only intend to use Hail Batch for running your pipelines, you can skip this
-document. This is meant for developers that work on the Hail Batch codebase.
+[Hail](https://hail.is) is an amazing open source library and platform for genomic data analysis, developed at the Broad Institute that often refers to two things:
+
+- Hail Batch is our pipelining platform of choice, it contains APIs for constructing compute jobs that run in a container, and have dependencies between these jobs.
+- Hail (query) is a python framework for manipulating genomics data in a highly parallelised environment (ie: Query on Batch, Spark / Dataproc) - you specify the queries you want, and the framework decides how to distribute this analysis.
+
+Given its proven scalability and our good relationship with the Hail development team, we heavily use both Hail Batch and Hail Query.
+
+To install Hail, run:
+
+```bash
+pip3 install hail
+```
+
+## Hail Query
+
+The Hail [documentation](https://hail.is/docs/0.2/index.html) is a good starting point. In particular, the [tutorials](https://hail.is/docs/0.2/tutorials-landing.html) are worth looking into. You may also find the following [workshop](https://www.youtube.com/watch?v=GolxWJ477FM&list=PLlMMtlgw6qNg7im-zHSWu7M1N8xigpv4m) recording helpful if you would prefer to watch a live demonstration. Both the tutorials and workshops cover an introduction to Hail through the exploration and analysis of the public 1000 Genomes dataset.
+
+Hail has a "lazy evaluation" model, so it often feels unintuitive at first. It takes some time getting used to, but it's extremely powerful.
+
+To understand how Hail works on GCP, read the [How to Cloud with Hail](https://github.com/danking/hail-cloud-docs/blob/master/how-to-cloud-with-hail.md) guide.
+
+You can use Hail in two environments:
+
+- Using Query on Batch by specifying a service backend (letting Hail Batch manage the distribution).
+- Launching a Dataproc (Spark) cluster. Please always set a maximum age for the cluster (`--max-age` below), to avoid accidental spending in case you forget to stop the cluster after your job has completed:
+
+   ```bash
+   hailctl dataproc start --max-age 2h --region australia-southeast1 my-cluster
+   ```
+
+There's also a [workshop recording](https://drive.google.com/file/d/1c5us8YSApSGl81CrojeR426wTS2QA53d/view?usp=sharing) that contains a lot of useful tips, although not everything is applicable to the Centre.
+
+If you have any Hail related questions, feel free to ask on Slack in the `#team-data` channel. The Hail team is also very responsive in the [Zulip chat](https://hail.zulipchat.com), but you'll have to take the time zone difference into account. Finally, there's also an official [discussion forum](https://discuss.hail.is/).
+
+If you're interested in the Hail internals, this developer focussed [overview](https://github.com/hail-is/hail/blob/main/dev-docs/hail-overview.md) is very helpful. To understand how a query gets translated from Python all the way to the Query backend, see this [description of the query lifecycle](https://github.com/hail-is/hail/blob/main/dev-docs/hail-query/hail-query-lifecycle.md).
+
+## Hail Batch
+
+[Hail Batch](https://hail.is/docs/batch/service.html) is a generic job scheduling system: you describe a workflow using a Python API as a series of jobs consisting of Docker container commands, input and output files, and job interdependencies. Hail Batch then runs that workflow in GCP using a dynamically scaled pool of workers.
+
+In the near future, Hail Batch will integrate nicely with the Hail _Query_ component, which means that you won't need to run a Dataproc cluster anymore. Instead, you'll be able to run scalable Hail analyses directly from Batch, using a shared pool of worker VMs that also process your other jobs.
+
+To avoid network egress costs, we run our own Hail Batch deployment in Australia using the `hail.populationgenomics.org.au` domain. Consequently, the worker VMs are located in the `australia-southeast1` region, which is typically colocated with the buckets that store our datasets.
+
+### Local setup
+
+The `hailctl` tool you've installed previously can also be used to interact with Hail Batch. To point it at the correct domain, you have to set up a deployment configuration:
+
+<!-- markdownlint-disable -->
+
+```bash
+mkdir ~/.hail
+
+echo '{"location": "external", "default_namespace": "default", "domain": "hail.populationgenomics.org.au"}' > ~/.hail/deploy-config.json
+```
+
+<!-- markdownlint-restore -->
+
+_Note:_ If you're going to work on the Hail codebase as a developer, don't sign up as described below. Instead, you should follow the more involved [developer setup](#hail-batch-developer-setup).
+
+To create a Hail Batch account, visit the
+[sign-up page](https://auth.hail.populationgenomics.org.au/signup) using your
+@populationgenomics.org.au Google Workspace account. Navigate to the [user
+page](https://auth.hail.populationgenomics.org.au/user) to see your account
+details, including your GCP service account email address.
+
+You should now be able to authenticate from the commandline:
+
+```bash
+hailctl auth login
+```
+
+To get familiar with the Hail Batch API, check out the
+[tutorial](https://hail.is/docs/batch/tutorial.html). There's also a
+[workshop recording](https://drive.google.com/file/d/1_Uo_OlKw6dJsBsa6bH5NwMinfLahDX6U/view?usp=sharing)
+that explains how to run workflows in Hail Batch.
+
+Note that billing projects in Hail are distinct from GCP projects. Initially,
+you're assigned a small trial project. Let the software team know in case your
+user needs to have access to an existing billing project or if you need to
+create a new billing project.
+
+You can submit jobs to Hail Batch by running the "driver" program (which
+defines the batch) locally, which is handy for prototyping and testing.
+However, that's problematic in terms of
+[reproducibility](reproducible_analyses.md) for analyses run on production data,
+as local changes might not be committed to a repository. Instead, you should
+use the [analysis runner](https://github.com/populationgenomics/analysis-runner),
+which builds a Batch pipeline from a specific commit in a GitHub repository by
+running the driver itself on Hail Batch.
+
+### Hail Batch developer setup
+
+If you only intend to use Hail Batch for running your pipelines, you can skip this section. This is meant for developers that work on the Hail Batch codebase.
 
 The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have articles on developer focused guides to Hail. For example, see [this introduction](https://github.com/hail-is/hail/blob/main/dev-docs/hail-for-new-engineers.md) for a brief history of Hail and an overview of its various components.
 
-1. Instead of using the standard sign-up link, ask another existing Hail developer to create a Hail developer account for you. If you've already signed up, that's okay too, but [a little more work to fix](https://github.com/hail-is/hail/blob/main/dev-docs/creating-a-developer-account.md).
+1. Instead of using the standard sign-up link, ask another existing Hail developer to create a Hail developer account for you. If you've already signed up, that's okay too, but [a little more work to fix](https://github.com/hail-is/hail/blob/main/dev-docs/services/creating-a-developer-account.md).
 1. Ask to be added to the `hail-dev@populationgenomics.org.au` permissions group.
-1. Follow the instructions to add an [OAuth 2.0 redirect URI](https://github.com/hail-is/hail/blob/main/dev-docs/creating-a-developer-account.md), but note that our GCP project is called `hail-295901`. If your email address is `jane.doe@populationgenomics.org.au`, your Hail `$USERNAME` will be `janedoe` (i.e. does not contain a dot).
-1. Install Hail:
+1. Follow the instructions to add an [OAuth 2.0 redirect URI](https://github.com/hail-is/hail/blob/main/dev-docs/services/creating-a-developer-account.md), but note that our GCP project is called `hail-295901`. If your email address is `jane.doe@populationgenomics.org.au`, your Hail `$USERNAME` will be `janedoe` (i.e. does not contain a dot).
+
+## Hail Batch Job Resources
+
+Specifying resources in Hail Batch is straight forward, if you note that:
+
+- The number of CPUs is restricted to powers of 2 (0.25, 0.5, 1, 2, 4, 8, 16)
+- The memory is intrinsicially tied to the number of CPUs.
+
+> Note the difference between the between Gigabytes (GB) and Gibibytes (GiB), that:
+> | Unit | Standard | Binary |
+> | - | ----------- | -------------- |
+> | k | kB (1000^1) | kiB (1024^1)   |
+> | M | MB (1000^2) | MiB (1024 ^ 2) |
+> | G | GB (1000^3) | GiB (1024 ^ 3) |
+> | T | TB (1000^4) | TB (1024 ^ 4)  |
+> | P | PB (1000^5) | PB (1024 ^ 5)  |
+
+There are 3 categories of machines:
+
+- `lowmem`: ` 1 GB (0.902 GiB) / core
+- `standard`: 4 GB (3.8 GiB) / core
+- `highmem`: 7 GB (6.5 GiB) / core
+
+|  CPUs   |          | 0.25  | 0.5   | 1     | 2     | 4     | 8     | 16     |
+| ------- | -------- | ----- | ----- | ----- | ----- | ----- | ----- | ------ |
+| **GB**  | lowmem   | 0.25  | 0.5   | 1     | 2     | 4     | 8     | 16     |
+| **GB**  | standard | 1     | 2     | 4     | 8     | 16    | 32    | 64     |
+| **GB**  | highmem  | 1.75  | 3.5   | 7     | 14    | 28    | 56    | 112    |
+|         |          |       |       |       |       |       |       |        |
+| **GiB** | lowmem   | 0.226 | 0.451 | 0.902 | 1.804 | 3.608 | 7.216 | 14.432 |
+| **GiB** | standard | 0.95  | 1.9   | 3.8   | 7.6   | 15.2  | 30.4  | 60.8   |
+| **GiB** | highmem  | 1.625 | 3.25  | 6.5   | 13    | 26    | 52    | 104    |
+
+
+### Developer deploy
+
+1. Install Hail and login:
 
    ```bash
-   mamba create --name hail -c cpg -c bioconda -c conda-forge hail
-   conda activate hail
-   ```
-
-1. Retrieve a new Hail token:
-
-   ```bash
+   venv hail
+   pip install hail
    hailctl auth login
    ```
 
 1. Prepare a change and push it to `$BRANCH` in our Hail fork. Then run a `dev deploy`, which will run the steps you specify as defined in the `build.yaml` file in your branch. The corresponding Kubernetes deployments will be brought up in your own separate namespace, so they won't interfere with the production deployment.
 
    ```bash
-   hailctl dev deploy --branch populationgenomics/hail:$BRANCH --steps deploy_batch,deploy_query
+   hailctl dev deploy --branch populationgenomics/hail:$BRANCH --steps deploy_batch
    ```
 
 1. The previous step should have printed a link to a CI dashboard. Follow the progress in the CI dashboard and wait until all steps have succeeded.
@@ -108,7 +231,7 @@ The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have art
 
       ```sql
       use $NAMESPACE;
-      
+
       INSERT INTO users (state, username, email, is_developer, is_service_account, tokens_secret_name, hail_identity, hail_credentials_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
 
       INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', 6);
@@ -135,7 +258,36 @@ The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have art
    hailctl auth login
    ```
 
-1. You can now run a standard Python script to submit a batch. Use the Hail bucket you've configured earlier, together with the `test` Hail billing project.
+1. You can now run a standard Python script to submit a batch. Use the Hail bucket you've configured earlier, together with the `test` Hail billing project, eg:
+
+   ```python
+   #!/usr/bin/env python3
+
+   import hailtctl.batch as hb
+
+   name_to_print = "Jane doe"
+
+   b = hb.Batch(
+      "my dev deploy job",
+      backend=hb.ServiceBackend(
+         billing_project="BP in your dev deploy",
+         remote_tmpdir="gs://bucket-your-dev-deploy-sa-can-access"
+      )
+   )
+
+   j1 = b.new_job('first job')
+   string_to_print = f'Hello, {name_to_print}'
+   j1.command(f'echo {quote(string_to_print)} > {j1.out}')
+
+   j2 = b.new_job('second job')
+   # for the second job, using an f-string with the resource file
+   # will tell batch to run j2 AFTER j1
+   j2.command(f'cat {j1.out}')
+
+   # use wait=False, otherwise this line will hang while the sub-batch runs
+   # bad for running hail batch within a hail batch, as preemption
+   b.run(wait=False)
+   ```
 
 1. While REST API calls for the default (production) namespace look like `https://auth.hail.populationgenomics.org.au/api/v1alpha/userinfo`, you'll need to change this to `https://internal.hail.populationgenomics.org.au/$NAMESPACE/auth/api/v1alpha/userinfo` to route the request to your dev namespace. This now requires two tokens: one for the default namespace, and the other for your development namespace. They need to be passed as separate headers:
 
@@ -160,13 +312,18 @@ The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have art
    hail-cleanup
    ```
 
-## Debugging
+### Debugging
 
 When you need to debug an issue within your namespace, it's often helpful to inspect the logs of the pods that run the service in question. Keep in mind that many services are replicated, so you might have to check multiple pods.
 
 ```bash
 kubectl --namespace $NAMESPACE get pod
 kubectl --namespace $NAMESPACE logs $POD
+kubectl --namespace $NAMESPACE exec -it $POD -- /bin/bash
+
+# connect to the database:
+apt update && apt install -y mysql-client
+mysql --defaults-file=sql-config/sql-config.cnf
 ```
 
 ### Syncing local changes to pod
@@ -187,7 +344,7 @@ devbin/sync.py \
 
 ## Merging upstream changes
 
-We try to keep our Hail fork as close as possible to the upstream repository. About once a week we integrate any upstream changes as follows:
+We try to keep our Hail fork as close as possible to the upstream repository. We merge after each major release, or if there are specific security updates:
 
 ```bash
 git remote add upstream https://github.com/hail-is/hail.git  # One-time setup.
@@ -202,7 +359,7 @@ git push origin upstream  # Create a PR as usual.
 
 ## Upstreaming changes
 
-Whenever we make a change that isn't purely specific to CPG (like deployment settings), we should upstream those changes. In general, the process looks like this:
+Whenever we make a change that isn't purely specific to CPG (like deployment settings), we aim to upstream that change. In general, the process looks like this:
 
 1. Get the change reviewed and deployed locally.
 1. Test and double-check everything is working as intended.
@@ -227,7 +384,7 @@ curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
 
 This will print a link to the [CI dashboard](https://ci.hail.populationgenomics.org.au/batches) batch.
 
-**Warning**: Any changes that involve a database migration will result in the batch service being shut down. You'll then need to [bring it back up manually](https://github.com/hail-is/hail/blob/main/dev-docs/development_process.md#merge--deploy).
+**Warning**: Some changes that involve a database migration will result in the batch service being shut down. You'll then need to [bring it back up manually](https://github.com/hail-is/hail/blob/main/dev-docs/development-process.md#merge--deploy).
 
 ## Infrastructure
 
@@ -240,7 +397,9 @@ cd infra
 terraform apply -var-file=global.tfvars
 ```
 
-## Billing projects
+### Billing projects
+
+> See [Budgets](budgets.md) for more info
 
 If you have a Hail developer account, you can manage Hail [billing projects](https://batch.hail.populationgenomics.org.au/billing_projects) and [associated budget limits](https://batch.hail.populationgenomics.org.au/billing_limits). It's important to keep in mind that Hail billing projects are completely distinct from GCP projects and are tracked in Hail Batch's database.
 
@@ -298,7 +457,7 @@ At the moment, this just covers the Google Cloud deployment.
    make run NAMESPACE=default
    ```
 
-1. Once the above command  has finished successfully, it's time to [restart the Hail services](https://github.com/populationgenomics/hail/blob/main/dev-docs/tls-cookbook.md#regenerate-all-the-certificates) to pick up the new certificates. This will cause a very short downtime, but won't interrupt any running batches:
+1. Once the above command  has finished successfully, it's time to [restart the Hail services](https://github.com/populationgenomics/hail/blob/main/dev-docs/services/tls-cookbook.md#regenerate-all-the-certificates) to pick up the new certificates. This will cause a very short downtime, but won't interrupt any running batches:
 
    ```bash
    export HAIL=$HOME/hail

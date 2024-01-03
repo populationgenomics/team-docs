@@ -1,4 +1,4 @@
-# Example of a config containing values typically used by functions in 
+# Example of a config containing values typically used by functions in
 # the `cpg-utils`. These values would be normally set by the analysis-runner
 # automatically.
 
@@ -21,7 +21,7 @@ reference_prefix = 'gs://cpg-common-main/references'
 # "web". Should be parametrised by namespace and dataset in Jinja format:
 web_url_template = 'https://{namespace}-web.populationgenomics.org.au/{dataset}'
 
-# GCP project to activate with gcloud, as well as for requester-pays buckets. 
+# GCP project to activate with gcloud, as well as for requester-pays buckets.
 dataset_gcp_project = 'seqr-308602'
 
 # Hail Batch and Query parameters:

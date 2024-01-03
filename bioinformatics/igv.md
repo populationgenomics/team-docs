@@ -48,4 +48,3 @@ Jupyter Notebooks or RMarkdown reports (**TODO @pdiakumis**):
 - **igvR** (R Bioconductor package):
   - [GitHub repo](https://github.com/paul-shannon/igvR)
   - [Bioconductor](https://bioconductor.org/packages/release/bioc/html/igvR.html)
-  - [Website](https://paul-shannon.github.io/igvR/index.html)

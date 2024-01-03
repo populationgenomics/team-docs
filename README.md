@@ -1,24 +1,27 @@
 # Overview
 
-This repository contains documentation you might find useful when working at the
-Centre for Population Genomics.
+Welcome to the Centre for Population Genomics! We're glad to have you here :)
 
-If anything seems unclear to you, please open an issue. If you have an idea on
-how to improve the text, e.g. updating instructions, please submit a pull
-request.
+This repository contains documentation you might find useful as you onboard, but and as an ongoing reference. We sometimes let these docs fall out of date, so please have a chat on Slack if something seems unclear - or open a pull request!
 
 If you need help more urgently, don't hesitate to ask directly on Slack (e.g. in
-the `#team-software` or `#team-analysis` channels).
+the `#team-data` or `#software-questions` channels).
 
 - [Getting started](getting_started.md)
-- [Reproducible analyses](reproducible_analyses.md)
-- [Storage policies](storage_policies)
-- [Setting up code editors](code_editors.md)
-- [Notebooks](notebooks.md)
-- [Setting up a new repository](new_repository.md)
-- [Hail Batch developer setup](hail_batch_dev.md)
-- [Setting up your terminal](terminal.md)
-- [Data sharing](data_sharing.md)
-- [R style guide](r_style_guide.md)
-- [`cpg-utils` config guide](cpg_utils_config.md)
-- [Budgets](budgets.md)
+- Setup:
+    - [Getting started](getting_started.md)
+    - [Setting up your terminal](terminal.md)
+    - [Git + Github](git.md)
+    - [Python](python.md)
+    - [Setting up code editors](code_editors.md)
+    - [Notebooks](notebooks.md)
+    - [Hail query and Hail Batch](hail.md)
+- About the centre
+    - [Reproducible analyses](reproducible_analyses.md)
+    - [Storage policies](storage_policies)
+- Guides:
+    - [Notebooks](notebooks.md)
+    - [Setting up a new repository](new_repository.md)
+    - [R style guide](r_style_guide.md)
+    - [`cpg-utils` config guide](cpg_utils_config.md)
+    - [Budgets](budgets.md)
