@@ -103,7 +103,7 @@ plugins=(<other plugins> git-prompt)
 ZSH_THEME_GIT_PROMPT_PREFIX=""  # remove left parenthesis around git_super_status
 ZSH_THEME_GIT_PROMPT_SUFFIX=""  # remove right parenthesis around git_super_status
 _statuses() {
-  echo "$(hail_namespace)·$(git_super_status)·$(gcp_project)·$(conda_env)"
+  echo "$(hail_namespace)·$(git_super_status)·$(gcp_project)·$(virtual_env_name)"
 }
 ```
 
