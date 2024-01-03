@@ -44,7 +44,7 @@ To install the Google Cloud SDK: `brew install --cask google-cloud-sdk`
 
 If you're new to GCP, read the excellent [How to Cloud](https://github.com/danking/hail-cloud-docs/blob/master/how-to-cloud.md) guide first.
 
-For better isolation and cost accounting, we create separate GCP projects for each effort within the Centre. For example, the TOB-WGS effort would have a dedicated GCP project called `tob-wgs`. It's important to keep in mind that the GCP project _name_ can be distinct from the project _ID_. In general, when you specify projects, you'll have to use the project ID (e.g. `gcloud config set project <project-id>`).
+For better isolation and cost accounting, we create separate GCP projects for each effort within the Centre. For example, the TOB-WGS effort would have a dedicated GCP project. It's important to keep in mind that the GCP project _name_ can be distinct from the dataset name (GCP project IDs must be unique, and as such often contain 6 digits, eg: `dataset-403812`. In general, when you specify projects, you'll have to use the GCP project ID (e.g. `gcloud config set project <project-id>`).
 
 Permissions to projects and resources like Google Cloud Storage (GCS) buckets are managed using Google Groups that are linked to IAM permission roles. Take a look at our [storage policies](storage_policies) for a much more detailed description.
 

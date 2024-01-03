@@ -69,7 +69,7 @@ already has the following content:
 * `.markdownlint.json` - settings for [markdownlint](https://github.com/igorshubovych/markdownlint-cli)
 * `pyproject.toml` - settings for [black](https://github.com/psf/black) and [ruff](https://github.com/astral-sh/ruff/)
 
-Editing the content of these files can modify the behaviour of individual tools. If you want to add these files to an existing repository, or start a non-template repository, instructions on how to acquire these configuration files is in [Pre-Commit setup](pre-commit.md).
+Editing the content of these files can modify the behaviour of individual tools. Please copy these files as required from the cpg-python-template repo where you want to add these to an existing, or non-templated repository.
 
 ### Enabling pre-commit plugins
 

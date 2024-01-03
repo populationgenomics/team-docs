@@ -2,6 +2,12 @@
 
 The [`cpg-utils` library](https://github.com/populationgenomics/cpg-utils) ([pypi](https://pypi.org/project/cpg-utils/)) contains a streamlined config management tool. This config management is used by most production CPG workflows, but is useful in projects or scripts at any scale.
 
+This allows you to run the same code, across multiple datasets, namespaces and even clouds without any change to your code. Configurations like this can make it tricky to work out exactly where parameters come from, we recommend:
+
+- Putting the parameter on the CLI if it's the value is unique for each run
+- Putting the parameter in a config if it's useful for many runs to have this value, and it changes predictably with the dataset.
+- And we discourage using environment variables to pass around information.
+
 This configuration tool uses one or more `TOML` files, and creates a dictionary of key-value attributes which can be accessed at any point, without explicitly passing a configuration object. If jobs are set up using `analysis-runner`, config will be set up automatically within each job environment. Please see the end section of this document for extra details on how to set up config outside analysis-runner.
 
 ## Configs and the analysis-runner
@@ -72,7 +78,7 @@ will be digested into the dictionary:
 
 Analysis-runner incorporates a simple interface for config setting. When setting off a job, the flag `--config` can be used, pointing to a config file (local, or within GCP and accessible with current logged-in credentials).
 
-The `--config` flag can be used multiple times, which will cause the argument files to be <a href="#config-aggregation>aggregated</a> in the order they are defined. When `--config` is set in this way, the job-runner performs the following actions:
+The `--config` flag can be used multiple times, which will cause the argument files to be [aggregated](#config-aggregation) in the order they are defined. When `--config` is set in this way, the job-runner performs the following actions:
 
 1. Locally (where `analysis-runner` is invoked), a [merged configuration file is generated](https://github.com/populationgenomics/analysis-runner/blob/main/analysis_runner/cli_analysisrunner.py#L199-L201), creating a single dictionary
 2. This dictionary is sent with the job definition to the execution server

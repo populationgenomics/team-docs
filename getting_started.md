@@ -24,7 +24,7 @@ If you're on Mac, then [`brew`](https://brew.sh/) is a great way to install lots
 
 At the CPG, we organise data into logical _dataset_ efforts. Around each dataset is a billing boundary, a set of cloud buckets, and machine accounts. More information is available in our [Storage Policies](storage_policies/) doc.
 
-We mostly store genomics data in blobs our the specific blob storage (GCP / Azure). We store structured metadata in metamist - our metadata database as a service. We sometimes refer to metamist as the _state_ of analysis at the centre.
+We mostly store genomics data in blob storage (GCP / Azure). We store structured metadata in metamist - our metadata database as a service. We sometimes refer to metamist as the _state_ of analysis at the centre.
 
 We have two namespaces at the centre:
 
