@@ -21,25 +21,25 @@ For a description of what each stage of the `large-cohort` pipeline does, please
 ## 1. Getting test data
 As an analyst it is vitally important we run our analysis jobs on test data before running them on real data. This is to ensure that the analysis job is working as expected, and that the output is as expected. This is also important to ensure that the analysis job is not going to take too long (and therefore cost too much!) to run on real data. As pipelines are constantly being updated, it is also important to run the analysis job on test data to ensure that the pipeline has not been broken by a recent update.
 
-For this tutorial we will be using the `fewgenomes` dataset, which is a collection of genomes from different sources. First things first, let's check if you have access to the `fewgenomes` dataset. To do this, run the following command:
+For this tutorial we will be using the `bioheart` dataset, which is a collection of genomes from different sources. First things first, let's check if you have access to the `bioheart` dataset. To do this, run the following command:
 
 ```bash
-gsutil ls gs://cpg-fewgenomes-main/
+gsutil ls gs://cpg-bioheart-main/
 ```
 
-The output of the above should list a number of files ending in `.fastq.gz`. These are read files, which are the input to the pipeline. If you do not see these files, then you do not have access to the `fewgenomes` dataset, please contact your manager.
+The output of the above should list a number of files ending in `.fastq.gz`. These are read files, which are the input to the pipeline. If you do not see these files, then you do not have access to the `bioheart` dataset, please contact your manager.
 
 ### Subsetting the bucket
-Our aim is to validate the pipeline's functionality and output by running it on a subset of the fewgenomes dataset. To do this we will use the script [create_test_subset.py](https://github.com/populationgenomics/metamist/blob/f6c226d08a8ee9875014d8c99cfe119742221efb/scripts/create_test_subset.py) in the metamist repository. This script selects a random set of samples from `fewgenomes` and copies their read files to the `fewgenomes-test` bucket. Execute the following command after navigating to the main branch of your metamist repository in the CLI.
+Our aim is to validate the pipeline's functionality and output by running it on a subset of the bioheart dataset. To do this we will use the script [create_test_subset.py](https://github.com/populationgenomics/metamist/blob/f6c226d08a8ee9875014d8c99cfe119742221efb/scripts/create_test_subset.py) in the metamist repository. This script selects a random set of samples from `bioheart` and copies their read files to the `bioheart-test` bucket. Execute the following command after navigating to the main branch of your metamist repository in the CLI.
 
 To run this script we must first be in the `metamist` repository. So navigate to your `metamist` repository, ensure you're on the `main` branch of `metamist` and then run the following command from CLI:
 
 **Note: We will need to set up more genomes in the actual bucket we're using**
 ```bash
 analysis-runner \                     
---dataset fewgenomes --description "populate fewgenomes test subset" --output-dir "fewgenomes-test" \
+--dataset bioheart --description "populate bioheart test subset" --output-dir "bioheart-test" \
 --access-level full \
-scripts/create_test_subset.py --project fewgenomes --samples XPG280371 XPG280389 XPG280397 XPG280405 XPG280413 --skip-ped
+scripts/create_test_subset.py --project bioheart --samples XPG280371 XPG280389 XPG280397 XPG280405 XPG280413 --skip-ped
 ```
 **FOR REFERENCE: The above was taken from [this](https://centrepopgen.slack.com/archives/C03FA2M1MR9/p1700020527448029?thread_ts=1699935103.776929&cid=C03FA2M1MR9) Slack thread**
 
@@ -53,9 +53,9 @@ In short; config files contain all the parameters needed to run the job we want 
 When running stages in the `large cohort` pipeline there are default config files that are automatically chosen (see the default [here](https://github.com/populationgenomics/production-pipelines/blob/0bcf9775206f10ee91ac197c8c178f844ecad447/cpg_workflows/defaults.toml)) with subsequent user-defined parameters overriding these defaults as necessary. The default config file for the `large cohort` pipeline can be found [here](https://github.com/populationgenomics/production-pipelines/blob/main/configs/defaults/large_cohort.toml) and in it you can see a description of some of the parameters and what they're used for. 
 
 #### Task: Write a config file
-- If we are wanting to run the `large cohort` pipeline on the `fewgenomes-test` dataset, we will need to create a config file that is capable of doing this.
-- Have a go at writing your own config file capable of running the `large cohort` pipeline on `fewgenomes-test` up until the `Combiner` stage. 
-- You can use the default config file as a starting point, and then override the necessary parameters to run the pipeline on `fewgenomes-test`.
+- If we are wanting to run the `large cohort` pipeline on the `bioheart-test` dataset, we will need to create a config file that is capable of doing this.
+- Have a go at writing your own config file capable of running the `large cohort` pipeline on `bioheart-test` up until the `Combiner` stage. 
+- You can use the default config file as a starting point, and then override the necessary parameters to run the pipeline on `bioheart-test`.
 - *Hint*: You will **not** need to change anything in the default `large cohort` config file.
 
 <details>
@@ -63,7 +63,7 @@ When running stages in the `large cohort` pipeline there are default config file
 
 ```TOML
 [workflow]
-input_datasets = ['fewgenomes-test']
+input_datasets = ['bioheart-test']
 sequencing_type = 'genome'
 output_version = '1.0' # Do we want them to specify output_version?
 only_sgs = [<list of sequencingGroup IDs>] # to be used to demonstrate how to run on a subset of samples
@@ -71,7 +71,7 @@ only_sgs = [<list of sequencingGroup IDs>] # to be used to demonstrate how to ru
 
 </details>
 
-Once the config file has been written, save it with an appropriate name (e.g. `fewgenomes-test.toml`) in a directory that makes sense on your local machine. In the following step we will be using `analysis-runner` to submit the job and point it to the config file we have just written.
+Once the config file has been written, save it with an appropriate name (e.g. `bioheart-test.toml`) in a directory that makes sense on your local machine. In the following step we will be using `analysis-runner` to submit the job and point it to the config file we have just written.
 
 ## 3. Submitting an analysis job
 Now that we have a config file, we can submit an analysis job. To do this we will use the `analysis-runner` tool. The `analysis-runner` tool is a command line tool that is used to submit analysis jobs to the cloud.
@@ -97,9 +97,9 @@ It is generally good practice to create a bash script that contains the `analysi
 
 ```bash
 analysis-runner \
---dataset fewgenomes-test \
---description "Running large cohort up to Combiner stage on fewgenomes" \
---output-dir "fewgenomes-test-YOUR-NAME" \
+--dataset bioheart-test \
+--description "Running large cohort up to Combiner stage on bioheart" \
+--output-dir "bioheart-test-YOUR-NAME" \
 --access-level test \
 --config configs/genome.toml \
 --config configs/defaults/large_cohort.toml \
