@@ -154,6 +154,8 @@ RUN pip install fastqe==${VERSION}
 ```
 </details>
 
+Save the above in a file named `Dockerfile` and push it to the `images` repo, create a PR and as is standard practice in CPG you will have to nominate someone to review this PR so that it can be merged into main and the image can be used by `analysis-runner` when we run the job.
+
 CLI command to build the image:
 
 ```bash
@@ -161,6 +163,8 @@ docker build -t fastqe_image:1.0.0 . --platform=linux/amd64
 ```
 
 Note that we need to specify the platform as `linux/amd64` because we are building the image on a Mac. If you are building the image on a Linux machine, you can omit the `--platform` flag.
+
+
 
 # 3. Write a script to run FastQE
 
@@ -296,6 +300,9 @@ def main(project: str):
 
 Putting it all together, our python script should look like this:
 
+<details>
+<summary>Click to see full script</summary>
+
 ```python
 from argparse import ArgumentParser
 
@@ -411,6 +418,7 @@ if __name__ == '__main__':
         raise ValueError(f'Failed to parse arguments: {fails}')
     main(samples=args.p)
 ```
+</details>
 
 
 # 4. Run the jobs through analysis runner
