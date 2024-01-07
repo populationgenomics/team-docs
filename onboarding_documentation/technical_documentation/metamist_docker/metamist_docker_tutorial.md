@@ -63,7 +63,7 @@ Let's see this request in action. The single GraphQL endpoint for CPG's Metamist
 
 As the homepage says this is an interface for building your GraphQL queries. Let's try sending the query we wrote above. Copy and paste the query into the left hand side of the screen and press the play button in the top right hand corner. You should see the following:
 
-![Alt text](GraphiQL_pasting_query.gif)
+**Place gif image of results of query here**
 |  |  |
 | - | - |
 | As an aid to help build queries, GraphiQL provides a user interface that allows you to explore the schema of the GraphQL server. The schema is essentially a description of the data that is available on the server. You can see the schema by clicking on the 'GraphiQL Explorer' button on the left hand side. You should see the following: | ![Alt text](GraphiQL_explorer_icon.png) | 
