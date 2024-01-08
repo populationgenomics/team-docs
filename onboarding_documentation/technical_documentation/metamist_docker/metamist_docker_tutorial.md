@@ -248,13 +248,13 @@ def get_assays(project: str) -> list[str]:
 <summary>Click to reveal Batch command</summary>
 
 ```python
-def main(project: str):
+def main(project: str, sgids: list[str]):
     # region: metadata queries
     # This section is all executed prior to the workflow being scheduled,
     # so we have access to all variables
 
     # Metamist query for files
-    file_dict = get_assays(project)
+    file_dict = get_assays(project, sgids)
     # endregion
 
     # region: Batch time
@@ -264,12 +264,13 @@ def main(project: str):
         assert len(files) == 2
 
         # Create a job for each sample
-        j = b.new_job(f'Job for {sg}')
+        j = b.new_job('FastQE', {'tool': 'fastqe'})
 
         # Set the docker image to use in this job
         # this pulls the image path from the portion of the config
         # populated by the images repository
         j.image(image_path('fastqe'))
+        j.storage('1Gi')
 
         # read data into the batch tmp resource location
         file_1 = b.read_input(files[0])
@@ -278,11 +279,8 @@ def main(project: str):
         # Set the command to run
         # batch.read_input will create a new path like /io/batch/75264c/CPGAAAA_1.fq.gz
         # accessible from inside the job container, and unique to this batch/job
-        j.command(
-            f'echo "Hello world, I am a job for {sg}!, using {file_1} and {file_2}"'
-            f'I\'m also creating an output file at {j.output}'
-            f'echo "Some outputs" > {j.output}'
-        )
+        cmd = f'fastqe {file_1} {file_2} --html > {j.out_fastqe}'
+        j.command(command(cmd))
 
         # read the output out into GCP
         # The helper method output_path() will create a new path based on the current project,
@@ -292,11 +290,137 @@ def main(project: str):
         # --access_level test
         # output_path('this_file.txt')
         # -> gs://cpg-my-dataset-test/my_output/this_file.txt
-        b.write_output(j.output, output_path(f'/{sg}.txt'))
+        b.write_output(
+            j.out_fastqe, output_path(f'{sg}.html', category='web')
+        )  # category='web' writes it to the web bucket
+    b.run(wait=False)
+
     # endregion
 ```
 </details>
 
+The code up to this point is capable of fetching the necessary fastq files, running FastQE on them, and writing the output to the web bucket. However, at this stage, we are the only ones who know that this analysis has run. We next need to update Metamist with the location of the output files so that other users can access them!
+
+We have not yet covered how to update Metamist with the location of the output files. This is because it is a little more complicated than the previous steps. We will cover this in the next section.
+
+# 4. Update Metamist with the location of the output files
+We will be using the metamist `AnalysisApi` endpoint to update the analyses of the `sequencingGroups` we have run FastQE on. Additionally, we will be updating the api endpoint from within Hail Batch which can add complexity. This part is tricky so don't be worried if you need to peek at the answers!!
+
+Firslty, lets create a function that performs the updating. For an example of how to update an analysis endpoint see [here](https://github.com/populationgenomics/automated-interpretation-pipeline/blob/2fbb058d728bf12d82c6c4b14c7c118a64ab8dd4/reanalysis/metamist_registration.py#L20C6-L20C6), focus on line 46 within `register_html`. 
+
+The function we'll be writing will take the `SequencingGroup` ID as an argument and will update the `Analysis` of that `SequencingGroup` with the location of the output files. Within this function we will importing the necessary packages and functions as well as getting the necessary information from the config file.
+- Tips:
+  - `from cpg_utils.config import get_config` will give us access to the config file from which we can access via dictionary notation. For example, `get_config()['workflow']['dataset']` will return the name of the project we are running the analysis on.
+  - The web bucket is a special bucket that allows us to host html files so they are directly visible in the browser, this bucket is located at `get_config()['storage']['default']['web_url']`. This link is what we will display in the `meta` field of the analysis.
+
+<details>
+<summary>Click to reveal function</summary>
+
+```python
+def create_analysis_entry(
+    sgid: str,
+    active: bool = True,
+):
+    # perform imports from within the function as Hail can be a bit finicky
+    from cpg_utils import to_path
+    from cpg_utils.config import get_config
+    from metamist.apis import AnalysisApi
+    from metamist.model.analysis import Analysis
+    from metamist.model.analysis_status import AnalysisStatus
+
+    project = get_config()['workflow']['dataset']
+    if get_config()['workflow']['access_level'] == 'test' and 'test' not in project: # ensures we're running in test bucket
+        project = f'{project}-test'
+    output_prefix = get_config()['workflow']['output_prefix']
+    output_path = os.path.join(
+        get_config()['storage']['default']['web'], output_prefix, sgid, '.html'
+    )
+    display_url = os.path.join(
+        get_config()['storage']['default']['web_url'], output_prefix, f'{sgid}.html'
+    )
+    AnalysisApi().create_analysis(
+        project=f'{project}',
+        analysis=Analysis(
+            type='web',
+            status=AnalysisStatus('completed'),
+            meta={'display_url': display_url},
+            output=output_path,
+            active=active,
+        ),
+    )
+```
+
+</details>
+
+Now we need to call this function from within the Hail Batch command we wrote in the previous section. We will do this taking advantage of the `batch.new_python_job()` function. This function allows us to run a python script within the Hail Batch command. We will use this function to call the function we just wrote. 
+
+For an example of how to incorporate a python function as a Hail Batch job, see this code [here](https://github.com/populationgenomics/production-pipelines/blob/824019c6eb0387d10aff047145e92583cd3e701c/cpg_workflows/status.py#L115).
+- Tips:
+  - Create a new job called `j2` using `j2 = b.new_python_job()` (make sure to give the job a name inside the brackets)
+  - The new job needs an image that has python, we can just use the `driver_image` for this: `j2.image(get_config()['workflow']['driver_image'])`
+  - We need to tell Hail that this second job is dependent on the first job, we can do this using `j2.depends_on(j)`
+
+<details>
+<summary>Click to reveal full code</summary>
+
+```python
+def main(project: str, sgids: list[str]):
+    # region: metadata queries
+    # This section is all executed prior to the workflow being scheduled,
+    # so we have access to all variables
+
+    # Metamist query for files
+    file_dict = get_assays(project, sgids)
+    # endregion
+
+    # region: Batch time
+    b = get_batch('Schedule some worker tasks')
+    for sg, files in file_dict.items():
+        # check that we have 2 files (assuming FQ, rather than BAM)
+        assert len(files) == 2
+
+        # Create a job for each sample
+        j = b.new_job('FastQE', {'tool': 'fastqe'})
+
+        # Set the docker image to use in this job
+        # this pulls the image path from the portion of the config
+        # populated by the images repository
+        j.image(image_path('fastqe'))
+        j.storage('1Gi')
+
+        # read data into the batch tmp resource location
+        file_1 = b.read_input(files[0])
+        file_2 = b.read_input(files[1])
+
+        # Set the command to run
+        # batch.read_input will create a new path like /io/batch/75264c/CPGAAAA_1.fq.gz
+        # accessible from inside the job container, and unique to this batch/job
+        cmd = f'fastqe {file_1} {file_2} --html > {j.out_fastqe}'
+        j.command(
+            # f'echo "Hello world, I am a job for {sg}!, using {file_1} and {file_2}"'
+            # f'I\'m also creating an output file at {j.output}'
+            # f'echo "Some outputs" > {j.output}'
+            command(cmd)
+        )
+        j2 = b.new_python_job(f'Register analysis output for {sg}')
+        j2.image(get_config()['workflow']['driver_image'])
+        j2.call(create_analysis_entry, sg)
+        j2.depends_on(j)
+        # read the output out into GCP
+        # The helper method output_path() will create a new path based on the current project,
+        # test/main, and the output prefix provided to analysis_runner
+        # -o my_output
+        # --dataset my-dataset
+        # --access_level test
+        # output_path('this_file.txt')
+        # -> gs://cpg-my-dataset-test/my_output/this_file.txt
+        b.write_output(
+            j.out_fastqe, output_path(f'{sg}.html', category='web')
+        )  # category='web' writes it to the web bucket
+    b.run(wait=False)
+```
+
+</details>
 
 Putting it all together, our python script should look like this:
 
@@ -304,23 +428,20 @@ Putting it all together, our python script should look like this:
 <summary>Click to see full script</summary>
 
 ```python
+import os
 from argparse import ArgumentParser
 
-from metamist.graphql import gql, query
-from collections import defaultdict
 from cpg_utils.config import get_config
-from cpg_utils.hail_batch import image_path, output_path
-
-from cpg_workflows.batch import get_batch  # defunct?
-from cpg_utils.hail_batch import get_batch
-
-# PROJECT = get_config()["workflow"]["dataset"]
-PROJECT = "bioheart-test"
+from cpg_utils.hail_batch import command, get_batch, image_path, output_path
+from metamist.graphql import gql, query
 
 SG_ASSAY_QUERY = gql(
     """
-    query ($project: String!) {
-        sequencingGroups(project: {eq: $project}) {
+    query ($project: String!, $sgids: [String!]) {
+        sequencingGroups(
+            project: {eq: $project},
+            id: {in_: $sgids}
+        ) {
             id
             assays {
                 id
@@ -332,7 +453,7 @@ SG_ASSAY_QUERY = gql(
 )
 
 
-def get_assays(project: str) -> list[str]:
+def get_assays(project: str, sgids: list) -> list[str]:
     """
     Queries the specified project for sequencing groups and assays, and returns a dictionary mapping sequencing group IDs to read locations.
 
@@ -345,7 +466,7 @@ def get_assays(project: str) -> list[str]:
     sg_assay_map = {}
 
     # Use the query template above to query the sequencing groups and assays
-    query_response = query(SG_ASSAY_QUERY, {'project': project})
+    query_response = query(SG_ASSAY_QUERY, {"project": project, "sgids": sgids})
     for sg in query_response['sequencingGroups']:
         sg_id = sg['id']
         for assay in sg['assays']:
@@ -360,13 +481,45 @@ def get_assays(project: str) -> list[str]:
     return sg_assay_map
 
 
-def main(project: str):
+def create_analysis_entry(
+    sgid: str,
+    active: bool = True,
+):
+    from cpg_utils import to_path
+    from cpg_utils.config import get_config
+    from metamist.apis import AnalysisApi
+    from metamist.model.analysis import Analysis
+    from metamist.model.analysis_status import AnalysisStatus
+
+    project = get_config()['workflow']['dataset']
+    if get_config()['workflow']['access_level'] == 'test' and 'test' not in project:
+        project = f'{project}-test'
+    output_prefix = get_config()['workflow']['output_prefix']
+    output_path = os.path.join(
+        get_config()['storage']['default']['web'], output_prefix, sgid, '.html'
+    )
+    display_url = os.path.join(
+        get_config()['storage']['default']['web_url'], output_prefix, f'{sgid}.html'
+    )
+    AnalysisApi().create_analysis(
+        project=f'{project}',
+        analysis=Analysis(
+            type='web',
+            status=AnalysisStatus('completed'),
+            meta={'display_url': display_url},
+            output=output_path,
+            active=active,
+        ),
+    )
+
+
+def main(project: str, sgids: list[str]):
     # region: metadata queries
     # This section is all executed prior to the workflow being scheduled,
     # so we have access to all variables
 
     # Metamist query for files
-    file_dict = get_assays(project)
+    file_dict = get_assays(project, sgids)
     # endregion
 
     # region: Batch time
@@ -376,12 +529,13 @@ def main(project: str):
         assert len(files) == 2
 
         # Create a job for each sample
-        j = b.new_job(f'Job for {sg}')
+        j = b.new_job('FastQE', {'tool': 'fastqe'})
 
         # Set the docker image to use in this job
         # this pulls the image path from the portion of the config
         # populated by the images repository
         j.image(image_path('fastqe'))
+        j.storage('1Gi')
 
         # read data into the batch tmp resource location
         file_1 = b.read_input(files[0])
@@ -390,12 +544,17 @@ def main(project: str):
         # Set the command to run
         # batch.read_input will create a new path like /io/batch/75264c/CPGAAAA_1.fq.gz
         # accessible from inside the job container, and unique to this batch/job
+        cmd = f'fastqe {file_1} {file_2} --html > {j.out_fastqe}'
         j.command(
-            f'echo "Hello world, I am a job for {sg}!, using {file_1} and {file_2}"'
-            f'I\'m also creating an output file at {j.output}'
-            f'echo "Some outputs" > {j.output}'
+            # f'echo "Hello world, I am a job for {sg}!, using {file_1} and {file_2}"'
+            # f'I\'m also creating an output file at {j.output}'
+            # f'echo "Some outputs" > {j.output}'
+            command(cmd)
         )
-
+        j2 = b.new_python_job(f'Register analysis output for {sg}')
+        j2.image(get_config()['workflow']['driver_image'])
+        j2.call(create_analysis_entry, sg)
+        j2.depends_on(j)
         # read the output out into GCP
         # The helper method output_path() will create a new path based on the current project,
         # test/main, and the output prefix provided to analysis_runner
@@ -404,24 +563,31 @@ def main(project: str):
         # --access_level test
         # output_path('this_file.txt')
         # -> gs://cpg-my-dataset-test/my_output/this_file.txt
-        b.write_output(j.output, output_path(f'/{sg}.txt'))
+        b.write_output(
+            j.out_fastqe, output_path(f'{sg}.html', category='web')
+        )  # category='web' writes it to the web bucket
+    b.run(wait=False)
+
     # endregion
 
 
 if __name__ == '__main__':
     # optional direct input of samples
     parser = ArgumentParser(description='Hail Batch FastQE')
-    parser.add_argument('-p', nargs='+', help='Project name', required=True)
+    parser.add_argument('--project', help='Project name', required=True)
+    parser.add_argument(
+        '--sgids', nargs='+', help='Sequencing group IDs', required=True
+    )
     args, fails = parser.parse_known_args()
 
     if fails:
         raise ValueError(f'Failed to parse arguments: {fails}')
-    main(samples=args.p)
+    main(project=args.project, sgids=args.sgids)
 ```
 </details>
 
 
-# 4. Run the jobs through analysis runner
+# 5. Run the jobs through analysis runner
 
 For a run through on how to submit jobs using analysis runner, please see the [analysis runner tutorial](https://github.com/populationgenomics/team-docs/tree/main/exercise-analysis-runner) in the team-docs repo.
 
@@ -442,3 +608,6 @@ analysis-runner \
 # 5. Pull the output and visualise (presumably html)
 
 To be completed once the above steps are completed.
+
+Create output path and put it in metamist
+- make a blob of json, heres the fastqe image used (with version), the output path, then post this as an analysis entry using the metamist api (analysisAPI entry endpoint)
