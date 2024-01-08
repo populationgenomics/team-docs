@@ -211,7 +211,7 @@ The next step is to iterate through the response of the above query and create a
   <summary>Click to see answer</summary>
 
 ```python
-def get_assays(project: str) -> list[str]:
+def get_assays(project: str, sgids: list) -> list[str]:
     """
     Queries the specified project for sequencing groups and assays, and returns a dictionary mapping sequencing group IDs to read locations.
 
@@ -224,7 +224,7 @@ def get_assays(project: str) -> list[str]:
     sg_assay_map = {}
 
     # Use the query template above to query the sequencing groups and assays
-    query_response = query(SG_ASSAY_QUERY, {'project': project})
+    query_response = query(SG_ASSAY_QUERY, {"project": project, "sgids": sgids})
     for sg in query_response['sequencingGroups']:
         sg_id = sg['id']
         for assay in sg['assays']:
@@ -270,7 +270,7 @@ def main(project: str, sgids: list[str]):
         # this pulls the image path from the portion of the config
         # populated by the images repository
         j.image(image_path('fastqe'))
-        j.storage('1Gi')
+        j.storage('1Gi') # add some extra storage for the job
 
         # read data into the batch tmp resource location
         file_1 = b.read_input(files[0])
@@ -597,17 +597,28 @@ In the context of our FastQE example, we would not use this `--image` flag. Inst
 
 ```bash
 analysis-runner \
-    --dataset <dataset> \
-    --description "test Run FastQE" \
-    --access-level test \
-    --output-dir <directory-within-bucket> \
-    script_to_run.py with arguments
+  --dataset fewgenomes --description "Testing running tutorial" --output-dir "fewgenomes_fastqe" \
+  --access-level test \
+  --image australia-southeast1-docker.pkg.dev/cpg-common/images/cpg_workflows:latest \
+  python3 scripts/metamist_docker_tutorial.py --project fewgenomes-test --sgids <list_of_sgids>
 ```
 
 
-# 5. Pull the output and visualise (presumably html)
+# 5. Pull the output and visualise
 
-To be completed once the above steps are completed.
+Finally, we can visualise the outputs our FastQE analysis. We can do this simply by querying metamist!
 
-Create output path and put it in metamist
-- make a blob of json, heres the fastqe image used (with version), the output path, then post this as an analysis entry using the metamist api (analysisAPI entry endpoint)
+You can navigate to the GraphiQL interface or create a quick python script like we did in at the end of section one. Simply copy the `display_url` from the `meta` field of the `Analysis` and paste it into your browser.
+
+`metamist query`
+```graphql
+query MyQuery {
+  project(name: "<project>") {
+    analyses {
+      active
+      id
+      meta
+    }
+  }
+}
+```
