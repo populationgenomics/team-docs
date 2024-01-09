@@ -167,13 +167,13 @@ TODO: Once samples/sequencingGroups are finalised, place output here
 ```
 
 In the above output we can see that for `SequencingGroup` `<example-COGID>` there is a set of reads (forward and reverse) that have been uploaded to Google Cloud Storage. We can also see that the `sequencing_type` is `exome` and the `sequencing_technology` is `short-read`. We can also see that the `externalId` of the `sample` is `<example-externalID>`.
-At a pipeline level, there's very little need to actually build a query by hand, the pipeline abstracts this away from the user. but it is still essential knowledge, especially if one wants to take a deep dive into a specific participant.
+At a pipeline level, there's very little need to actually build a query by hand, the pipeline abstracts this away from the user. However, it is still essential knowledge, especially if one wants to take a deep dive into a specific participant.
 
 
 ## 2. Build and publish a Docker image
 
 At CPG each tool we use is packaged into a Docker image. This ensures that everyone is using the same version of the tool. It also allows us to easily run the tool on the cloud using Hail Batch.
-FastQE is a fun tool that mimics the output of FastQC (a more 'official' bioinformatic tool) but instead represents the quality scores with emojis. Clearly, FastQE is not intended for use in a production environment. However, it serves as an illustrative example of a tool currently missing from our library. To incorporate it, we need to construct a corresponding Docker image.
+[FastQE](https://github.com/fastqe/fastqe/) is a fun tool that mimics the output of FastQC (a more 'official' bioinformatic tool) but instead represents the quality scores with emojis. Clearly, FastQE is not intended for use in a production environment. However, it serves as an illustrative example of a tool currently missing from our library. To incorporate it, we need to construct a corresponding Docker image.
 
 Have a go at writing a Dockerfile for FastQE. Have a look at the [images](https://github.com/populationgenomics/images) repo to see how other images are built. **Hint:** You can use the `python:3.10-slim` image as a base image and will install FastQE version 0.3.1 using `pip`.
 
@@ -213,11 +213,10 @@ The basic outline of our script is going to be:
 3. Build a Hail Batch command that uses the FastQE image
     - Run FastQE on the fastq files
 
-### Task: Write the query to get the `SequencingGroup` ID's of the samples we want to run FastQE on
+### Task: Write the query to get the `SequencingGroup` ID's of the samples we want to run FastQE on and the location of their reads files
 
 - Tip: first import `gql` and `query` from `metamist.graphql`. Then write the query as a global variable and wrap it in a `gql()` call. Use the GraphQL interface to practice the query before writing it in Python.
 
-<br>
 <br>
 
 <details>
@@ -247,7 +246,7 @@ SG_ASSAY_QUERY = gql(
 
 The next step is to iterate through the response of the above query and create a mapping of `SequencingGroup` ID's to the locations of the fastq files.
 
-### Task: Write the function to map the `SequencingGroup` ID's to the locations of the fastq files
+### Task: Write the function called `get_assays()` to map the `SequencingGroup` ID's to the locations of the fastq files
 
 - This will be a simple for loop that iterates through the response of the above query and creates a dictionary mapping the `SequencingGroup` ID's to the locations of the fastq files.
 <br>
@@ -314,7 +313,7 @@ def main(project: str, sgids: list[str]):
         # check that we have 2 files (assuming FQ, rather than BAM)
         assert len(files) == 2
 
-        # Create a job for each sample
+        # Create a job for each sequencingGroup
         j = b.new_job('FastQE', {'tool': 'fastqe'})
 
         # Set the docker image to use in this job
@@ -352,7 +351,9 @@ def main(project: str, sgids: list[str]):
 </details>
 <br>
 
-The code up to this point is capable of fetching the necessary fastq files, running FastQE on them, and writing the output to the web bucket. However, at this stage, we are the only ones who know that this analysis has run. We next need to update Metamist with the location of the output files so that other users can access them!
+Note the `j.storage('1Gi')` line. We use this to ensure that the job has enough storage to run. Good to know it is a parameter we can adjust! 
+
+The code up to this point is capable of fetching the necessary fastq files, running FastQE on them, and writing the output to the web bucket. However, if we were to run this code now, we would be the only ones who know that this analysis has run. We next need to update Metamist with the location of the output files so that other users can access them!
 
 We have not yet covered how to update Metamist with the location of the output files. This is because it is a little more complicated than the previous steps. We will cover this in the next section.
 
@@ -411,7 +412,7 @@ def create_analysis_entry(
 </details>
 <br>
 
-Now we need to call this function from within the Hail Batch command we wrote in the previous section. We will do this taking advantage of the `batch.new_python_job()` function. This function allows us to run a python script within the Hail Batch command. We will use this function to call the function we just wrote.
+Now we need to call this function from within the Hail Batch command we wrote in the previous section. We will do this by taking advantage of the `batch.new_python_job()` function. This function allows us to run a python script within the Hail Batch command. We will use this method to call the function we just wrote.
 
 For an example of how to incorporate a python function as a Hail Batch job, see this code [here](https://github.com/populationgenomics/production-pipelines/blob/824019c6eb0387d10aff047145e92583cd3e701c/cpg_workflows/status.py#L115).
 
@@ -662,22 +663,22 @@ For a run through on how to submit jobs using analysis runner, please see the [a
 
 The `--image` flag in the analysis-runner command line is specifically designed to specify an alternative image to the standard analysis-runner driver image. This alternative image must contain all necessary dependencies to handle authentication, create Hail batches, and perform other required tasks.
 
-In the context of our FastQE example, we would not use this `--image` flag. Instead, we would execute a script within the standard driver image that initiates a new batch. Within this batch, one of the jobs would employ the FastQE image we previously built. The process of localising and delocalising input and output files would be managed directly by Hail, not by the FastQE image.
+In the context of our FastQE example, we will not use this `--image` flag. Instead, we will execute a script within the standard driver image that initiates a new batch. Within this batch, one of the jobs will employ the FastQE image we previously built as specified by the `j.image(image_path('fastqe'))`. The process of localising and delocalising input and output files would be managed directly by Hail, not by the FastQE image.
 
 ```bash
 analysis-runner \
   --dataset fewgenomes --description "Testing running tutorial" --output-dir "fewgenomes_fastqe" \
   --access-level test \
-  --image australia-southeast1-docker.pkg.dev/cpg-common/images/cpg_workflows:latest \
+  --image australia-southeast1-docker.pkg.dev/cpg-common/images/cpg_workflows:latest \ # the driver image
   python3 scripts/metamist_docker_tutorial.py --project fewgenomes-test --sgids <list_of_sgids>
 ```
 
 
 ## 6. Pull the output and visualise
 
-Finally, we can visualise the outputs our FastQE analysis. We can do this simply by querying metamist!
+Once the above analysis is completed (it shouldn't take long) we can finally visualise the outputs of our FastQE analysis. We can do this simply by querying metamist!
 
-You can navigate to the GraphiQL interface or create a quick python script like we did in at the end of section one. Simply copy the `display_url` from the `meta` field of the `Analysis` and paste it into your browser.
+You can navigate to the GraphiQL interface or create a quick python script like we did at the end of section one. Simply copy the `display_url` from the `meta` field of the `Analysis` and paste it into your browser.
 
 `metamist query`
 
