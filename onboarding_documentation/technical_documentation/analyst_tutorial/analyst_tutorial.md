@@ -1,6 +1,6 @@
 As an analyst you will be running analysis jobs via the `analysis-runner`, producing output, and then analysing the output. This tutorial will walk you through the process of running an analysis job, and then analysing the output.
 
-In this tutorial, we will begin with raw fastq files and process them using the large-cohort pipeline. This pipeline performs several steps:
+In this tutorial, we will begin with raw fastq files and process them using the `large cohort` pipeline. This pipeline performs several steps:
 
 1. Aligns the reads to the reference genome.
 2. Conducts quality control checks.
@@ -8,9 +8,9 @@ In this tutorial, we will begin with raw fastq files and process them using the 
 4. Performs an ancestry analysis.
 5. Plots the results of the ancestry analysis.
 
-While the large-cohort pipeline includes additional stages, for the purpose of this tutorial, we will only execute up to and including the Ancestry stage, which carries out Principal Component Analysis (PCA).
+While the `large cohort` pipeline includes additional stages, for the purpose of this tutorial, we will only execute up to and including the Ancestry stage, which carries out Principal Component Analysis (PCA).
 
-For a description of what each stage of the `large-cohort` pipeline does, please see the `large-cohort` pipeline documentation [here](https://github.com/populationgenomics/production-pipelines#large-cohort-workflow)
+For a description of what each stage of the `large cohort` pipeline does, please see the `large cohort` pipeline documentation [here](https://github.com/populationgenomics/production-pipelines#large-cohort-workflow)
 
 ## Table of Contents
 - [1. Getting test data](#getting-test-data)
@@ -21,7 +21,9 @@ For a description of what each stage of the `large-cohort` pipeline does, please
 ## 1. Getting test data
 As an analyst, it's crucial to initially run our analysis jobs on test data before executing them on the actual data. The primary reason for this approach is cost efficiency. Large datasets can be incredibly expensive to process and debug. By using test data, we can estimate the time and cost of running the job on the full dataset, allowing us to optimise resources. Additionally, this process helps us ensure that the pipeline is functioning correctly and producing the expected output. While these checks can also be performed on the main dataset, using test data allows for quicker iterations and adjustments. It's also a good practice to run the analysis job on test data whenever the pipeline is updated, to verify that the updates haven't introduced any issues.
 
-In this tutorial, we will be working with the bioheart project dataset. The BiohEART project aims to identify individuals at risk of atherosclerosis by detecting genetic markers in blood before the disease manifests. Our first step is to verify your access to the bioheart dataset. To do this, execute the following command:
+In this tutorial, we will be working with the bioheart project dataset. The BiohEART project aims to identify individuals at risk of atherosclerosis by detecting genetic markers in blood before the disease manifests. 
+
+Our first step is to verify your access to the bioheart dataset. To do this, execute the following command:
 
 ```bash
 gsutil ls gs://cpg-bioheart-main-upload/
@@ -41,7 +43,7 @@ For more information on the analysis-runner please check the repo [here](https:/
 
 If you haven't done so already, clone the `metamist` repository to your local machine. Once you've done that, navigate to your `metamist` repository. Make sure you're on the `main` branch of `metamist`, then execute the following command from the CLI:
 
-**TODO: We will need to set up more genomes in the actual bucket we're using**
+**TODO: We will need to set up more genomes in the actual bucket we're using for downstream ancestry analysis to work**
 ```bash
 analysis-runner \                     
 --dataset bioheart --description "populate bioheart test subset" --output-dir "bioheart-test" \
@@ -50,19 +52,25 @@ scripts/create_test_subset.py --project bioheart --samples XPG280371 XPG280389 X
 ```
 **FOR REFERENCE: The above was taken from [this](https://centrepopgen.slack.com/archives/C03FA2M1MR9/p1700020527448029?thread_ts=1699935103.776929&cid=C03FA2M1MR9) Slack thread**
 
+Note that `create_test_subset.py` script takes `samples` as an input and not `sequencingGroups`. `samples` start with `XPG` while `sequencingGroups` start with `CPG`.
+
 
 ## 2. Writing a config file
 
-Config files, written in TOML format, are used to specify the parameters of an analysis job for the large cohort pipeline. They contain all the necessary parameters to run the job, such as images, references, specific stages of the pipeline to run, and the input data. You can find a comprehensive description of config files and their usage in the `team-docs` repo [here](https://github.com/populationgenomics/team-docs/blob/13755bd51356b50ce11e6be78a76e53ed0a3ccb1/cpg_utils_config.md).
+Now that we have test data available in the `bioheart-test` bucket, we can begin writing a config file.
 
-Please note that while config files are essential for the large cohort pipeline, they are not required to start the `analysis-runner`, which is a wrapper that can be used independently.
+Config files, written in TOML format, are used to specify the parameters of an analysis job for the `large cohort` pipeline. They contain all the necessary parameters to run the job, such as images, references, specific stages of the pipeline to run, and the input data. You can find a comprehensive description of config files and their usage in the `team-docs` repo [here](https://github.com/populationgenomics/team-docs/blob/13755bd51356b50ce11e6be78a76e53ed0a3ccb1/cpg_utils_config.md).
 
-When running stages in the large cohort pipeline, there are set config files that are used, one of which is the defaults file you can see [here](https://github.com/populationgenomics/production-pipelines/blob/0bcf9775206f10ee91ac197c8c178f844ecad447/cpg_workflows/defaults.toml). It's important to understand that this defaults file does not cover all possible parameters. It provides a base set of parameters, but it may not include every parameter that could be relevant for your specific analysis. User-defined parameters in your specific config file can override these defaults as necessary. You can find the default config file for the large cohort pipeline [here](https://github.com/populationgenomics/production-pipelines/blob/main/configs/defaults/large_cohort.toml), where you can see a description of some of the parameters and their uses.
+Please note that while config files are essential for the `large cohort` pipeline, they are not required to start the `analysis-runner`, which is a wrapper that can be used independently.
 
-#### Guide: Write a config file
+When running stages in the `large cohort` pipeline, there are set config files that are used, one of which is the defaults file you can see [here](https://github.com/populationgenomics/production-pipelines/blob/0bcf9775206f10ee91ac197c8c178f844ecad447/cpg_workflows/defaults.toml). It's important to understand that this defaults file does not cover all possible parameters. It provides a base set of parameters, but it may not include every parameter that could be relevant for your specific analysis. User-defined parameters in your specific config file can override these defaults as necessary. You can find the default config file for the `large cohort` pipeline [here](https://github.com/populationgenomics/production-pipelines/blob/main/configs/defaults/large_cohort.toml), where you can see a description of some of the parameters and their uses.
+
+#### Guide: Writing a config file
 If we want to run the `large cohort `pipeline on the `bioheart-test` dataset, we need to create a config file that is capable of doing this. Here's a step-by-step guide on how to do it:
 
-Since the default config file serves as our base, we only need to define the parameters that deviate from these defaults. This includes parameters that are left undefined in the default file due to their dataset-specific nature. In this case, we need to specify the input dataset, the sequencing type, and the output version. We also need to specify the sequencing groups we want to run on. We can do this by creating a new config file specifying the following paramters in the `[workflow]` of the `toml` file:
+Since the default config file serves as our base, we only need to define the parameters that deviate from these defaults. This includes parameters that are left undefined in the default file due to their dataset-specific nature. In this case, we need to specify the input dataset, the sequencing type, and the output version. We also have the flexibility to specify the sequencing groups we want to run on. 
+
+We can do the above by creating a new config file specifying the following paramters in the `[workflow]` of the `toml` file:
 
 ```TOML
 [workflow]
@@ -71,19 +79,19 @@ sequencing_type = 'genome'
 output_version = '1.0' # TODO: Do we want them to specify output_version?
 only_sgs = [<list of sequencingGroup IDs>] # to be used to demonstrate how to run on a subset of samples
 ```
-- `input_datasets`: This parameter specifies the datasets to be loaded as inputs for the analysis. If this parameter is not provided, the datasets will be determined automatically based on the input of `analysis-runner`. It's an array that can contain multiple dataset names e.g. `['bioheart', 'tob-wgs']`.
+- `input_datasets`: This parameter specifies the datasets to be loaded as inputs for the analysis. If this parameter is not provided, the datasets will be determined automatically based on the input of `analysis-runner`. It's an array that can contain multiple dataset names e.g. `input_datasets = ['bioheart', 'tob-wgs']`.
 - `only_sgs`: This parameter is used to limit the analysis to specific `sequencingGroups`. If you want to run the analysis on a subset of sequencing groups, you can specify their IDs in this array.
-- `sequencing_type`: This parameter is used to limit the data to a specific sequencing type. The default value is 'genome', but it can be changed to other sequencing types like 'exome' depending on the analysis.
-- `output_version`: This parameter is used to suffix the location of the workflow outputs (get_workflow().prefix) with a specific string. By default, the hash of all input paths will be used. This can be useful for versioning your outputs, especially when you run the same analysis multiple times with different parameters or input data.
+- `sequencing_type`: This parameter is used to limit the data to a specific sequencing type. The default value is 'genome', but it can be changed to other sequencing types like 'exome' depending on the analysis. The `bioheart` dataset is WGS, so we will use 'genome' as the value for this parameter.
+- `output_version`: This parameter is used to suffix the location of the workflow outputs (`get_workflow().prefix`) with a specific string. By default, the hash of all input paths will be used, though we can adopt a 'version' approach that can be useful for versioning your outputs, especially when you run the same analysis multiple times with different parameters or input data.
 
-- Please note that you do not need to change anything in the default `large cohort` config file. The changes you make should be in the new config file you're creating for the `bioheart-test` analysis.
+- Please note that you do not need to change anything in the default `large cohort` config file. The changes you make should be in the new config file you're creating for the `bioheart-test` analysis that will eventually overwrite parameters in default files.
 
 Once the config file has been written, save it with an appropriate name (e.g. `bioheart-test.toml`). Instead of saving it on your local machine, push it to the `production-pipelines-configuration` repository, which is a private repository. In the following step, we will use the `analysis-runner` to submit the job and point it to the config file we have just pushed.
 
 ## 3. Submitting an analysis job
 Now that we have a config file, we can submit an analysis job. To do this we will use the `analysis-runner` tool. The `analysis-runner` tool is a command line tool that is used to submit analysis jobs to the cloud.
 
-Remember, we are using the `large cohort` pipeline to conduct an analysis of several genomes in the `Bioheart` dataset. As the `large cohort` pipeline is a component of the `Production-pipelines` repository, we need to be within this repository to run it. This means that our current working directory should be the `Production-pipelines` repository when executing the pipeline. So our next step is to clone the `Production-pipelines` repository to our local machine. To do this, execute the following command in a directory of your choosing:
+Remember, we are using the `large cohort` pipeline to conduct an analysis of several genomes in the `bioheart` dataset. As the `large cohort` pipeline is a component of the `Production-pipelines` repository, we need to be within this repository to run it. This means that our current working directory should be the `Production-pipelines` repository when executing the pipeline. So our next step is to clone the `Production-pipelines` repository to our local machine. To do this, execute the following command in a directory of your choosing:
 
 ```bash
 git clone --recurse-submodules git@github.com:populationgenomics/production-pipelines.git
@@ -123,16 +131,20 @@ analysis-runner \
 --config configs/defaults/large_cohort.toml \
 --config path/to/you/config/config_filename.toml \
 --image australia-southeast1-docker.pkg.dev/cpg-common/images/cpg_workflows:latest \
-main.py large_cohort
+main.py large_cohort # python script to be execusted plus arguments (i.e. pipeline name)
 ```
-
 
 The output of the `analysis-runner` command is link to the Hail Batch driver job. Something like this:
 ```
 Submitting analysis-runner@<commit-sha> for dataset "bioheart"
 Request submitted successfully: https://batch.hail.populationgenomics.org.au/batches/<driver-batch-id>
 ```
-This driver job is responsible for setting up all the subsequent jobs to run the analysis. When this driver job is complete, a link to another Hail Batch service will be provided. This is where all the individual jobs of the pipeline will be listed as well as their status. Once this secondary Batch is completed, the output will be available in `bioheart-test`.
+This driver job is responsible for setting up all the subsequent jobs to run the analysis. When this driver job is complete, a link to another Hail Batch service will be provided at the bottom of the `Logs`. It will look something like this:
+```
+Submitted batch <batch-id>, see https://batch.hail.populationgenomics.org.au/batches/<batch-id>
+```
+
+This is where all the individual jobs of the pipeline will be listed as well as their status. Once this secondary Batch is completed, the output will be available in `bioheart-test`.
 
 ## 4. Analysing the output
 
