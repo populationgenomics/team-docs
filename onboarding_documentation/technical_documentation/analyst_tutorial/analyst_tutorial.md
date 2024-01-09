@@ -140,6 +140,6 @@ Now that we have some output to work with, lets begin analysing.
 
 Analysis is best done within a Jupyter Notebook. However, in order to interact with our data in the cloud using Hail and jupyter notebooks we need to do some set up first. 
 
-Instructions on setting up a Jupyter Notebook in the cloud can be found [here](https://github.com/populationgenomics/team-docs/blob/main/notebooks.md)
+Instructions on setting up a Jupyter Notebook in the cloud can be found [here](https://github.com/populationgenomics/team-docs/blob/main/notebooks.md).
 
-Please continue this tutorial once you have a Jupyter Notebook running in the cloud, good luck!
+Once you have your notebook setup on GCP follow along with the instructions in this tutorials accompanying notebook, copying over code as required, good luck!
