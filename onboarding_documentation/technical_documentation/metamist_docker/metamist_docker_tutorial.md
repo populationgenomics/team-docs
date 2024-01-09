@@ -2,7 +2,15 @@
 
 The aim of the following exercises is to allow you to get first hand experience working with the CPG codebase, the tools used to conduct analyses, as well as the supporting infrastructure that enables the management and utilisation of data.
 
-# 1. Query metamist for `.fastq` files
+### Table of Contents
+1. [Query metamist for `.fastq` files](#1-query-metamist-for-fastq-files)
+2. [Build and publish a Docker image](#2-build-and-publish-a-docker-image)
+3. [Write a script to run FastQE](#3-write-a-script-to-run-fastqe)
+4. [Update Metamist with the location of the output files](#4-update-metamist-with-the-location-of-the-output-files)
+5. [Run the jobs through analysis runner](#5-run-the-jobs-through-analysis-runner)
+6. [Pull the output and visualise](#6-pull-the-output-and-visualise)
+
+## 1. Query metamist for `.fastq` files
 
 The first step in understanding Metamist is to understand how to query the database so that we can get the necessary information on our samples. Metamist is used to track file locations, participant id's, status' of samples (i.e. the location of the files on Google Cloud, whether the the .fastq files have been converted to .cram, whether there is a .vcf file available, and whether the sample has been joint called with other samples). Metamist is CPG's way of keeping track of everything. 
 
@@ -12,7 +20,9 @@ Metamist is built on a GraphQL infrastructure. GraphQL is a query language for A
 
 Before diving in to Metamist, it's important to understand the structure of the data. The following diagram shows the relationship between the different entities in the CPG database.
 
-![Alt text](metamist_schema_diagram.png)
+<div style="text-align: center;">
+    <img src="metamist_schema_diagram.png" width="1000">
+</div>
 
 The core concept of Metamist is a `SequencingGroup`. 
 
@@ -23,12 +33,15 @@ The core concept of Metamist is a `SequencingGroup`.
 - Furthermore, tracing back from a `SequencingGroup` to a `Family`, we discover that a `Family` comprises participants who share genetic relationships. External collaborators use external IDs to refer to families, while our internal system assigns both family and participant IDs to facilitate efficient tracking.
 - ***Summary:*** `Samples` are linked by a unique `participant_id`. The physical sample taken from the participant at a time and place. `Assays` are performed on this sample to produce `reads`, these collectioms of fastq files (i.e. the `reads`) are what are referred to as a `SequencingGroup`. If we were to go back and re-run an assay on that sample, this would produce a new `SequencingGroup`
   
-![Alt text](sequencing_group_relationships.png)
+<div style="text-align: center;">
+    <img src="sequencing_group_relationships.png" width="750">
+</div>
 
 Let's first work with Metamist and GraphQL using the GUI. Navigate to https://sample-metadata.populationgenomics.org.au/ to see the homepage of CPG's Metamist implementation. 
 
-![Alt text](metamist_homepage.png)
-
+<div style="text-align: center;">
+    <img src="metamist_homepage.png" width="1000">
+</div>
 
 
 ### GraphQL
@@ -47,7 +60,9 @@ query MyFirstQuery { # can save query for future use
   }
 }
 ```
+
 Breaking down the above query:
+
 - `query MyFirstQuery` is the name of the query. This is optional, but it's good practice to name your queries.
   - Project with the name "example-project-name"
       - Inside this project, retrieve information about:
@@ -59,20 +74,27 @@ This is great because it means that we can get all the information we need in a 
 
 Let's see this request in action. The single GraphQL endpoint for CPG's Metamist is https://sample-metadata.populationgenomics.org.au/graphql. This is the endpoint that we'll be sending our queries to. Navigate to this endpoint in your browser. You should see the following:
 
-![Alt text](GraphiQL_homepage.png)
+<div style="text-align: center;">
+    <img src="GraphiQL_homepage.png" width="500">
+</div>
 
 As the homepage says this is an interface for building your GraphQL queries. Let's try sending the query we wrote above. Copy and paste the query into the left hand side of the screen and press the play button in the top right hand corner. You should see the following:
 
-**Place gif image of results of query here**
-|  |  |
-| - | - |
-| As an aid to help build queries, GraphiQL provides a user interface that allows you to explore the schema of the GraphQL server. The schema is essentially a description of the data that is available on the server. You can see the schema by clicking on the 'GraphiQL Explorer' button on the left hand side. You should see the following: | ![Alt text](GraphiQL_explorer_icon.png) | 
+TODO** Place gif image of results of query here**
 
-This user interface is great to building and testing your queries that can eventually be used in code.
+<img src="GraphiQL_explorer_icon.png" width="250" style="float: right; margin-left: 10px; margin-bottom: 10px;">
+
+As an aid to help build queries, GraphiQL provides a user interface that allows you to explore the schema of the GraphQL server. The schema is essentially a description of the data that is available on the server. You can see the schema by clicking on the 'GraphiQL Explorer' button on the left hand side. This user interface is great to building and testing your queries that can eventually be used in code.
+
+<br>
+<br>
+<br>
+<br>
 
 ###  Task:
 - Using the GraphiQL interface, within `project` 'Example-project-ID' write a query that returns the metadata (`meta`) of the `assays` as well as the `externalID` of the `sample` corresponding to the `SequencingGroup` with the `id` of `<example-CPGID>`. 
-
+<br>
+<br>
 <details>
   <summary>Click to see answer</summary>
   
@@ -90,19 +112,24 @@ This user interface is great to building and testing your queries that can event
     }
   }
   ```
+
 </details>  
+<br>
 
 Next, let's try sending this query using Python. We'll be using the `sample-metadata` Python package to do this. This package is a wrapper around the `requests` package that makes it easier to send GraphQL queries to the Metamist server.
 
 You will first need to install `metamist` using `pip`. You can do this by running the following command in your terminal:  
-```python
+
+```bash
 pip install metamist==6.2.0
 ```
 
 Now that you have `metamist` installed, let's try sending the query we wrote above using Python. Create a new Python file called `query_metamist.py` and copy and paste the above code into it.
 
 ```python
+
 from metamist.graphql import gql, query
+
 import json
 
 _query = gql(
@@ -121,23 +148,26 @@ query ($project: String! $sequencingGroupID: String!) {
 }
 """
 )
+
 # here we're just printing the output of the query in a nice format
 variables = {'project': '<project-ID', 'sequencingGroupID': '<example-CPGID>'}
 print(json.dumps(query(_query, variables=variables), indent=4))
 ```
+
 Notice how we don't need to specify the project or sequencingGroup ID's in the query itself. We can pass the variables to the query using the `variables` argument in the `query` function. This is a good way to avoid hard coding variables into your query.
 
 Running the above script in the terminal will print the output of the query in a nice readable json format. You should see the following:
 
-```json
-Once samples/sequencingGroups are finalised, place output here
+```text
+TODO: Once samples/sequencingGroups are finalised, place output here
 ```
 
 In the above output we can see that for `SequencingGroup` `<example-COGID>` there is a set of reads (forward and reverse) that have been uploaded to Google Cloud Storage. We can also see that the `sequencing_type` is `exome` and the `sequencing_technology` is `short-read`. We can also see that the `externalId` of the `sample` is `<example-externalID>`.
 At a pipeline level, there's very little need to actually build a query by hand, the pipeline abstracts this away from the user. but it is still essential knowledge, especially if one wants to take a deep dive into a specific participant.
 
 
-# 2. Build and publish a Docker image  
+## 2. Build and publish a Docker image  
+
 At CPG each tool we use is packaged into a Docker image. This ensures that everyone is using the same version of the tool. It also allows us to easily run the tool on the cloud using Hail Batch.
 FastQE is a fun tool that mimics the output of FastQC (a more 'official' bioinformatic tool) but instead represents the quality scores with emojis. Clearly, FastQE is not intended for use in a production environment. However, it serves as an illustrative example of a tool currently missing from our library. To incorporate it, we need to construct a corresponding Docker image.
 
@@ -152,7 +182,9 @@ FROM python:3.10-slim
 ARG VERSION=${VERSION:-0.3.1}
 RUN pip install fastqe==${VERSION}
 ```
+
 </details>
+<br>
 
 Save the above in a file named `Dockerfile` and push it to the `images` repo, create a PR and as is standard practice in CPG you will have to nominate someone to review this PR so that it can be merged into main and the image can be used by `analysis-runner` when we run the job.
 
@@ -166,9 +198,10 @@ Note that we need to specify the platform as `linux/amd64` because we are buildi
 
 
 
-# 3. Write a script to run FastQE
+## 3. Write a script to run FastQE
 
 The basic outline of our script is going to be:
+
 1. Query Metamist for the `SequencingGroup` ID's of the samples we want to run FastQE on
 2. For each `SequencingGroup` ID:
     - Query Metamist for the location of the fastq files
@@ -177,9 +210,12 @@ The basic outline of our script is going to be:
     - Run FastQE on the fastq files
 
 ### Task: Write the query to get the `SequencingGroup` ID's of the samples we want to run FastQE on
+
 - Tip: first import `gql` and `query` from `metamist.graphql`. Then write the query as a global variable and wrap it in a `gql()` call. Use the GraphQL interface to practice the query before writing it in Python.
 
-<summary>
+<br>
+<br>
+
 <details>
   <summary>Click to see answer</summary>
 
@@ -200,13 +236,18 @@ SG_ASSAY_QUERY = gql(
     """
 )
 ```
+
 </details>
+<br>
+
 
 The next step is to iterate through the response of the above query and create a mapping of `SequencingGroup` ID's to the locations of the fastq files.
 
 ### Task: Write the function to map the `SequencingGroup` ID's to the locations of the fastq files
 
 - This will be a simple for loop that iterates through the response of the above query and creates a dictionary mapping the `SequencingGroup` ID's to the locations of the fastq files.
+<br>
+
 <details>
   <summary>Click to see answer</summary>
 
@@ -238,12 +279,16 @@ def get_assays(project: str, sgids: list) -> list[str]:
 
     return sg_assay_map
 ```
+
 </details>
 
+
 ### Task: Write the Hail Batch command to run FastQE on the fastq files
+
 - This step brings it all together. There is already an exercise in the `team-docs` repo that walks through how to run a Hail Batch command. Have a look at the [Analysis-runner tutorial](https://github.com/populationgenomics/team-docs/tree/main/exercise-analysis-runner#the-batch-to-run) to see how to write a Hail Batch command.
 - You can also see exapmles of Hail Batch commands in the `production-pipelines` repo [here](https://github.com/populationgenomics/production-pipelines/blob/main/cpg_workflows/jobs/fastqc.py). This is a good example to look at because it is very similar to what we are trying to do here. The only difference is that we are using a different image and running a different tool (FastQC instead of FastQE).
-
+<br>
+<br>
 <details>
 <summary>Click to reveal Batch command</summary>
 
@@ -297,7 +342,9 @@ def main(project: str, sgids: list[str]):
 
     # endregion
 ```
+
 </details>
+<br>
 
 The code up to this point is capable of fetching the necessary fastq files, running FastQE on them, and writing the output to the web bucket. However, at this stage, we are the only ones who know that this analysis has run. We next need to update Metamist with the location of the output files so that other users can access them!
 
@@ -312,6 +359,9 @@ The function we'll be writing will take the `SequencingGroup` ID as an argument 
 - Tips:
   - `from cpg_utils.config import get_config` will give us access to the config file from which we can access via dictionary notation. For example, `get_config()['workflow']['dataset']` will return the name of the project we are running the analysis on.
   - The web bucket is a special bucket that allows us to host html files so they are directly visible in the browser, this bucket is located at `get_config()['storage']['default']['web_url']`. This link is what we will display in the `meta` field of the analysis.
+
+<br>
+<br>
 
 <details>
 <summary>Click to reveal function</summary>
@@ -351,6 +401,7 @@ def create_analysis_entry(
 ```
 
 </details>
+<br>
 
 Now we need to call this function from within the Hail Batch command we wrote in the previous section. We will do this taking advantage of the `batch.new_python_job()` function. This function allows us to run a python script within the Hail Batch command. We will use this function to call the function we just wrote. 
 
@@ -359,6 +410,9 @@ For an example of how to incorporate a python function as a Hail Batch job, see 
   - Create a new job called `j2` using `j2 = b.new_python_job()` (make sure to give the job a name inside the brackets)
   - The new job needs an image that has python, we can just use the `driver_image` for this: `j2.image(get_config()['workflow']['driver_image'])`
   - We need to tell Hail that this second job is dependent on the first job, we can do this using `j2.depends_on(j)`
+
+<br>
+<br>
 
 <details>
 <summary>Click to reveal full code</summary>
@@ -421,8 +475,12 @@ def main(project: str, sgids: list[str]):
 ```
 
 </details>
+<br>
+
 
 Putting it all together, our python script should look like this:
+
+<br>
 
 <details>
 <summary>Click to see full script</summary>
@@ -584,10 +642,12 @@ if __name__ == '__main__':
         raise ValueError(f'Failed to parse arguments: {fails}')
     main(project=args.project, sgids=args.sgids)
 ```
+
 </details>
+<br>
+<br>
 
-
-# 5. Run the jobs through analysis runner
+## 5. Run the jobs through analysis runner
 
 For a run through on how to submit jobs using analysis runner, please see the [analysis runner tutorial](https://github.com/populationgenomics/team-docs/tree/main/exercise-analysis-runner) in the team-docs repo.
 
@@ -604,7 +664,7 @@ analysis-runner \
 ```
 
 
-# 5. Pull the output and visualise
+## 6. Pull the output and visualise
 
 Finally, we can visualise the outputs our FastQE analysis. We can do this simply by querying metamist!
 
