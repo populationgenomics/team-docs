@@ -351,7 +351,7 @@ def main(project: str, sgids: list[str]):
 </details>
 <br>
 
-Note the `j.storage('1Gi')` line. We use this to ensure that the job has enough storage to run. Good to know it is a parameter we can adjust! 
+Note the `j.storage('1Gi')` line. We use this to ensure that the job has enough storage to run. Good to know it is a parameter we can adjust!
 
 The code up to this point is capable of fetching the necessary fastq files, running FastQE on them, and writing the output to the web bucket. However, if we were to run this code now, we would be the only ones who know that this analysis has run. We next need to update Metamist with the location of the output files so that other users can access them!
 
