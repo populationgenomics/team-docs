@@ -53,7 +53,7 @@ To send a query to a GraphQL server, you use GraphQL syntax. This syntax differs
 
 ```graphql
 query MyFirstQuery { # can save query for future use
-  project(name: "<example-project-name>") {
+  project(name: "sandbox") {
     sequencingGroups {
       externalIds
       id
@@ -65,7 +65,7 @@ query MyFirstQuery { # can save query for future use
 Breaking down the above query:
 
 - `query MyFirstQuery` is the name of the query. This is optional, but it's good practice to name your queries.
-  - Project with the name "example-project-name"
+  - Project with the name "sandbox"
       - Inside this project, retrieve information about:
           - `sequencingGroups`
               - Within each `sequencingGroup`, fetch data about:
@@ -81,20 +81,21 @@ Let's see this request in action. The single GraphQL endpoint for CPG's Metamist
 
 As the homepage says this is an interface for building your GraphQL queries. Let's try sending the query we wrote above. Copy and paste the query into the left hand side of the screen and press the play button in the top right hand corner. You should see the following:
 
-TODO**Place gif image of results of query here**
-
-<img src="GraphiQL_explorer_icon.png" width="250" style="float: right; margin-left: 10px; margin-bottom: 10px;">
+<div style="text-align: center;">
+    <img src="first_query_output.png" width="500">
+</div>
 
 As an aid to help build queries, GraphiQL provides a user interface that allows you to explore the schema of the GraphQL server. The schema is essentially a description of the data that is available on the server. You can see the schema by clicking on the 'GraphiQL Explorer' button on the left hand side. This user interface is great to building and testing your queries that can eventually be used in code.
 
+<div style="text-align: center;">
+    <img src="manual_selection.gif" width="500">
+</div>
 <br>
-<br>
-<br>
-<br>
+
 
 ### Task
 
-- Using the GraphiQL interface, within `project` 'Example-project-ID' write a query that returns the metadata (`meta`) of the `assays` as well as the `externalID` of the `sample` corresponding to the `SequencingGroup` with the `id` of `<example-CPGID>`.
+- Using the GraphiQL interface, within `project` `sandbox` write a query that returns the metadata (`meta`) of the `assays` as well as the `externalID` of the `sample` corresponding to the `SequencingGroup` with the `id` of `CPG327239`.
 
 <br>
 <br>
@@ -104,8 +105,8 @@ As an aid to help build queries, GraphiQL provides a user interface that allows 
 
   ```graphql
   query MyQuery {
-    project(name: "validation-test") {
-      sequencingGroups(id: {eq: "<example-CPGID>"}) {
+    project(name: "sandbox-test") {
+      sequencingGroups(id: {eq: "CPG327239"}) {
         assays {
           meta
         }
@@ -125,7 +126,7 @@ Next, let's try sending this query using Python. We'll be using the `sample-meta
 You will first need to install `metamist` using `pip`. You can do this by running the following command in your terminal:
 
 ```bash
-pip install metamist==6.2.0
+pip install metamist==2.43.3
 ```
 
 Now that you have `metamist` installed, let's try sending the query we wrote above using Python. Create a new Python file called `query_metamist.py` and copy and paste the above code into it.
@@ -154,7 +155,7 @@ query ($project: String! $sequencingGroupID: String!) {
 )
 
 # here we're just printing the output of the query in a nice format
-variables = {'project': '<project-ID', 'sequencingGroupID': '<example-CPGID>'}
+variables = {'project': 'sandbox-test', 'sequencingGroupID': 'CPG327239'}
 print(json.dumps(query(_query, variables=variables), indent=4))
 ```
 
@@ -163,10 +164,50 @@ Notice how we don't need to specify the project or sequencingGroup ID's in the q
 Running the above script in the terminal will print the output of the query in a nice readable json format. You should see the following:
 
 ```text
-TODO: Once samples/sequencingGroups are finalised, place output here
+{
+  "data": {
+    "project": {
+      "sequencingGroups": [
+        {
+          "assays": [
+            {
+              "meta": {
+                "reads_type": "fastq",
+                "reads": [
+                  {
+                    "location": "gs://cpg-sandbox-main-upload/LP6005442-DNA_B03_1.fastq.gz",
+                    "basename": "LP6005442-DNA_B03_1.fastq.gz",
+                    "class": "File",
+                    "checksum": null,
+                    "size": 21488775743,
+                    "datetime_added": "2024-01-11T22:49:24.015000+00:00"
+                  },
+                  {
+                    "location": "gs://cpg-sandbox-main-upload/LP6005442-DNA_B03_2.fastq.gz",
+                    "basename": "LP6005442-DNA_B03_2.fastq.gz",
+                    "class": "File",
+                    "checksum": null,
+                    "size": 21476047743,
+                    "datetime_added": "2024-01-11T22:49:05.931000+00:00"
+                  }
+                ],
+                "sequencing_type": "genome",
+                "sequencing_technology": "short-read",
+                "sequencing_platform": "illumina"
+              }
+            }
+          ],
+          "sample": {
+            "externalId": "LP6005442-DNA_B03"
+          }
+        }
+      ]
+    }
+  }
+}
 ```
 
-In the above output we can see that for `SequencingGroup` `<example-COGID>` there is a set of reads (forward and reverse) that have been uploaded to Google Cloud Storage. We can also see that the `sequencing_type` is `exome` and the `sequencing_technology` is `short-read`. We can also see that the `externalId` of the `sample` is `<example-externalID>`.
+In the above output we can see that for `SequencingGroup` `CPG327239` there is a set of reads (forward and reverse) that have been uploaded to Google Cloud Storage. We can also see that the `sequencing_type` is `genome` and the `sequencing_technology` is `short-read`. We can also see that the `externalId` of the `sample` is `LP6005442-DNA_B03`.
 At a pipeline level, there's very little need to actually build a query by hand, the pipeline abstracts this away from the user. However, it is still essential knowledge, especially if one wants to take a deep dive into a specific participant.
 
 
@@ -667,10 +708,10 @@ In the context of our FastQE example, we will not use this `--image` flag. Inste
 
 ```bash
 analysis-runner \
-  --dataset fewgenomes --description "Testing running tutorial" --output-dir "fewgenomes_fastqe" \
+  --dataset sandbox --description "Testing running tutorial" --output-dir "sandbox_fastqe" \
   --access-level test \
   --image australia-southeast1-docker.pkg.dev/cpg-common/images/cpg_workflows:latest \ # the driver image
-  python3 scripts/metamist_docker_tutorial.py --project fewgenomes-test --sgids <list_of_sgids>
+  python3 scripts/metamist_docker_tutorial.py --project sandbox-test --sgids CPG327239 CPG327247 CPG327254 CPG327262 CPG327270 CPG327288 CPG327296 CPG327304 CPG327312 CPG327320
 ```
 
 
@@ -685,7 +726,7 @@ You can navigate to the GraphiQL interface or create a quick python script like 
 ```graphql
 
 query MyQuery {
-  project(name: "<project>") {
+  project(name: "sandbox-test") {
     analyses {
       active
       id
