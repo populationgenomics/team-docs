@@ -28,6 +28,12 @@ export REQUESTS_CA_BUNDLE="$HOME/.mac-ca-roots"
 export NODE_EXTRA_CA_CERTS=${CERT_PATH}
 ```
 
+For `gcloud` you can add this to your configuration:
+
+```shell
+gcloud config set core/custom_ca_certs_file ${CERT_PATH}
+```
+
 You can configure the environment variables for additional software using the instructions from: [Adding Custom Certificate to an Application Specific Trust Store
 ](https://help.zscaler.com/zia/adding-custom-certificate-application-specific-trust-store)
 
