@@ -11,7 +11,7 @@ the `#team-data` or `#software-questions` channels).
 - Setup:
     - [Getting started](getting_started.md)
     - [Setting up your terminal](terminal.md)
-    - [Setting up certificates from ZScaler](certificates.md)
+    - [Setting up certificates from ZScaler](zscaler.md)
     - [Git + Github](git.md)
     - [Python](python.md)
     - [Setting up code editors](code_editors.md)
