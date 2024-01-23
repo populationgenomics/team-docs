@@ -1,7 +1,7 @@
 # Setting up certificates from ZScaler
 
 
-As part of the security practices at CPG, we use ZScaler for secure connections from the company devices.
+As part of the security practices at MCRI, we use ZScaler for secure connections from the company devices.
 
 This means a lot of tools will scream about local cert issuer errors, but this can be resolved by providing your ZScaler cert to them.
 
