@@ -10,10 +10,21 @@ We strongly recommend using `pyenv` to manage versions of Python. This makes it 
 
 ```shell
 brew install pyenv
+```
 
+You will need to run the following to set up `pyenv` on `zsh`. Make sure to source the `.zshrc` file before running `pyenv` in the next step:
+
+```shell
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+```
+
+```shell
 pyenv install 3.10.12
 pyenv global 3.10.12
 ```
+
 
 ### Named virtual environments
 
