@@ -217,22 +217,22 @@ There are 3 categories of machines:
       kubectl --namespace $NAMESPACE exec -it auth-6d559bd9b6-npw56 -- /bin/bash
       ```
 
-   1. On the pod, connect to the SQL instance and set the `$NAMESPACE` variable (the one you exported earlier is not available to the pod). From `sql-config.cnf`, set the variable `$HOST`, and note the `password`.
+   1. On the pod, connect to the SQL instance and set the `$NAMESPACE` variable (the one you exported earlier is not available to the pod). From `sql-config.cnf`, set the variable `$HOST`, and note the `password`. You may need to install the mysql client if the command isn't available, this can be done with `apt update` and `apt install mysql-client`.
 
       ```bash
       cd /sql-config
       cat /sql-config/sql-config.cnf
       export NAMESPACE="<janedoe>"
       export HOST="<host-from-sql-config.cnf>"
-      mysql --ssl-ca=server-ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem --host=$HOST --user=$NAMESPACE --password
+      mysql --ssl-ca=server-ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem --host=$HOST --user=$NAMESPACE-auth-user --password
       ```
 
    1. Within `mysql>`, run the following, but note that you'll have to replace `$NAMESPACE`, `$EMAIL`, and `$TOKEN` manually:
 
       ```sql
-      use $NAMESPACE;
+      use $NAMESPACE-auth;
 
-      INSERT INTO users (state, username, email, is_developer, is_service_account, tokens_secret_name, hail_identity, hail_credentials_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
+      INSERT INTO users (state, username, login_id, is_developer, is_service_account, tokens_secret_name, hail_identity, hail_credentials_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
 
       INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', 6);
       ```
