@@ -264,7 +264,7 @@ There are 3 categories of machines:
    #!/usr/bin/env python3
 
    import hailtop.batch as hb
-   import urllib.parse
+   from shlex import quote
 
    name_to_print = "Jane doe"
 
@@ -278,7 +278,7 @@ There are 3 categories of machines:
 
    j1 = b.new_job('first job')
    string_to_print = f'Hello, {name_to_print}'
-   j1.command(f'echo {urllib.parse.quote(string_to_print)} > {j1.out}')
+   j1.command(f'echo {quote(string_to_print)} > {j1.out}')
 
    j2 = b.new_job('second job')
    # for the second job, using an f-string with the resource file
