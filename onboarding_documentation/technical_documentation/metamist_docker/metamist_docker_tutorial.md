@@ -27,12 +27,11 @@ Before diving in to Metamist, it's important to understand the structure of the 
 
 The core concept of Metamist is a `SequencingGroup`.
 
-- A `SequencingGroup` is essentially a set of reads that are output of one `Assay`. Within a `SequencingGroup`, you'll find one or more `Assays`. Each `Assay` represents a collection of files generated from a single sequencing run. These `Assays`, in turn, consist of one or more `Reads`. A `Read` is essentially a single file containing the raw reads from a specific lane in the sequencing process.
-  - At this point an `Assay` is either genome or exome sequencing but could refer to genotyping arrays/proteomics/RNA assays etc. in the future.
-- Importantly, a `SequencingGroup` is always tied to a single participant and never spans across multiple patient samples. It's a way to categorise the type of sequencing conducted, like genome or exome sequencing. For example, if an individual undergoes both genome and exome sequencing, you'll have two distinct `SequencingGroups`, each corresponding to one of these sequencing types.
-- When we trace back from a `SequencingGroup` to a `Participant`, we see that participants contribute `Samples` linked by a unique `participant_id`. A `Participant` essentially represents an individual who has provided samples for genetic analysis. It's possible for a single `Participant` to have multiple samples, which enables us to gather comprehensive genetic insights from the same individual.
+- A `Participant` is an individual who has provided samples for genetic analysis. Each `Participant` is linked by a unique `participant_id` and can have multiple Samples. A Sample is the physical sample taken from the participant at a time and place.
+- `Samples` are used to generate `Assays`. Each `Assay` represents a collection of files generated from a single sequencing run. These `Assays`, in turn, consist of one or more `Reads` (real files). A `Read` is essentially a single file containing the raw reads from a specific lane in the sequencing process. At this point an `Assay` is either genome or exome sequencing but could refer to genotyping arrays/proteomics/RNA assays etc. in the future.
+- A fixed set of `Assays` form a `SequencingGroup`. A `SequencingGroup` is a virtual entity (A "virtual file" in this context refers to an entity that is represented in the database but doesn't have a corresponding physical file stored in the file system or cloud storage.) that represents a set of reads output from one or more `Assays`. For example, each `.cram` (alignment) file is linked 1:1 with `SequencingGroup`. Importantly, a `SequencingGroup` is always tied to a single participant and never spans across multiple patient samples. It's a way to categorise the type of sequencing conducted, like genome or exome sequencing. For example, if an individual undergoes both genome and exome sequencing, you'll have two distinct `SequencingGroups`, each corresponding to one of these sequencing types.
 - Furthermore, tracing back from a `SequencingGroup` to a `Family`, we discover that a `Family` comprises participants who share genetic relationships. External collaborators use external IDs to refer to families, while our internal system assigns both family and participant IDs to facilitate efficient tracking.
-- ***Summary:*** `Samples` are linked by a unique `participant_id`. The physical sample taken from the participant at a time and place. `Assays` are performed on this sample to produce `reads`, these collectioms of fastq files (i.e. the `reads`) are what are referred to as a `SequencingGroup`. If we were to go back and re-run an assay on that sample, this would produce a new `SequencingGroup`
+- **Summary**: `Participants` can have many `Samples`. `Samples` are used to generate `Assays`. A fixed set of `Assays` form a `SequencingGroup`. If we were to go back and re-run an assay on that sample, this would produce a new `SequencingGroup`.
 
 <div style="text-align: center;">
     <img src="sequencing_group_relationships.png" width="750">
@@ -44,10 +43,17 @@ Let's first work with Metamist and GraphQL using the GUI. Navigate to <https://s
     <img src="metamist_homepage.png" width="1000">
 </div>
 
+(Also accessible using https://popgen.rocks/metamist 😎)
 
 ### GraphQL
 
-QL stands for 'Query Language,' signifying a specific syntax designed for querying servers or performing data mutations. Unlike RESTful APIs, which typically feature multiple endpoints for different resources, each with its set of endpoints for various HTTP methods like GET, POST, DELETE, and PUT, GraphQL streamlines this with a single endpoint. This single endpoint efficiently handles queries and mutations, reducing the number of required server requests.
+GraphQL, standing for 'Query Language,' signifies a specific syntax designed for querying servers or performing data mutations. Unlike RESTful APIs, which typically feature multiple endpoints for different resources, GraphQL uses a single endpoint. This single endpoint efficiently handles queries and mutations, reducing the number of required server requests. However, the key feature of GraphQL, particularly for our purposes, is its ability to query for and connect entities across multiple database tables without the need for explicit `join` statements. This feature allows us to consolidate what would typically be 3 or 4 separate `GET` queries in a RESTful API into a single GraphQL query, which returns the data in the appropriate hierarchical structure. It's important to note that while GraphQL has these capabilities, our current `POST`/`PATCH` operations are not using GraphQL but are instead using the previous endpoints.
+
+See some documentation here: 
+- https://graphql.org/learn/queries/#variables
+- https://graphql.org/learn/queries/#fields
+- https://graphql.org/learn/queries/#arguments
+- And plenty more
 
 To send a query to a GraphQL server, you use GraphQL syntax. This syntax differs from the structure used in RESTful API requests. A GraphQL query takes the form of:
 
@@ -65,11 +71,11 @@ query MyFirstQuery { # can save query for future use
 Breaking down the above query:
 
 - `query MyFirstQuery` is the name of the query. This is optional, but it's good practice to name your queries.
-  - Project with the name "sandbox"
-      - Inside this project, retrieve information about:
-          - `sequencingGroups`
-              - Within each `sequencingGroup`, fetch data about:
-                  - external ID's and the ID of the `sequencingGroup`
+  - Search for the `Project` with the `name` "sandbox"
+      - Inside this project, retrieve information about `sequencingGroups`
+      - For each `sequencingGroup`, fetch:
+          - external IDs for each `sequencingGroup`
+- internal ID of the `sequencingGroup`
 
 This is great because it means that we can get all the information we need in a single request. We don't need to make multiple requests to get the information we need, and there is no under-fetching or over-fetching of data.
 
@@ -79,7 +85,7 @@ Let's see this request in action. The single GraphQL endpoint for CPG's Metamist
     <img src="GraphiQL_homepage.png" width="500">
 </div>
 
-As the homepage says this is an interface for building your GraphQL queries. Let's try sending the query we wrote above. Copy and paste the query into the left hand side of the screen and press the play button in the top right hand corner. You should see the following:
+As the homepage says this is an interface for building your GraphQL queries. Let's try sending the query we wrote above. Copy and paste the query into the left hand side of the screen and press the play button in the top right hand corner. You should see the following (note: the `SequencingGroup` id's may be different for you as the bucket may have been cleared and re-populated since this was written):
 
 <div style="text-align: center;">
     <img src="first_query_output.png" width="500">
@@ -95,7 +101,7 @@ As an aid to help build queries, GraphiQL provides a user interface that allows 
 
 ### Task
 
-- Using the GraphiQL interface, within `project` `sandbox` write a query that returns the metadata (`meta`) of the `assays` as well as the `externalID` of the `sample` corresponding to the `SequencingGroup` with the `id` of `CPG327239`.
+- Using the GraphiQL interface, write a query that returns the metadata (`meta`) of the `assays` as well as the `externalID` of the `sample` corresponding to the `SequencingGroup` with the `id` of `CPG327239` within the "sandbox-test" `project`.
 
 <br>
 <br>
@@ -121,7 +127,7 @@ As an aid to help build queries, GraphiQL provides a user interface that allows 
 </details>
 <br>
 
-Next, let's try sending this query using Python. We'll be using the `sample-metadata` Python package to do this. This package is a wrapper around the `requests` package that makes it easier to send GraphQL queries to the Metamist server.
+Next, let's try executing this query using Python. We'll be using the metamist Python package to do this. Metamist is more than just a wrapper around the requests package; it's the CPG's metadata database. The installable Python package includes both the database server components and the API clients used to query this data. Metamist's GraphQL features are used to construct queries to the Metamist server and parse the responses.
 
 You will first need to install `metamist` using `pip`. You can do this by running the following command in your terminal:
 
@@ -159,7 +165,7 @@ variables = {'project': 'sandbox-test', 'sequencingGroupID': 'CPG327239'}
 print(json.dumps(query(_query, variables=variables), indent=4))
 ```
 
-Notice how we don't need to specify the project or sequencingGroup ID's in the query itself. We can pass the variables to the query using the `variables` argument in the `query` function. This is a good way to avoid hard coding variables into your query.
+Notice how we don't need to specify the project or sequencingGroup IDs in the query itself. We can pass the variables to the query using the `variables` argument in the `query` function. This is a good way to avoid hard coding variables into your query.
 
 Running the above script in the terminal will print the output of the query in a nice readable json format. You should see the following:
 
@@ -208,12 +214,18 @@ Running the above script in the terminal will print the output of the query in a
 ```
 
 In the above output we can see that for `SequencingGroup` `CPG327239` there is a set of reads (forward and reverse) that have been uploaded to Google Cloud Storage. We can also see that the `sequencing_type` is `genome` and the `sequencing_technology` is `short-read`. We can also see that the `externalId` of the `sample` is `LP6005442-DNA_B03`.
-At a pipeline level, there's very little need to actually build a query by hand, the pipeline abstracts this away from the user. However, it is still essential knowledge, especially if one wants to take a deep dive into a specific participant.
 
 
 ## 2. Build and publish a Docker image
 
-At CPG each tool we use is packaged into a Docker image. This ensures that everyone is using the same version of the tool. It also allows us to easily run the tool on the cloud using Hail Batch.
+At CPG, we run all our computational operations in cloud infrastructure (mainly Google's Cloud Platform, GCP). Each individual task runs by generating a [Docker container](https://docs.docker.com/get-started/#what-is-a-container) from a template image. These images are built internally and published to GCP at CPG, and we have generated a library of different images for different purposes.
+
+Each Docker image is a minimal file system and associated software, which runs as a computer that we can pass data into, and run software inside of to generate results. Our library of Docker images serve different purposes - some are minimal with only a single installed tool, some are more general purpose and have a wide range of tools installed. Our [Images repository](https://github.com/populationgenomics/images) is where we maintain build instructions, called Dockerfiles.
+
+These Docker Images are versioned and kept indefinitely - if multiple processes run using the same Docker Image, we know that each separate process will use the exact same software versions, and should run in a predictable and reproducible way.
+
+The workflow management software we use at the CPG is called [Hail Batch](https://hail.is/docs/batch/service.html) - this allows us to specify a different Docker image for each step of a workflow, and metadata for each run records the name and version of each Image used. This is one of the ways in which CPG runs aim to be reproducible, e.g. if we need to go back and repeat a prior experiment we can be confident of the software used.
+
 [FastQE](https://github.com/fastqe/fastqe/) is a fun tool that mimics the output of FastQC (a more 'official' bioinformatic tool) but instead represents the quality scores with emojis. Clearly, FastQE is not intended for use in a production environment. However, it serves as an illustrative example of a tool currently missing from our library. To incorporate it, we need to construct a corresponding Docker image.
 
 Have a go at writing a Dockerfile for FastQE. Have a look at the [images](https://github.com/populationgenomics/images) repo to see how other images are built. **Hint:** You can use the `python:3.10-slim` image as a base image and will install FastQE version 0.3.1 using `pip`.
@@ -239,7 +251,7 @@ CLI command to build the image:
 docker build -t fastqe_image:1.0.0 . --platform=linux/amd64
 ```
 
-Note that we need to specify the platform as `linux/amd64` because we are building the image on a Mac. If you are building the image on a Linux machine, you can omit the `--platform` flag.
+Note that we need to specify the platform as linux/amd64 because we are building the image on a Mac. If you are building the image on a Linux machine, you can omit the --platform flag. However, when creating an image for our infrastructure, this won't be necessary. Docker files should be platform agnostic, meaning that if a build is successful on both your local machine and the GitHub server, the resulting images should be identical. This is beneficial for testing purposes, but it's not a prerequisite for creating images within our infrastructure.
 
 
 
@@ -256,7 +268,7 @@ The basic outline of our script is going to be:
 
 ### Task: Write the query to get the `SequencingGroup` ID's of the samples we want to run FastQE on and the location of their reads files
 
-- Tip: first import `gql` and `query` from `metamist.graphql`. Then write the query as a global variable and wrap it in a `gql()` call. Use the GraphQL interface to practice the query before writing it in Python.
+- Tip: First, import `gql` and `query` from `metamist.graphql`. Then, define the query as a global variable and wrap it in a `gql()` call. This allows the exact same query to be created once and imported in multiple places, such as in tests or if multiple scripts use the same query format. Use the GraphQL interface to practice the query before writing it in Python.
 
 <br>
 
