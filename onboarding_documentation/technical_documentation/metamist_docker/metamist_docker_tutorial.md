@@ -43,16 +43,17 @@ Let's first work with Metamist and GraphQL using the GUI. Navigate to <https://s
     <img src="metamist_homepage.png" width="1000">
 </div>
 
-(Also accessible using https://popgen.rocks/metamist 😎)
+(Also accessible using `https://popgen.rocks/metamist` 😎)
 
 ### GraphQL
 
 GraphQL, standing for 'Query Language,' signifies a specific syntax designed for querying servers or performing data mutations. Unlike RESTful APIs, which typically feature multiple endpoints for different resources, GraphQL uses a single endpoint. This single endpoint efficiently handles queries and mutations, reducing the number of required server requests. However, the key feature of GraphQL, particularly for our purposes, is its ability to query for and connect entities across multiple database tables without the need for explicit `join` statements. This feature allows us to consolidate what would typically be 3 or 4 separate `GET` queries in a RESTful API into a single GraphQL query, which returns the data in the appropriate hierarchical structure. It's important to note that while GraphQL has these capabilities, our current `POST`/`PATCH` operations are not using GraphQL but are instead using the previous endpoints.
 
-See some documentation here: 
-- https://graphql.org/learn/queries/#variables
-- https://graphql.org/learn/queries/#fields
-- https://graphql.org/learn/queries/#arguments
+See some documentation here:
+
+- [Variables in GraphQL](https://graphql.org/learn/queries/#variables)
+- [Fields in GraphQL](https://graphql.org/learn/queries/#fields)
+- [Arguments in GraphQL](https://graphql.org/learn/queries/#arguments)
 - And plenty more
 
 To send a query to a GraphQL server, you use GraphQL syntax. This syntax differs from the structure used in RESTful API requests. A GraphQL query takes the form of:
