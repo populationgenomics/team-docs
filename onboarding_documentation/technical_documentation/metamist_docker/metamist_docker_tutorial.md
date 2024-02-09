@@ -228,7 +228,9 @@ The workflow management software we use at the CPG is called [Hail Batch](https:
 
 [FastQE](https://github.com/fastqe/fastqe/) is a fun tool that mimics the output of FastQC (a more 'official' bioinformatic tool) but instead represents the quality scores with emojis. Clearly, FastQE is not intended for use in a production environment. However, it serves as an illustrative example of a tool currently missing from our library. To incorporate it, we need to construct a corresponding Docker image.
 
-Have a go at writing a Dockerfile for FastQE. Have a look at the [images](https://github.com/populationgenomics/images) repo to see how other images are built. **Hint:** You can use the `python:3.10-slim` image as a base image and will install FastQE version 0.3.1 using `pip`.
+Let's walk through an example of writing a Dockerfile using FastQE. You can refer to the [images](https://github.com/populationgenomics/images) repo to see how other images are built. **Note:** This is just an example for practice. When you're creating your own Dockerfile, you should try to do this yourself. However, to avoid duplication, please do not push these practice images to the repo.
+
+In this example, we'll use the `python:3.10-slim` image as a base image and install FastQE version 0.3.1 using `pip`.
 
 <details>
   <summary>Click to see answer</summary>
@@ -373,7 +375,7 @@ def main(project: str, sgids: list[str]):
         # this pulls the image path from the portion of the config
         # populated by the images repository
         j.image(image_path('fastqe'))
-        j.storage('1Gi') # add some extra storage for the job
+        j.storage('2Gi') # add some extra storage for the job
 
         # read data into the batch tmp resource location
         file_1 = b.read_input(files[0])
@@ -433,7 +435,6 @@ def create_analysis_entry(
     sgid: str,
     active: bool = True,
 ):
-    # perform imports from within the function as Hail can be a bit finicky
     from cpg_utils import to_path
     from cpg_utils.config import get_config
     from metamist.apis import AnalysisApi
@@ -441,11 +442,11 @@ def create_analysis_entry(
     from metamist.model.analysis_status import AnalysisStatus
 
     project = get_config()['workflow']['dataset']
-    if get_config()['workflow']['access_level'] == 'test' and 'test' not in project: # ensures we're running in test bucket
+    if get_config()['workflow']['access_level'] == 'test' and 'test' not in project:
         project = f'{project}-test'
     output_prefix = get_config()['workflow']['output_prefix']
     output_path = os.path.join(
-        get_config()['storage']['default']['web'], output_prefix, sgid, '.html'
+        get_config()['storage']['default']['web'], output_prefix, f'{sgid}.html'
     )
     display_url = os.path.join(
         get_config()['storage']['default']['web_url'], output_prefix, f'{sgid}.html'
@@ -456,6 +457,7 @@ def create_analysis_entry(
             type='web',
             status=AnalysisStatus('completed'),
             meta={'display_url': display_url},
+            sequencing_group_ids=[sgid],
             output=output_path,
             active=active,
         ),
@@ -503,7 +505,7 @@ def main(project: str, sgids: list[str]):
         # this pulls the image path from the portion of the config
         # populated by the images repository
         j.image(image_path('fastqe'))
-        j.storage('1Gi')
+        j.storage('2Gi')
 
         # read data into the batch tmp resource location
         file_1 = b.read_input(files[0])
@@ -535,6 +537,8 @@ def main(project: str, sgids: list[str]):
             j.out_fastqe, output_path(f'{sg}.html', category='web')
         )  # category='web' writes it to the web bucket
     b.run(wait=False)
+
+    # endregion
 ```
 
 </details>
@@ -617,7 +621,7 @@ def create_analysis_entry(
         project = f'{project}-test'
     output_prefix = get_config()['workflow']['output_prefix']
     output_path = os.path.join(
-        get_config()['storage']['default']['web'], output_prefix, sgid, '.html'
+        get_config()['storage']['default']['web'], output_prefix, f'{sgid}.html'
     )
     display_url = os.path.join(
         get_config()['storage']['default']['web_url'], output_prefix, f'{sgid}.html'
@@ -628,6 +632,7 @@ def create_analysis_entry(
             type='web',
             status=AnalysisStatus('completed'),
             meta={'display_url': display_url},
+            sequencing_group_ids=[sgid],
             output=output_path,
             active=active,
         ),
@@ -656,7 +661,7 @@ def main(project: str, sgids: list[str]):
         # this pulls the image path from the portion of the config
         # populated by the images repository
         j.image(image_path('fastqe'))
-        j.storage('1Gi')
+        j.storage('2Gi')
 
         # read data into the batch tmp resource location
         file_1 = b.read_input(files[0])
@@ -723,7 +728,7 @@ analysis-runner \
   --dataset sandbox --description "Testing running tutorial" --output-dir "sandbox_fastqe" \
   --access-level test \
   --image australia-southeast1-docker.pkg.dev/cpg-common/images/cpg_workflows:latest \ # the driver image
-  python3 scripts/metamist_docker_tutorial.py --project sandbox-test --sgids CPG327239 CPG327247 CPG327254 CPG327262 CPG327270 CPG327288 CPG327296 CPG327304 CPG327312 CPG327320
+  python3 scripts/metamist_docker_tutorial.py --project sandbox-test --sgids {sequencing_group_ids}
 ```
 
 
