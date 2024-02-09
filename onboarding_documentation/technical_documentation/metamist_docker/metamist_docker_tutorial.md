@@ -742,6 +742,8 @@ query MyQuery {
     analyses {
       active
       id
+      output
+      type
       meta
     }
   }
