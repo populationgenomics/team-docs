@@ -354,7 +354,7 @@ def get_assays(project: str, sgids: list) -> list[str]:
 <summary>Click to reveal Batch command</summary>
 
 ```python
-def main(project: str, sgids: list[str]):
+def main(project: str, sgids: list[str], last_name: str):
     # region: metadata queries
     # This section is all executed prior to the workflow being scheduled,
     # so we have access to all variables
@@ -397,7 +397,7 @@ def main(project: str, sgids: list[str]):
         # output_path('this_file.txt')
         # -> gs://cpg-my-dataset-test/my_output/this_file.txt
         b.write_output(
-            j.out_fastqe, output_path(f'{sg}.html', category='web')
+            j.out_fastqe, output_path(f'{sg}-{last_name}.html', category='web')
         )  # category='web' writes it to the web bucket
     b.run(wait=False)
 
@@ -434,6 +434,7 @@ The function we'll be writing will take the `SequencingGroup` ID as an argument 
 ```python
 def create_analysis_entry(
     sgid: str,
+    last_name: str,
     active: bool = True,
 ):
     from cpg_utils import to_path
@@ -447,10 +448,10 @@ def create_analysis_entry(
         project = f'{project}-test'
     output_prefix = get_config()['workflow']['output_prefix']
     output_path = os.path.join(
-        get_config()['storage']['default']['web'], output_prefix, f'{sgid}.html'
+        get_config()['storage']['default']['web'], output_prefix, f'{sgid}-{last_name}.html'
     )
     display_url = os.path.join(
-        get_config()['storage']['default']['web_url'], output_prefix, f'{sgid}.html'
+        get_config()['storage']['default']['web_url'], output_prefix, f'{sgid}-{last_name}.html'
     )
     AnalysisApi().create_analysis(
         project=f'{project}',
@@ -484,7 +485,7 @@ For an example of how to incorporate a python function as a Hail Batch job, see 
 <summary>Click to reveal full code</summary>
 
 ```python
-def main(project: str, sgids: list[str]):
+def main(project: str, sgids: list[str], last_name: str):
     # region: metadata queries
     # This section is all executed prior to the workflow being scheduled,
     # so we have access to all variables
@@ -524,7 +525,7 @@ def main(project: str, sgids: list[str]):
         )
         j2 = b.new_python_job(f'Register analysis output for {sg}')
         j2.image(get_config()['workflow']['driver_image'])
-        j2.call(create_analysis_entry, sg)
+        j2.call(create_analysis_entry, sg, last_name)
         j2.depends_on(j)
         # read the output out into GCP
         # The helper method output_path() will create a new path based on the current project,
@@ -535,7 +536,7 @@ def main(project: str, sgids: list[str]):
         # output_path('this_file.txt')
         # -> gs://cpg-my-dataset-test/my_output/this_file.txt
         b.write_output(
-            j.out_fastqe, output_path(f'{sg}.html', category='web')
+            j.out_fastqe, output_path(f'{sg}-{last_name}.html', category='web')
         )  # category='web' writes it to the web bucket
     b.run(wait=False)
 
@@ -609,6 +610,7 @@ def get_assays(project: str, sgids: list) -> list[str]:
 
 def create_analysis_entry(
     sgid: str,
+    last_name: str,
     active: bool = True,
 ):
     from cpg_utils import to_path
@@ -622,10 +624,10 @@ def create_analysis_entry(
         project = f'{project}-test'
     output_prefix = get_config()['workflow']['output_prefix']
     output_path = os.path.join(
-        get_config()['storage']['default']['web'], output_prefix, f'{sgid}.html'
+        get_config()['storage']['default']['web'], output_prefix, f'{sgid}-{last_name}.html'
     )
     display_url = os.path.join(
-        get_config()['storage']['default']['web_url'], output_prefix, f'{sgid}.html'
+        get_config()['storage']['default']['web_url'], output_prefix, f'{sgid}-{last_name}.html'
     )
     AnalysisApi().create_analysis(
         project=f'{project}',
@@ -640,7 +642,7 @@ def create_analysis_entry(
     )
 
 
-def main(project: str, sgids: list[str]):
+def main(project: str, sgids: list[str], last_name: str):
     # region: metadata queries
     # This section is all executed prior to the workflow being scheduled,
     # so we have access to all variables
@@ -680,7 +682,7 @@ def main(project: str, sgids: list[str]):
         )
         j2 = b.new_python_job(f'Register analysis output for {sg}')
         j2.image(get_config()['workflow']['driver_image'])
-        j2.call(create_analysis_entry, sg)
+        j2.call(create_analysis_entry, sg, last_name)
         j2.depends_on(j)
         # read the output out into GCP
         # The helper method output_path() will create a new path based on the current project,
@@ -691,7 +693,7 @@ def main(project: str, sgids: list[str]):
         # output_path('this_file.txt')
         # -> gs://cpg-my-dataset-test/my_output/this_file.txt
         b.write_output(
-            j.out_fastqe, output_path(f'{sg}.html', category='web')
+            j.out_fastqe, output_path(f'{sg}-{last_name}.html', category='web')
         )  # category='web' writes it to the web bucket
     b.run(wait=False)
 
@@ -705,11 +707,14 @@ if __name__ == '__main__':
     parser.add_argument(
         '--sgids', nargs='+', help='Sequencing group IDs', required=True
     )
+    parser.add_argument(
+        '--last-name', help='Last name', required=True
+    )
     args, fails = parser.parse_known_args()
 
     if fails:
         raise ValueError(f'Failed to parse arguments: {fails}')
-    main(project=args.project, sgids=args.sgids)
+    main(project=args.project, sgids=args.sgids, last_name=args.last_name)
 ```
 
 </details>
