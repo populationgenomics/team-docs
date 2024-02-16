@@ -1,6 +1,6 @@
 # Introduction
 
-The aim of the following exercise is to allow you to get first hand experience working with the CPG codebase, the tools used to conduct analyses, as well as the supporting infrastructure that enables the management and utilisation of data.
+The aim of this tutorial is to provide you with practical experience in working with the CPG codebase. By the end of this tutorial, you will be familiar with the tools we use for data analysis, understand how our supporting infrastructure manages and uses data, and be able to run basic analyses using our codebase. The tutorial is structured to first introduce you to the codebase and tools, followed by hands-on exercises that will guide you through running an analysis and understanding the infrastructure.
 
 ## Table of Contents
 
@@ -13,7 +13,7 @@ The aim of the following exercise is to allow you to get first hand experience w
 
 ## 1. Query metamist for `.fastq` files
 
-The first step in understanding Metamist is to understand how to query the database so that we can get the necessary information on our samples. Metamist is used to track file locations, participant IDs, statuses of samples (i.e. the location of the files on Google Cloud, whether the the `.fastq` files have been aligned to form`.cram`s, whether there is a `.vcf` file available, and whether the sample has been joint called with other samples). Metamist is CPG's way of keeping track of everything.
+The first step in understanding [Metamist](https://github.com/populationgenomics/metamist) is to understand how to query the database so that we can get the necessary information on our samples. In this section we are going to understand the structure of the metadata and learn how to query it both using a GUI and programatically. Metamist is used to track file locations, participant IDs, statuses of samples (i.e. the location of the files on Google Cloud, whether the the `.fastq` files have been aligned to form`.cram`s, whether there is a `.vcf` file available, and whether the sample has been joint called with other samples). Metamist is CPG's way of keeping track of everything metadata-related.
 
 Metamist is built on a GraphQL infrastructure. GraphQL is a query language for APIs that provides a more efficient and flexible alternative to traditional RESTful APIs. It allows clients to request exactly the data they need, and nothing more, by specifying the structure of the response in the query itself. This reduces over-fetching and under-fetching of data.
 
@@ -218,6 +218,8 @@ In the above output we can see that for `SequencingGroup` `CPG348821` there is a
 
 ## 2. Build and publish a Docker image
 
+In this section we are going to learn how CPG uses Docker images to run analyses. We will learn how to build a Docker image and publish it to the CPG's Docker registry.
+
 At CPG, we run all our computational operations in cloud infrastructure (mainly Google's Cloud Platform, GCP). Each individual task runs by generating a [Docker container](https://docs.docker.com/get-started/#what-is-a-container) from a template image. These images are built internally and published to GCP at CPG, and we have generated a library of different images for different purposes.
 
 Each Docker image is a minimal file system and associated software, which runs as a computer that we can pass data into, and run software inside of to generate results. Our library of Docker images serve different purposes - some are minimal with only a single installed tool, some are more general purpose and have a wide range of tools installed. Our [Images repository](https://github.com/populationgenomics/images) is where we maintain build instructions, called Dockerfiles.
@@ -258,6 +260,8 @@ Note that we need to specify the platform as linux/amd64 because we are building
 
 
 ## 3. Write a script to run FastQE
+
+In this section, we'll craft a script that leverages Hail Batch and the FastQE image we just made. This script will execute the FastQE tool on the `.fastq` files that we previously retrieved from Metamist. After completing this section you will have an understanding of how Hail Batch uses Docker images to run analyses and how to write a script that uses Hail Batch to run an analysis.
 
 The basic outline of our script is going to be:
 
@@ -414,6 +418,8 @@ The code up to this point is capable of fetching the necessary fastq files, runn
 We have not yet covered how to update Metamist with the location of the output files. This is because it is a little more complicated than the previous steps. We will cover this in the next section.
 
 ## 4. Update Metamist with the location of the output files
+
+In this section you will learn how we update Metamist with the status, time completed, type of analysis, and the location of the output files of the analysis. 
 
 We will be using the metamist `AnalysisApi` endpoint to update the analyses of the `sequencingGroups` we have run FastQE on. Additionally, we will be updating the api endpoint from within Hail Batch which can add complexity. This part is tricky so don't be worried if you need to peek at the answers!!
 
@@ -723,6 +729,8 @@ if __name__ == '__main__':
 <br>
 
 ## 5. Run the jobs through analysis runner
+
+In this section, we will use the `analysis-runner` to run the script we just wrote. You will be able see what a typical command of the `analysis-runner` looks like and gain an appreciation for how it is vital for reproducibility and traceability of our analyses.
 
 For a run through on how to submit jobs using analysis runner, please see the [analysis runner tutorial](https://github.com/populationgenomics/team-docs/tree/main/exercise-analysis-runner) in the team-docs repo.
 
