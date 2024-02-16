@@ -102,7 +102,7 @@ As an aid to help build queries, GraphiQL provides a user interface that allows 
 
 ### Task
 
-- Using the GraphiQL interface, write a query that returns the metadata (`meta`) of the `assays` as well as the `externalID` of the `sample` corresponding to the `SequencingGroup` with the `id` of `CPG327239` within the "sandbox-test" `project`.
+- Using the GraphiQL interface, write a query that returns the metadata (`meta`) of the `assays` as well as the `externalID` of the `sample` corresponding to the `SequencingGroup` with the `id` of `CPG348821` within the "sandbox-test" `project`.
 
 <br>
 <br>
@@ -113,7 +113,7 @@ As an aid to help build queries, GraphiQL provides a user interface that allows 
   ```graphql
   query MyQuery {
     project(name: "sandbox-test") {
-      sequencingGroups(id: {eq: "CPG327239"}) {
+      sequencingGroups(id: {eq: "CPG348821"}) {
         assays {
           meta
         }
@@ -162,7 +162,7 @@ query ($project: String! $sequencingGroupID: String!) {
 )
 
 # here we're just printing the output of the query in a nice format
-variables = {'project': 'sandbox-test', 'sequencingGroupID': 'CPG327239'}
+variables = {'project': 'sandbox-test', 'sequencingGroupID': 'CPG348821'}
 print(json.dumps(query(_query, variables=variables), indent=4))
 ```
 
@@ -172,49 +172,48 @@ Running the above script in the terminal will print the output of the query in a
 
 ```text
 {
-  "data": {
-    "project": {
+  "project": {
       "sequencingGroups": [
-        {
-          "assays": [
-            {
-              "meta": {
-                "reads_type": "fastq",
-                "reads": [
+          {
+              "id": "CPG348821",
+              "assays": [
                   {
-                    "location": "gs://cpg-sandbox-main-upload/LP6005442-DNA_B03_1.fastq.gz",
-                    "basename": "LP6005442-DNA_B03_1.fastq.gz",
-                    "class": "File",
-                    "checksum": null,
-                    "size": 21488775743,
-                    "datetime_added": "2024-01-11T22:49:24.015000+00:00"
-                  },
-                  {
-                    "location": "gs://cpg-sandbox-main-upload/LP6005442-DNA_B03_2.fastq.gz",
-                    "basename": "LP6005442-DNA_B03_2.fastq.gz",
-                    "class": "File",
-                    "checksum": null,
-                    "size": 21476047743,
-                    "datetime_added": "2024-01-11T22:49:05.931000+00:00"
+                      "meta": {
+                          "reads_type": "fastq",
+                          "reads": [
+                              {
+                                  "location": "gs://cpg-sandbox-test-upload/onboarding_fastqs/sandbox_fastq_SB_001_1.fastq.gz",
+                                  "basename": "sandbox_fastq_SB_001_1.fastq.gz",
+                                  "class": "File",
+                                  "checksum": null,
+                                  "size": 92485,
+                                  "datetime_added": "2024-02-15T22:15:42.292000+00:00"
+                              },
+                              {
+                                  "location": "gs://cpg-sandbox-test-upload/onboarding_fastqs/sandbox_fastq_SB_001_2.fastq.gz",
+                                  "basename": "sandbox_fastq_SB_001_2.fastq.gz",
+                                  "class": "File",
+                                  "checksum": null,
+                                  "size": 92618,
+                                  "datetime_added": "2024-02-15T22:15:42.391000+00:00"
+                              }
+                          ],
+                          "sequencing_type": "genome",
+                          "sequencing_technology": "short-read",
+                          "sequencing_platform": "illumina"
+                      }
                   }
-                ],
-                "sequencing_type": "genome",
-                "sequencing_technology": "short-read",
-                "sequencing_platform": "illumina"
-              }
+              ],
+              "sample": {
+                  "externalId": "sandbox_fastq_SB_001"
+                }
             }
-          ],
-          "sample": {
-            "externalId": "LP6005442-DNA_B03"
-          }
-        }
-      ]
+        ]
     }
-  }
 }
 ```
 
-In the above output we can see that for `SequencingGroup` `CPG327239` there is a set of reads (forward and reverse) that have been uploaded to Google Cloud Storage. We can also see that the `sequencing_type` is `genome` and the `sequencing_technology` is `short-read`. We can also see that the `externalId` of the `sample` is `LP6005442-DNA_B03`.
+In the above output we can see that for `SequencingGroup` `CPG348821` there is a set of reads (forward and reverse) that have been uploaded to Google Cloud Storage. We can also see that the `sequencing_type` is `genome` and the `sequencing_technology` is `short-read`. We can also see that the `externalId` of the `sample` is `sandbox_fastq_SB_001`.
 
 
 ## 2. Build and publish a Docker image
