@@ -11,6 +11,14 @@ The aim of this tutorial is to provide you with practical experience in working 
 5. [Run the jobs through analysis runner](#5-run-the-jobs-through-analysis-runner)
 6. [Pull the output and visualise](#6-pull-the-output-and-visualise)
 
+## Before starting: Clone Repo
+
+Before we start, let's clone the `team-docs` repository. This repository contains a lot of the documentation for the CPG (we will also link to the relevant sections of the outside of this repository in this tutorial). 
+```bash
+git clone https://github.com/populationgenomics/team-docs.git
+```
+
+
 ## 1. Query metamist for `.fastq` files
 
 The first step in understanding [Metamist](https://github.com/populationgenomics/metamist) is to understand how to query the database so that we can get the necessary information on our samples. In this section we are going to understand the structure of the metadata and learn how to query it both using a GUI and programatically. Metamist is used to track file locations, participant IDs, statuses of samples (i.e. the location of the files on Google Cloud, whether the the `.fastq` files have been aligned to form`.cram`s, whether there is a `.vcf` file available, and whether the sample has been joint called with other samples). Metamist is CPG's way of keeping track of everything metadata-related.
@@ -103,6 +111,7 @@ As an aid to help build queries, GraphiQL provides a user interface that allows 
 ### Task
 
 - Using the GraphiQL interface, write a query that returns the metadata (`meta`) of the `assays` as well as the `externalID` of the `sample` corresponding to the `SequencingGroup` with the `id` of `CPG348821` within the "sandbox-test" `project`.
+- **Note**: To see how our Google Cloud Buckets are set up, please read the [storage policies](https://github.com/populationgenomics/team-docs/tree/main/storage_policies) section of the `team-docs` repository.
 
 <br>
 <br>
@@ -128,12 +137,12 @@ As an aid to help build queries, GraphiQL provides a user interface that allows 
 </details>
 <br>
 
-Next, let's try executing this query using Python. We'll be using the metamist Python package to do this. Metamist is more than just a wrapper around the requests package; it's the CPG's metadata database. The installable Python package includes both the database server components and the API clients used to query this data. Metamist's GraphQL features are used to construct queries to the Metamist server and parse the responses.
+Next, let's try executing this query using Python. We'll be using the metamist Python package to do this. The installable Python package includes both the database server components and the API clients used to query this data. Metamist's GraphQL features are used to construct queries to the Metamist server and parse the responses.
 
 You will first need to install `metamist` using `pip`. You can do this by running the following command in your terminal:
 
 ```bash
-pip install metamist==2.43.3
+pip install metamist==6.3.0
 ```
 
 Now that you have `metamist` installed, let's try sending the query we wrote above using Python. Create a new Python file called `query_metamist.py` and copy and paste the above code into it.
@@ -218,7 +227,7 @@ In the above output we can see that for `SequencingGroup` `CPG348821` there is a
 
 ## 2. Build and publish a Docker image
 
-In this section we are going to learn how CPG uses Docker images to run analyses. We will learn how to build a Docker image and publish it to the CPG's Docker registry.
+Now that we know how to query metamist for metadata about our samples. We can learn the ins and outs of conducting analyses on these samples and their sequencing groups. In this section we are going to learn how CPG uses Docker images to run analyses. We will learn how to build a Docker image and publish it to the CPG's Docker registry.
 
 At CPG, we run all our computational operations in cloud infrastructure (mainly Google's Cloud Platform, GCP). Each individual task runs by generating a [Docker container](https://docs.docker.com/get-started/#what-is-a-container) from a template image. These images are built internally and published to GCP at CPG, and we have generated a library of different images for different purposes.
 
@@ -734,6 +743,10 @@ In this section, we will use the `analysis-runner` to run the script we just wro
 
 For a run through on how to submit jobs using analysis runner, please see the [analysis runner tutorial](https://github.com/populationgenomics/team-docs/tree/main/exercise-analysis-runner) in the team-docs repo.
 
+```bash
+pip install analysis-runner==2.43.4
+```
+
 The `--image` flag in the analysis-runner command line is specifically designed to specify an alternative image to the standard analysis-runner driver image. This alternative image must contain all necessary dependencies to handle authentication, create Hail batches, and perform other required tasks.
 
 In the context of our FastQE example, we will not use this `--image` flag. Instead, we will execute a script within the standard driver image that initiates a new batch. Within this batch, one of the jobs will employ the FastQE image we previously built as specified by the `j.image(image_path('fastqe'))`. The process of localising and delocalising input and output files would be managed directly by Hail, not by the FastQE image.
@@ -752,8 +765,6 @@ analysis-runner \
 Once the above analysis is completed (it shouldn't take long) we can finally visualise the outputs of our FastQE analysis. We can do this simply by querying metamist!
 
 You can navigate to the GraphiQL interface or create a quick python script like we did at the end of section one. Simply copy the `display_url` from the `meta` field of the `Analysis` and paste it into your browser.
-
-`metamist query`
 
 ```graphql
 
