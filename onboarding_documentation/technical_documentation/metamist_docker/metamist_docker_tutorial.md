@@ -13,7 +13,8 @@ The aim of this tutorial is to provide you with practical experience in working 
 
 ## Before starting: Clone Repo
 
-Before we start, let's clone the `team-docs` repository. This repository contains a lot of the documentation for the CPG (we will also link to the relevant sections of the outside of this repository in this tutorial). 
+Before we start, let's clone the `team-docs` repository. This repository contains a lot of the documentation for the CPG (we will also link to the relevant sections of the outside of this repository in this tutorial).
+
 ```bash
 git clone https://github.com/populationgenomics/team-docs.git
 ```
@@ -428,7 +429,7 @@ We have not yet covered how to update Metamist with the location of the output f
 
 ## 4. Update Metamist with the location of the output files
 
-In this section you will learn how we update Metamist with the status, time completed, type of analysis, and the location of the output files of the analysis. 
+In this section you will learn how we update Metamist with the status, time completed, type of analysis, and the location of the output files of the analysis.
 
 We will be using the metamist `AnalysisApi` endpoint to update the analyses of the `sequencingGroups` we have run FastQE on. Additionally, we will be updating the api endpoint from within Hail Batch which can add complexity. This part is tricky so don't be worried if you need to peek at the answers!!
 
