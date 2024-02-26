@@ -313,6 +313,9 @@ There are 3 categories of machines:
    hail-cleanup
    ```
 
+Deleting the deployment will not remove the database so to recreate your dev instance you can just run `hailctl dev deploy` again. 
+
+
 ### Debugging
 
 When you need to debug an issue within your namespace, it's often helpful to inspect the logs of the pods that run the service in question. Keep in mind that many services are replicated, so you might have to check multiple pods.
