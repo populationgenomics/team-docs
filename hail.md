@@ -313,7 +313,7 @@ There are 3 categories of machines:
    hail-cleanup
    ```
 
-Deleting the deployment will not remove the database so to recreate your dev instance you can just run `hailctl dev deploy` again. 
+Deleting the deployment will not remove the database so to recreate your dev instance you can just run `hailctl dev deploy --branch populationgenomics/hail:$BRANCH --steps deploy_batch` again. 
 
 
 ### Debugging
