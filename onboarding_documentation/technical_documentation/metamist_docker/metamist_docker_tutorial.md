@@ -491,28 +491,27 @@ def create_analysis_entry(
 ):
     from cpg_utils import to_path
     from cpg_utils.config import get_config
+    from cpg_utils.hail_batch import output_path
     from metamist.apis import AnalysisApi
     from metamist.model.analysis import Analysis
     from metamist.model.analysis_status import AnalysisStatus
 
-    project = get_config()['workflow']['dataset']
-    if get_config()['workflow']['access_level'] == 'test' and 'test' not in project:
-        project = f'{project}-test'
-    output_prefix = get_config()['workflow']['output_prefix']
-    output_path = os.path.join(
-        get_config()['storage']['default']['web'], output_prefix, f'{sgid}-{last_name}.html'
-    )
-    display_url = os.path.join(
-        get_config()['storage']['default']['web_url'], output_prefix, f'{sgid}-{last_name}.html'
-    )
+    # Replace instances of get_config with one config = get_config() at the top of the file
+    config = get_config()
+    project = config["workflow"]["dataset"]
+    if config["workflow"]["access_level"] == "test" and "test" not in project:
+        project = f"{project}-test"
+    out_web_path = output_path(f"{sgid}-{last_name}.html", "web")
+    out_display_path = output_path(f"{sgid}-{last_name}.html", "web_url")
+
     AnalysisApi().create_analysis(
-        project=f'{project}',
+        project=project,
         analysis=Analysis(
-            type='web',
-            status=AnalysisStatus('completed'),
-            meta={'display_url': display_url},
+            type="web",
+            status=AnalysisStatus("completed"),
+            meta={"display_url": out_display_path},
             sequencing_group_ids=[sgid],
-            output=output_path,
+            output=out_web_path,
             active=active,
         ),
     )
@@ -665,28 +664,27 @@ def create_analysis_entry(
 ):
     from cpg_utils import to_path
     from cpg_utils.config import get_config
+    from cpg_utils.hail_batch import output_path
     from metamist.apis import AnalysisApi
     from metamist.model.analysis import Analysis
     from metamist.model.analysis_status import AnalysisStatus
 
-    project = get_config()['workflow']['dataset']
-    if get_config()['workflow']['access_level'] == 'test' and 'test' not in project:
-        project = f'{project}-test'
-    output_prefix = get_config()['workflow']['output_prefix']
-    output_path = os.path.join(
-        get_config()['storage']['default']['web'], output_prefix, f'{sgid}-{last_name}.html'
-    )
-    display_url = os.path.join(
-        get_config()['storage']['default']['web_url'], output_prefix, f'{sgid}-{last_name}.html'
-    )
+    # Replace instances of get_config with one config = get_config() at the top of the file
+    config = get_config()
+    project = config["workflow"]["dataset"]
+    if config["workflow"]["access_level"] == "test" and "test" not in project:
+        project = f"{project}-test"
+    out_web_path = output_path(f"{sgid}-{last_name}.html", "web")
+    out_display_path = output_path(f"{sgid}-{last_name}.html", "web_url")
+
     AnalysisApi().create_analysis(
-        project=f'{project}',
+        project=project,
         analysis=Analysis(
-            type='web',
-            status=AnalysisStatus('completed'),
-            meta={'display_url': display_url},
+            type="web",
+            status=AnalysisStatus("completed"),
+            meta={"display_url": out_display_path},
             sequencing_group_ids=[sgid],
-            output=output_path,
+            output=out_web_path,
             active=active,
         ),
     )
