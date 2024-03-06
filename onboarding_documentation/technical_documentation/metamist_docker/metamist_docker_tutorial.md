@@ -1,6 +1,12 @@
 # Introduction
 
-The aim of this tutorial is to provide you with practical experience in working with the CPG codebase. By the end of this tutorial, you will be familiar with the tools we use for data analysis, understand how our supporting infrastructure manages and uses data, and be able to run basic analyses using our codebase. The tutorial is structured to first introduce you to the codebase and tools, followed by hands-on exercises that will guide you through running an analysis and understanding the infrastructure.
+The aim of this tutorial is to provide you with practical experience when working with the CPG infrastructure. By the end of this tutorial, you will be familiar with:
+
+- A few tools we use for data analysis,
+- How we store, manage, and use data, and metadata,
+- Running basic analyses using our codebase.
+
+The tutorial is structured to first introduce you to the codebase and tools, followed by hands-on exercises that will guide you through running an analysis and understanding the infrastructure.
 
 ## Table of Contents
 
@@ -13,7 +19,7 @@ The aim of this tutorial is to provide you with practical experience in working 
 
 ## Before starting: Clone Repo
 
-Before we start, let's clone the `team-docs` repository. This repository contains a lot of the documentation for the CPG (we will also link to the relevant sections of the outside of this repository in this tutorial).
+Let's clone the `team-docs` repository. This repository contains documentation for the CPG and gives us a place to commit code from this tutorial to use in the analysis-runner. We'll also link to the relevant sections in the docs from this tutorial.
 
 ```bash
 git clone https://github.com/populationgenomics/team-docs.git
@@ -22,9 +28,25 @@ git clone https://github.com/populationgenomics/team-docs.git
 
 ## 1. Query metamist for `.fastq` files
 
-The first step in understanding [Metamist](https://github.com/populationgenomics/metamist) is to understand how to query the database so that we can get the necessary information on our samples. In this section we are going to understand the structure of the metadata and learn how to query it both using a GUI and programatically. Metamist is used to track file locations, participant IDs, statuses of samples (i.e. the location of the files on Google Cloud, whether the the `.fastq` files have been aligned to form`.cram`s, whether there is a `.vcf` file available, and whether the sample has been joint called with other samples). Metamist is CPG's way of keeping track of everything metadata-related.
+[Metamist](https://github.com/populationgenomics/metamist) is a CPG developed database for storing de-identified metadata. You can think of metamist as storing the "state" of analysis for a project. It does this by tracking metadata for:
 
-Metamist is built on a GraphQL infrastructure. GraphQL is a query language for APIs that provides a more efficient and flexible alternative to traditional RESTful APIs. It allows clients to request exactly the data they need, and nothing more, by specifying the structure of the response in the query itself. This reduces over-fetching and under-fetching of data.
+- *Participants* - an individual who consents to giving genomic data
+    - eg Meta fields: external identifiers, sex, consent information, phenotypes
+- *Family* - a group of participants,
+    - eg Meta fields: external identifiers, related phenotype
+- *Samples* - the physical collection of some biological matter for processing
+    - eg Meta fields: sample type, collection date
+- *Assays* - An experiment or procedure which results in some digital result
+    - At the CPG, we predominantly capture results from `sequencing` (digitising an exome, genome, transcriptome), but this could include proteomics, genotyping, etc
+    - eg Meta fields: assay type, sequencing type (if assay type is sequencing), experiment date, other experimental parameters.
+- *Sequencing groups* - a list of sequencing assays that we run using the same sequencing type, technology, and platform
+    - A sequencing group has a CPGxxx internal identifiers
+    - The list of assays that makes this up is immutable.
+    - eg Meta fields: list of assays, sequencing type, technology, platform
+- *Analysis* - some digital analysis or processing that we do that has an output artifact.
+    - eg Meta fields: output location, input parameters
+
+Metamist has a user interface (available at [https://sample-metadata.populationgenomics.org.au](https://sample-metadata.populationgenomics.org.au)), and a GraphQL endpoint which we can query! GraphQL is a powerful way to query relationships between data, allowing clients to request exactly the data they need, by specifying the structure of the response in the query itself. This reduces over-fetching and under-fetching of data.
 
 **Note:** In your everyday use of Metamist, many of the interactions happen seamlessly in the background, shielded from the user. Nevertheless, having a profound understanding of Metamist's inner workings is crucial because it forms the core of CPG. When operating at the pipeline level, there's usually no need for manual query construction; the pipeline handles this complexity for users. However, possessing this knowledge remains vital, particularly for those wishing to delve deeply into the specifics of individual participants or components.
 
@@ -33,8 +55,6 @@ Before diving in to Metamist, it's important to understand the structure of the 
 <div style="text-align: center;">
     <img src="metamist_schema_diagram.png" width="1000">
 </div>
-
-The core concept of Metamist is a `SequencingGroup`.
 
 - A `Participant` is an individual who has provided samples for genetic analysis. Each `Participant` is linked by a unique `participant_id` and can have multiple Samples. A Sample is the physical sample taken from the participant at a time and place.
 - `Samples` are used to generate `Assays`. Each `Assay` represents a collection of files generated from a single sequencing run. These `Assays`, in turn, consist of one or more `Reads` (real files). A `Read` is essentially a single file containing the raw reads from a specific lane in the sequencing process. At this point an `Assay` is either genome or exome sequencing but could refer to genotyping arrays/proteomics/RNA assays etc. in the future.
@@ -46,7 +66,7 @@ The core concept of Metamist is a `SequencingGroup`.
     <img src="sequencing_group_relationships.png" width="750">
 </div>
 
-Let's first work with Metamist and GraphQL using the GUI. Navigate to <https://sample-metadata.populationgenomics.org.au/> to see the homepage of CPG's Metamist implementation.
+Let's first work with Metamist and GraphQL using the GUI. Navigate to [https://sample-metadata.populationgenomics.org.au/](https://sample-metadata.populationgenomics.org.au/) to see the homepage of CPG's Metamist implementation.
 
 <div style="text-align: center;">
     <img src="metamist_homepage.png" width="1000">
@@ -57,6 +77,10 @@ Let's first work with Metamist and GraphQL using the GUI. Navigate to <https://s
 ### GraphQL
 
 GraphQL, standing for 'Query Language,' signifies a specific syntax designed for querying servers or performing data mutations. Unlike RESTful APIs, which typically feature multiple endpoints for different resources, GraphQL uses a single endpoint. This single endpoint efficiently handles queries and mutations, reducing the number of required server requests. However, the key feature of GraphQL, particularly for our purposes, is its ability to query for and connect entities across multiple database tables without the need for explicit `join` statements. This feature allows us to consolidate what would typically be 3 or 4 separate `GET` queries in a RESTful API into a single GraphQL query, which returns the data in the appropriate hierarchical structure. It's important to note that while GraphQL has these capabilities, our current `POST`/`PATCH` operations are not using GraphQL but are instead using the previous endpoints.
+
+<div style="text-align: center;">
+    <img src="graphQL_model.png" width="1000">
+</div>
 
 See some documentation here:
 
@@ -143,7 +167,7 @@ Next, let's try executing this query using Python. We'll be using the metamist P
 You will first need to install `metamist` using `pip`. You can do this by running the following command in your terminal:
 
 ```bash
-pip install metamist==6.3.0
+pip install metamist
 ```
 
 Now that you have `metamist` installed, let's try sending the query we wrote above using Python. Create a new Python file called `query_metamist.py` and copy and paste the above code into it.
@@ -238,7 +262,7 @@ These Docker Images are versioned and kept indefinitely - if multiple processes 
 
 The workflow management software we use at the CPG is called [Hail Batch](https://hail.is/docs/batch/service.html) - this allows us to specify a different Docker image for each step of a workflow, and metadata for each run records the name and version of each Image used. This is one of the ways in which CPG runs aim to be reproducible, e.g. if we need to go back and repeat a prior experiment we can be confident of the software used.
 
-[FastQE](https://github.com/fastqe/fastqe/) is a fun tool that mimics the output of FastQC (a more 'official' bioinformatic tool) but instead represents the quality scores with emojis. Clearly, FastQE is not intended for use in a production environment. However, it serves as an illustrative example of a tool currently missing from our library. To incorporate it, we need to construct a corresponding Docker image.
+[FastQE](https://github.com/fastqe/fastqe/) is a fun tool that mimics the function of FastQC (a more 'standard' bioinformatic tool) as a tool to assess read quality but instead represents the quality scores with emojis. Clearly, FastQE is not intended for use in a production environment. However, it serves as an illustrative example of a tool currently missing from our library. To incorporate it, we need to construct a corresponding Docker image.
 
 Let's walk through an example of writing a Dockerfile using FastQE. You can refer to the [images](https://github.com/populationgenomics/images) repo to see how other images are built. **Note:** This is just an example for practice. When you're creating your own Dockerfile, you should try to do this yourself. However, to avoid duplication, please do not push these practice images to the repo.
 
@@ -257,16 +281,26 @@ RUN pip install fastqe==${VERSION}
 </details>
 <br>
 
-Save the above in a file named `Dockerfile` and push it to the `images` repo, create a PR and as is standard practice in CPG you will have to nominate someone to review this PR so that it can be merged into main and the image can be used by `analysis-runner` when we run the job.
+If you wanted to submit this image to be used by the wider CPG:
+
+1. Clone the `images` repo, and create a branch for this image,
+2. Create the Dockerfile, you could test the build locally by running a `docker build` (see below),
+3. You can issue a test build in the images repository, pushing your image to a container registry that a test account can access,
+4. On PR approval and merge, you can deploy your image for use in production workflows.
 
 CLI command to build the image:
 
 ```bash
-docker build -t fastqe_image:1.0.0 . --platform=linux/amd64
+docker build -t fastqe_image:0.3.5 . # <-- don't forget the trailing '.'
+
+# If using an M series Macbook, you'll need to specify `--platform=linux/amd64`
+docker build \
+    -t fastqe_image:0.3.5 \
+    --platform=linux/amd64 \
+    .
 ```
 
-Note that we need to specify the platform as linux/amd64 because we are building the image on a Mac. If you are building the image on a Linux machine, you can omit the --platform flag. However, when creating an image for our infrastructure, this won't be necessary. Docker files should be platform agnostic, meaning that if a build is successful on both your local machine and the GitHub server, the resulting images should be identical. This is beneficial for testing purposes, but it's not a prerequisite for creating images within our infrastructure.
-
+Note: We use x86 processors for production workloads (default on GCP), so this flag won't be necessary. Docker files are relatively platform agnostic, meaning that if a build is successful on both your local machine and the GitHub server, the resulting images *should* be *functionally* identical. This is beneficial for testing purposes, but it's not a prerequisite for creating images within our infrastructure.
 
 
 ## 3. Write a script to run FastQE
@@ -296,8 +330,11 @@ from metamist.graphql import gql, query
 
 SG_ASSAY_QUERY = gql(
     """
-    query ($project: String!) {
-        sequencingGroups(project: {eq: $project}) {
+    query ($project: String!, $sgids: [String!]) {
+        sequencingGroups(
+            project: {eq: $project},
+            id: {in_: $sgids}
+        ) {
             id
             assays {
                 id
@@ -324,7 +361,7 @@ The next step is to iterate through the response of the above query and create a
   <summary>Click to see answer</summary>
 
 ```python
-def get_assays(project: str, sgids: list) -> list[str]:
+def get_assays(project: str, sgids: list) -> dict[str, list[str]]:
     """
     Queries the specified project for sequencing groups and assays, and returns a dictionary mapping sequencing group IDs to read locations.
 
@@ -345,9 +382,7 @@ def get_assays(project: str, sgids: list) -> list[str]:
             reads = assay_meta.get('reads')
             if reads is None:
                 continue
-            else:
-                read_locations = [read['location'] for read in reads]
-            sg_assay_map[sg_id] = read_locations
+            sg_assay_map[sg_id] = [read['location'] for read in reads]
 
     return sg_assay_map
 ```
@@ -597,7 +632,7 @@ SG_ASSAY_QUERY = gql(
 )
 
 
-def get_assays(project: str, sgids: list) -> list[str]:
+def get_assays(project: str, sgids: list) -> dict[str, list[str]]:
     """
     Queries the specified project for sequencing groups and assays, and returns a dictionary mapping sequencing group IDs to read locations.
 
@@ -618,9 +653,7 @@ def get_assays(project: str, sgids: list) -> list[str]:
             reads = assay_meta.get('reads')
             if reads is None:
                 continue
-            else:
-                read_locations = [read['location'] for read in reads]
-            sg_assay_map[sg_id] = read_locations
+            sg_assay_map[sg_id] = [read['location'] for read in reads]
 
     return sg_assay_map
 
@@ -745,7 +778,7 @@ In this section, we will use the `analysis-runner` to run the script we just wro
 For a run through on how to submit jobs using analysis runner, please see the [analysis runner tutorial](https://github.com/populationgenomics/team-docs/tree/main/exercise-analysis-runner) in the team-docs repo.
 
 ```bash
-pip install analysis-runner==2.43.4
+pip install analysis-runner
 ```
 
 The `--image` flag in the analysis-runner command line is specifically designed to specify an alternative image to the standard analysis-runner driver image. This alternative image must contain all necessary dependencies to handle authentication, create Hail batches, and perform other required tasks.
@@ -754,7 +787,8 @@ In the context of our FastQE example, we will not use this `--image` flag. Inste
 
 ```bash
 analysis-runner \
-  --dataset sandbox --description "Testing running tutorial" --output-dir "sandbox_fastqe" \
+  --dataset sandbox --description "Testing running tutorial" \
+  --output-dir "sandbox_fastqe" \
   --access-level test \
   --image australia-southeast1-docker.pkg.dev/cpg-common/images/cpg_workflows:latest \ # the driver image
   python3 scripts/metamist_docker_tutorial.py --project sandbox-test --sgids {sequencing_group_ids}
