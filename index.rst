@@ -46,7 +46,7 @@ the `#team-data` or `#software-questions` channels).
 .. toctree::
    :maxdepth: 1
    :caption: Guides
-   
+
    notebooks.md
    new_repository.md
    r_style_guide.md

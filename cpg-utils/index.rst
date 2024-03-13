@@ -11,5 +11,5 @@ This is a collection of utilities for working with the CPG data.
 .. toctree::
    :maxdepth: 1
    :caption: Guides
-   
+
    config
