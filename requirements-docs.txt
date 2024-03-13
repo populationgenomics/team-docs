@@ -1,0 +1,6 @@
+docutils
+sphinx
+sphinx_rtd_theme
+recommonmark
+git+https://github.com/populationgenomics/cpg-utils@refactor-repo
+git+https://github.com/populationgenomics/production-pipelines@update-cpg-utils-paths
