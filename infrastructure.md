@@ -46,7 +46,7 @@ If you're new to GCP, read the excellent [How to Cloud](https://github.com/danki
 
 For better isolation and cost accounting, we create separate GCP projects for each effort within the Centre. For example, the TOB-WGS effort would have a dedicated GCP project. It's important to keep in mind that the GCP project _name_ can be distinct from the dataset name (GCP project IDs must be unique, and as such often contain 6 digits, eg: `dataset-403812`. In general, when you specify projects, you'll have to use the GCP project ID (e.g. `gcloud config set project <project-id>`).
 
-Permissions to projects and resources like Google Cloud Storage (GCS) buckets are managed using Google Groups that are linked to IAM permission roles. Take a look at our [storage policies](storage_policies) for a much more detailed description.
+Permissions to projects and resources like Google Cloud Storage (GCS) buckets are managed using Google Groups that are linked to IAM permission roles. Take a look at our [storage policies](storage_policies/README.md) for a much more detailed description.
 
 It's very important to avoid [network egress traffic](https://cloud.google.com/vpc/network-pricing#internet_egress) whenever possible: for example, copying 1 TB of data from the US to Australia costs 190 USD. To avoid these costs, always make sure that the GCP buckets that store your data are colocated with the machines that access the data (typically in the `australia-southeast1` region).
 
@@ -80,7 +80,7 @@ For now, the best way to run workflows written in WDL is therefore to use the an
 
 ## Permissions
 
-We manage our permissions through Pulumi ([cpg-infrastructure](https://github.com/populationgenomics/cpg-infrastructure/blob/main/cpg_infra/driver.py)). All permissions are mirrored for each dataset. The [storage policies](storage_policies) document has more information about the different ways we store data in the CPG, but broadly, each dataset has two namespaces:
+We manage our permissions through Pulumi ([cpg-infrastructure](https://github.com/populationgenomics/cpg-infrastructure/blob/main/cpg_infra/driver.py)). All permissions are mirrored for each dataset. The [storage policies](storage_policies/README.md) document has more information about the different ways we store data in the CPG, but broadly, each dataset has two namespaces:
 
 1. main - for all production data
 2. test - for specific subsets, or synthetic data you can run unreviewed code on.

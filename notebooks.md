@@ -5,7 +5,7 @@ JupyterLab notebooks can be extremely useful for exploring data and prototyping 
 - avoiding any egress costs for downloading data from GCP, and
 - avoiding the audit and security challenges that additional copies of the data (e.g. on laptops) cause.
 
-The interactivity of notebooks is somewhat at odds with reproducibility and code reviews. To strike a balance, we grant the service accounts that are used to run the notebooks access to only a subset of buckets, namely the `test` and `temporary` buckets for a dataset (see the [storage policies](storage_policies) for context).
+The interactivity of notebooks is somewhat at odds with reproducibility and code reviews. To strike a balance, we grant the service accounts that are used to run the notebooks access to only a subset of buckets, namely the `test` and `temporary` buckets for a dataset (see the [storage policies](storage_policies/README.md) for context).
 
 ## Creating a new notebook
 

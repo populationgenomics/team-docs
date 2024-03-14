@@ -411,7 +411,7 @@ When users submit a batch, they specify a billing project which will be charged 
 
 Billing projects also determine the visibility of batches. If two users use the same billing project, they can see each other's batches submitted under that billing project.
 
-For each of our [datasets](storage_policies), we have a dedicated Hail billing project. Whenever someone gets added to the dataset's permission group, they should also be added to the corresponding Hail Batch billing project.
+For each of our [datasets](storage_policies/README.md), we have a dedicated Hail billing project. Whenever someone gets added to the dataset's permission group, they should also be added to the corresponding Hail Batch billing project.
 
 ## Updating TLS (HTTPS) certificates
 
