@@ -159,49 +159,50 @@ By the end of the tutorial you will be able to:
 9. Verify the outcome of your command using GraphiQL
 
     Browse metamist to view the metadata that have just been ingested. Using [Strawberry GraphiQL](https://sample-metadata.populationgenomics.org.au/graphql), copy the following query and press the pink 'Run' button. 
-
+    <pre>
     query MyQuery {
         project(name: "sandbox") {
             participants {
-            externalId
-            samples {
-                id
+                externalId
+                samples {
+                    id
             }
             }
             samples {
-            externalId
-            sequencingGroups {
-                id
+                externalId
+                sequencingGroups {
+                    id
             }
             }
             sequencingGroups {
-            id
-            assays {
-                sample {
                 id
+                assays {
+                    sample {
+                    id
+                    }
                 }
-            }
             }
         }
     }
+    </pre>
 
     ![Screenshot of graphiql query results](./images/8_verify_graphiql.png)<br>
 
     We only ingested metadata for 10 participants, so we can examine query results manually. 
 
-    Examine metadata returned under the 'participants' header in the first part of the query. Observe that there are 10 results with an `external ID` matching the IDs listed in the metadata manifest.
+    Examine metadata returned under the `participants` header in the first part of the query. Observe that there are 10 results with an `external ID` matching the IDs listed in the metadata manifest.
 
-    Examine metadata returned under 'samples' header. Observe that there are 10 results with an `external ID` matching the file name listed in the metadata manifest. 
+    Examine metadata returned under `samples` header. Observe that there are 10 results with an `external ID` matching the file name listed in the metadata manifest. 
 
-    Examine metadata returned under the 'sequencingGroups' header. Observe that there are, again, 10 results. Each contains an ID, which will match one of the 10 results returned under samples/sequencingGroups/id. Note that each contains a results under an 'assays' header. Each of the 10 assays is associated with a single sample ID, which match the sample id that we retrieved for the participant.
+    Examine metadata returned under the `sequencingGroups` header. Observe that there are, again, 10 results. Each contains an ID, which will match one of the 10 results returned under `samples/sequencingGroups/id`. Note that each contains a results under an `assays` header. Each of the 10 assays is associated with a single `sample ID`, which match the `sample id` that we retrieved for the participant.
 
     These results match our expectations. Your ingestion was successful! Congratulations! 
      
 ## Summary
 
-In this tutorial, you examined data and metadata provided to you by a fictional collaborator. You ingested these data into a production instance of Metamist using parser sample_file_map.py and you verified that this ingestion has been executed correctly. 
+In this tutorial, you examined data and metadata provided to you by a fictional collaborator. You ingested these data into a production instance of Metamist using  theparser `sample_file_map.py` and you verified that this ingestion has been executed correctly. 
 
-Now you will be able to ingest data on behalf of your team, which will enable analysis and other downstream uses. 
+The activities that you completed are a basic stepping stone for ingestion practices across the CPG. Now you will be able to ingest data on behalf of your team, which will enable analysis and other downstream uses. 
 
 ## Next steps
 - How to delete/modify data in metamist
