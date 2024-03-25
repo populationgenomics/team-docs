@@ -81,28 +81,28 @@ By the end of the tutorial you will be able to:
 
     ![Screenshot of metadata manifest .csv file](./images/3_examine_csv.png)
 
-    > ## As an aside
-    >
-    > Before continuing, let’s take a step back to understand what we are performing when we ingest metadata and the resulting structure of new metadata stored in metamist following this process. Reading this section is not required to complete the tutorial and you can skip it.
-    >
-    > ‘Ingestion’ can mean many different things according to the context. In this tutorial, we ingest the metadata in the .csv metadata manifest by generating new metadata records in metamist. This process does not include any ingestion of the data themselves - these remain in the storage bucket. The end result of this process is that we can use the new metadata in Metamist as a record of the data that we have on hand, to perform analyses, to understand the history of our interaction with these data and to point to the bucket location of these data.
-    >
-    > We will be generating metadata in four different tables in metamist from each row in the metadata manifest file. We will create
-        >
-        > A new participant in the `Participant` table (csv column: `Individual ID`)
-        > A new sample in the `Sample` table linked to the relevant participant (csv column: `Sample ID`)
-        > A new assay in the `Assay` table linked to the relevant sample and sequencing group (csv column: `Filenames`)
-        > A new sequencing group in the `Sequencing Group` table that links related assays together
-    >
-    > The image below captures the relationship between the different elements of the metadata that we will be ingesting in Metamist.
-    >
-    > ![Image of the relationship between metdata elements in metamist](../technical_documentation/metamist_docker/sequencing_group_relationships.png)
-    >
-    > An up-to-date Metamist schema is available in the metamist repository. Not all fields in the metadata schema are mandatory and metadata is ingested differently for each table.
-    >
-    > _We are adding new metadata to Metamist in this tutorial. When metadata already exist in Metamist, the process is different and care must be taken to avoid overwriting records._
-    >
+    ---
+    __As an aside__
 
+    Before continuing, let’s take a step back to understand what we are performing when we ingest metadata and the resulting structure of new metadata stored in metamist following this process. Reading this section is not required to complete the tutorial and you can skip it.
+
+    ‘Ingestion’ can mean many different things according to the context. In this tutorial, we ingest the metadata in the .csv metadata manifest by generating new metadata records in metamist. This process does not include any ingestion of the data themselves - these remain in the storage bucket. The end result of this process is that we can use the new metadata in Metamist as a record of the data that we have on hand, to perform analyses, to understand the history of our interaction with these data and to point to the bucket location of these data.
+
+    We will be generating metadata in four different tables in metamist from each row in the metadata manifest file. We will create:
+    - A new participant in the `Participant` table (csv column: `Individual ID`)
+    - A new sample in the `Sample` table linked to the relevant participant (csv column: `Sample ID`)
+    - A new assay in the `Assay` table linked to the relevant sample and sequencing group (csv column: `Filenames`)
+    - A new sequencing group in the `Sequencing Group` table that links related assays together
+
+    The image below captures the relationship between the different elements of the metadata that we will be ingesting in Metamist.
+
+    ![Image of the relationship between metdata elements in metamist](../technical_documentation/metamist_docker/sequencing_group_relationships.png)
+
+    An up-to-date Metamist schema is available in the metamist repository. Not all fields in the metadata schema are mandatory and metadata is ingested differently for each table.
+
+    _We are adding new metadata to Metamist in this tutorial. When metadata already exist in Metamist, the process is different and care must be taken to avoid overwriting records._
+
+    ---
 
 4. Find an existing CPG parser to ingest your metadata
 
@@ -116,7 +116,7 @@ By the end of the tutorial you will be able to:
 
     If the metadata manifest is co-located with your data in the Google Clouds storage bucket, you do not need to take any action. This will be accessible to the parser.
 
-    If your collaborator has provided the metadata manifest separately to the data, please download the manifest to your local machine and add it to a new folder in your local metamist repository. Add this folder to your .gitignore file to ensure that this change is not pushed to the remote repository.
+    If your collaborator has provided the metadata manifest separately to the data, please upload your manifest to the same bucket as your data using the [`gsutil cp` command](https://cloud.google.com/storage/docs/gsutil/commands/cp): `gsutil cp <local file path> gs://cpg-sandbox-test-upload/onboarding_fastqs/`
 
 6. Compose the command to run the parser script
 
