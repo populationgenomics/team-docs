@@ -69,7 +69,7 @@ By the end of the tutorial you will be able to:
 
     Metadata has been provided for our tutorial by our kind fictional collaborator in the file `onboarding_fastq_sample_file_map.csv`. Metadata will not necessarily be colocated with your data and often collaborators will provide these via an alternative means such as email.
 
-    Download this file to your computer. You can do this is by clicking the download symbol on the Google Console or by using your terminal: `gsutil cp gs://cpg-sandbox-test-upload/onboarding_fastqs/onboarding_fastq_sample_file_map.csv`. Using this command will download the file to your current working directory.
+    Download this file to your computer. You can do this is by clicking the download symbol on the Google Console or by using your terminal: `gsutil cp gs://cpg-sandbox-test-upload/onboarding_fastqs/onboarding_fastq_sample_file_map.csv .`. Using this command will download the file to your current working directory.
 
    ![Location of download symbol on Google Cloud](./images/3_examine_metadata.png)
 
