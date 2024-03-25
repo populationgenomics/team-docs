@@ -158,7 +158,7 @@ By the end of the tutorial you will be able to:
 
     ![Descriptive text following successful parser run](./images/7_parser_output.png)
 
-    Read the descriptive text underneath the table to check which tables and ensure that you have the required number of inserts, again according to your metadata manifest file. We can see that there are 10 insertions per table, which corresponds to the 10 participants included in the original file.
+    Read the descriptive text underneath the table to check where your metadata have been ingested and ensure that you have the required number of updates, again according to your metadata manifest file. We can see that there are 10 updates per table, which corresponds to the 10 participants included in the original file.
 
     {'participants': {'insert': 10, 'update': 0}, 'samples': {'insert': 10, 'update': 0}, 'sequencing_groups': {'insert': 10, 'update': 0}, 'assays': {'insert': 10, 'update': 0}, 'analyses': {'insert': 0}}
 
