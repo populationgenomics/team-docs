@@ -789,7 +789,7 @@ analysis-runner \
   --output-dir "sandbox_fastqe" \
   --access-level test \
   --image australia-southeast1-docker.pkg.dev/cpg-common/images/cpg_workflows:latest \ # the driver image
-  python3 scripts/metamist_docker_tutorial.py --project sandbox-test --sgids {sequencing_group_ids}
+  python3 scripts/metamist_docker_tutorial.py --project sandbox-test --sgids {sequencing_group_ids} --last-name {last_name}
 ```
 
 
