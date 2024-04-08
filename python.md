@@ -58,6 +58,23 @@ _activate_completion() {
 complete -F _activate_completion activate
 ```
 
+## Typing
+
+Since the release of PEP 604 in Python 3.10, we are able to use type annotations such as:
+
+```python
+x: str | None = None
+```
+
+which is preferred over:
+
+```python
+from typing import Optional
+x: Optional[str] = None
+```
+
+due to some caveats with the use of `Optional` but also to keep the codebase simpler, and less reliant on the use of additional modules.
+
 ## Visual Studio Code
 
 See [Code editors](code_editors.md#vscode---python) for more information on configuring Python in VSCode.
