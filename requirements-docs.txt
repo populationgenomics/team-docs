@@ -2,5 +2,5 @@ docutils
 sphinx
 sphinx_book_theme
 recommonmark
-git+https://github.com/populationgenomics/cpg-utils.git@refactor-repo
-git+https://github.com/populationgenomics/production-pipelines.git@update-cpg-utils-paths
+cpg-utils >= 5.0.2
+cpg-workflows
