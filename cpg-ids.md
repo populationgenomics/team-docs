@@ -11,4 +11,3 @@ If we do publish these IDs, we should:
 
 1. create a pull-request to delete these IDs, and then,
 1. an organisation owner can request PR deletion from [GitHub Support](https://support.github.com/contact?flow=pr_removal&subject=Delete%20Pull%20Request&tags=rr-remove-data).
-

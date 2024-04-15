@@ -22,12 +22,13 @@ the `#team-data` or `#software-questions` channels).
 
    getting_started.md
    terminal.md
-   zscaler.md
    git.md
+   hail.md
+   cpg-ids.md
    python.md
    code_editors.md
    notebooks.md
-   hail.md
+   zscaler.md
 
 .. toctree::
    :maxdepth: 1
@@ -51,7 +52,10 @@ the `#team-data` or `#software-questions` channels).
    new_repository.md
    r_style_guide.md
    cpg_utils_config.md
+   infrastructure.md
+   data_sharing.md
    budgets.md
+   bioinformatics/igv.md
 
 
 Indices and tables
