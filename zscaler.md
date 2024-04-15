@@ -36,4 +36,3 @@ gcloud config set core/custom_ca_certs_file ${CERT_PATH}
 
 You can configure the environment variables for additional software using the instructions from: [Adding Custom Certificate to an Application Specific Trust Store
 ](https://help.zscaler.com/zia/adding-custom-certificate-application-specific-trust-store)
-
