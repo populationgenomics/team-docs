@@ -13,3 +13,8 @@ This is a collection of utilities for working with the CPG data.
    :caption: Guides
 
    config
+   cloud
+   cromwell
+   dataproc
+   git
+   hail_batch
