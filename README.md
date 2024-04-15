@@ -19,7 +19,7 @@ the `#team-data` or `#software-questions` channels).
     - [Hail query and Hail Batch](hail.md)
 - About the centre
     - [Reproducible analyses](reproducible_analyses.md)
-    - [Storage policies](storage_policies)
+    - [Storage policies](storage_policies/README.md)
 - Guides:
     - [Notebooks](notebooks.md)
     - [Setting up a new repository](new_repository.md)
