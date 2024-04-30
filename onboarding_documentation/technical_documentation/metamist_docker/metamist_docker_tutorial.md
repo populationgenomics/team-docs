@@ -135,7 +135,7 @@ As an aid to help build queries, GraphiQL provides a user interface that allows 
 
 ### Task
 
-- Using the GraphiQL interface, write a query that returns the metadata (`meta`) of the `assays` as well as the `externalID` of the `sample` corresponding to the `SequencingGroup` with the `id` of `CPG348821` within the "sandbox-test" `project`.
+- Using the GraphiQL interface, start by selecting the "sandbox-test" `project`. Within this project, identify the `SequencingGroup` with the `id` of `CPG348821`. Write a query that retrieves the metadata (`meta`) of the `assays` and the `externalID` of the corresponding `sample` for this `SequencingGroup`.
 - **Note**: To see how our Google Cloud Buckets are set up, please read the [storage policies](https://github.com/populationgenomics/team-docs/tree/main/storage_policies) section of the `team-docs` repository.
 
 <br>
@@ -170,7 +170,7 @@ You will first need to install `metamist` using `pip`. You can do this by runnin
 pip install metamist
 ```
 
-Now that you have `metamist` installed, let's try sending the query we wrote above using Python. Create a new Python file called `query_metamist.py` and copy and paste the above code into it.
+Now that you have `metamist` installed, let's try sending the query we wrote above using Python. Create a new Python file called `query_metamist.py` and copy and paste the below code into it.
 
 ```python
 
@@ -202,7 +202,7 @@ print(json.dumps(query(_query, variables=variables), indent=4))
 
 Notice how we don't need to specify the project or sequencingGroup IDs in the query itself. We can pass the variables to the query using the `variables` argument in the `query` function. This is a good way to avoid hard coding variables into your query.
 
-Running the above script in the terminal will print the output of the query in a nice readable json format. You should see the following:
+Running the above script in the terminal will print the output of the query in a nice readable json format. You should see the following (note again: depending on bucket clean-up the results may not be exactly matching those below):
 
 ```text
 {
@@ -266,7 +266,7 @@ The workflow management software we use at the CPG is called [Hail Batch](https:
 
 Let's walk through an example of writing a Dockerfile using FastQE. You can refer to the [images](https://github.com/populationgenomics/images) repo to see how other images are built. **Note:** This is just an example for practice. When you're creating your own Dockerfile, you should try to do this yourself. However, to avoid duplication, please do not push these practice images to the repo.
 
-In this example, we'll use the `python:3.10-slim` image as a base image and install FastQE version 0.3.1 using `pip`.
+In this example, we'll use the `python:3.10-slim` image as a base image and install FastQE version 0.3.1 using `pip`. Make sure to titel it 'Dockerfile'.
 
 <details>
   <summary>Click to see answer</summary>
@@ -286,7 +286,7 @@ If you wanted to submit this image to be used by the wider CPG:
 1. Clone the `images` repo, and create a branch for this image,
 2. Create the Dockerfile, you could test the build locally by running a `docker build` (see below),
 3. You can issue a test build in the images repository, pushing your image to a container registry that a test account can access,
-4. On PR approval and merge, you can deploy your image for use in production workflows.
+4. On PR approval and merge, you can deploy your image for use in production workflows (GitHub action).
 
 CLI command to build the image:
 
@@ -300,7 +300,7 @@ docker build \
     .
 ```
 
-Note: We use x86 processors for production workloads (default on GCP), so this flag won't be necessary. Docker files are relatively platform agnostic, meaning that if a build is successful on both your local machine and the GitHub server, the resulting images *should* be *functionally* identical. This is beneficial for testing purposes, but it's not a prerequisite for creating images within our infrastructure.
+Note: We use x86 processors for production workloads (default on GCP), so the `--platform` flag won't be necessary. Docker files are relatively platform agnostic, meaning that if a build is successful on both your local machine and the GitHub server, the resulting images *should* be *functionally* identical. This is beneficial for testing purposes, but it's not a prerequisite for creating images within our infrastructure.
 
 
 ## 3. Write a script to run FastQE
