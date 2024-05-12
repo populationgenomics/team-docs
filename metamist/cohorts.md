@@ -3,7 +3,7 @@
 Custom Cohorts 
 ================
 
-### What is a cohort?
+## What is a cohort?
 A cohort refers to a curated group of sequencing groups (SGs) that share common characteristics or criteria. These cohorts are explicitly defined and managed, allowing users to tailor their analyses to specific subsets of sequencing data.
 
 In essence, a cohort serves as an immutable set of specific sequencing groups. Users can create cohorts based on various criteria such as project/dataset names, inclusion/exclusion of specific sequencing groups, sample type, sequencing group type, or by referencing a previous cohort ID.
@@ -16,7 +16,7 @@ Cohort Example:
 * Template ID: TEMPLATE12
 
 
-### What is a cohort template?
+## What is a cohort template?
 A cohort template serves as a predefined set of criteria used for creating cohorts. It encapsulates the specific conditions or filters that define a cohort's composition. Templates are stored in the system and can be reused to generate cohorts with consistent criteria.
 
 Each template typically includes parameters or rules for selecting sequencing groups (SGs) based on various factors such as project/dataset names, metadata attributes, inclusion/exclusion criteria, or referencing a previous cohort ID. By defining templates, users can streamline the cohort creation process and ensure consistency in cohort definitions across analyses.
@@ -31,7 +31,7 @@ Template Example:
 * Cohort Criteria: {projects: ['A', 'B', 'C'], sg_type: ['exome']}
 
 
-### How can I create a cohort?
+## How can I create a cohort?
 **Recommended**
 * Use the create custom cohort script [create_custom_cohort.py](https://github.com/populationgenomics/metamist/blob/dev/scripts/create_custom_cohort.py)
 * Input all specified parameters, including your desired cohort name, template ID, or criteria.
