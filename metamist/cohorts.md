@@ -36,6 +36,7 @@ Template Example:
 ## How can I create a cohort?
 
 ### Recommended
+
 * Use the create custom cohort script [create_custom_cohort.py](https://github.com/populationgenomics/metamist/blob/dev/scripts/create_custom_cohort.py)
 * Input all specified parameters, including your desired cohort name, template ID, or criteria.
 
@@ -62,5 +63,6 @@ scripts/create_custom_cohort.py --project example-dataset \
 ```
 
 ### Swagger Page
+
 * Create a template using the /cohort/{project}/cohort_template endpoint and pass the returned template ID to the /cohort/{project}/cohort endpoint. 
 * Alternatively, you can use the create cohort endpoint directly.
