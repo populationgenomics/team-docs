@@ -1,6 +1,6 @@
 
 
-# Custom Cohorts 
+# Custom Cohorts
 
 ## What is a cohort?
 
@@ -42,12 +42,12 @@ Template Example:
 
 Example From Existing Template:
 
-```shell 
-analysis-runner 
+```shell
+analysis-runner
 --dataset example-dataset --description "Create Cohort X"
---output-dir "example-dataset" --access-level standard 
-scripts/create_custom_cohort.py --project example-dataset 
---name ExomeCohortABC --description "March Run, TMP123, all the exomes in ABC" 
+--output-dir "example-dataset" --access-level standard
+scripts/create_custom_cohort.py --project example-dataset
+--name ExomeCohortABC --description "March Run, TMP123, all the exomes in ABC"
 --template TMPL123
 ```
 
@@ -64,5 +64,5 @@ scripts/create_custom_cohort.py --project example-dataset \
 
 ### Swagger Page
 
-* Create a template using the /cohort/{project}/cohort_template endpoint and pass the returned template ID to the /cohort/{project}/cohort endpoint. 
+* Create a template using the /cohort/{project}/cohort_template endpoint and pass the returned template ID to the /cohort/{project}/cohort endpoint.
 * Alternatively, you can use the create cohort endpoint directly.
