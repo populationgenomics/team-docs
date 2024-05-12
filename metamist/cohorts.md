@@ -10,6 +10,7 @@ In essence, a cohort serves as an immutable set of specific sequencing groups. U
 To create a cohort, users must specify a name, description, and either a template ID or a set of cohort criteria.
 
 Cohort Example:
+
 * Cohort ID: COH501
 * Name: ExomeCohortABC
 * Description: All exomes in Dataset A, B, and C, as of Batch 15 processed on 24/08/24
