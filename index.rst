@@ -43,6 +43,7 @@ the `#team-data` or `#software-questions` channels).
 
    cpg-utils/index
    production-pipelines/index
+   metamist/index
 
 .. toctree::
    :maxdepth: 1
