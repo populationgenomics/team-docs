@@ -1,7 +1,6 @@
 
 
-Custom Cohorts 
-================
+# Custom Cohorts 
 
 ## What is a cohort?
 A cohort refers to a curated group of sequencing groups (SGs) that share common characteristics or criteria. These cohorts are explicitly defined and managed, allowing users to tailor their analyses to specific subsets of sequencing data.
