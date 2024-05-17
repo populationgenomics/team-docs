@@ -1,4 +1,4 @@
-# Hail Batch playbook
+# Hail: Batch playbook
 
 ## Batch
 
@@ -14,7 +14,7 @@ Some tools run inside they're own virtual machine, inside the virtual machine (l
 
 Linked discussions:
 
-- https://centrepopgen.slack.com/archives/C030X7WGFCL/p1712182771574679
+- [https://centrepopgen.slack.com/archives/C030X7WGFCL/p1712182771574679](https://centrepopgen.slack.com/archives/C030X7WGFCL/p1712182771574679)
 
 
 
@@ -26,7 +26,7 @@ Context:
 Hail Batch Python jobs are a little bit of black magic. It uses the python packages dill and pickle to capture all the scope that a function needs. This could include:
 
   - `inputs`: this is done by pickling the value in a very generic way, so is usually very space and memory inefficient,
-  - `outputs`: similar to inputs, 
+  - `outputs`: similar to inputs,
   - `imports` (especially for type annotations)
       - This can be very bad, as some imports (like subprocess) are very system dependent, and trying to pickle and reattach an import on a new system will almost certainly fail,
   - _variables declared outside a function_
@@ -76,7 +76,7 @@ def my_function(df_path):
     with AnyPath(df_path).open() as f:
         # EXAMPLE ONLY
         df = pd.load_csv(df_path)
-    
+
     # operate on df
     output_path = df_path + '-2.csv'
     with AnyPath(output_path.open('w+')) as f:
@@ -91,9 +91,9 @@ for i in 1_000_000:
 ```
 
 
-### Some issue with pickling:
+### Some issue with pickling
 
-```
+```pytb
   [...]
     pickler._batch_setitems(iter(source.items()))
   File "/usr/local/lib/python3.10/pickle.py", line 998, in _batch_setitems

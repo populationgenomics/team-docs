@@ -13,6 +13,11 @@ This repository contains documentation you might find useful as you onboard, but
 If you need help more urgently, don't hesitate to ask directly on Slack (e.g. in
 the `#team-data` or `#software-questions` channels).
 
+Where to next?
+
+- If you're new to the centre, check out the :doc:`getting_started` guide.
+- If you're looking for help, check out :doc:`getting_help`.
+- Want to learn more about infrastructure? Start at: :doc:`infrastructure`.
 
 
 .. toctree::
@@ -21,6 +26,7 @@ the `#team-data` or `#software-questions` channels).
    :caption: Setup:
 
    getting_started.md
+   getting_help.md
    terminal.md
    git.md
    hail.md
@@ -56,6 +62,15 @@ the `#team-data` or `#software-questions` channels).
    data_sharing.md
    budgets.md
    bioinformatics/igv.md
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Playbooks
+
+   playbooks/hail_batch.md
+   playbooks/hail_query_on_batch.md
+   playbooks/hail_query_on_dataproc.md
+
 
 
 Indices and tables

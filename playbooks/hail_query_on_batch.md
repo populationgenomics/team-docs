@@ -11,7 +11,7 @@ init_batch()
 
 This will (as of 2024-05-07), create a second batch (with no title), and you'll see a bunch of jobs labelled like this:
 
-```
+```raw
 execute(...)_driver
 execute(...)_stage0_table_coerce_sortedness_job0
 execute(...)_stage0_table_coerce_sortedness_job1
@@ -30,8 +30,8 @@ Note, there are drivers, suffixed with `_driver`, which coordinate work, and wor
 This can manifest in lots of ways:
 
 > - The job exceeds the bounds of the memory available
-
-> ```
+>
+> ```raw
 > Error summary: OutOfMemoryError: Java heap space
 > ```
 
@@ -39,7 +39,7 @@ This can manifest in lots of ways:
 
 There are lots of ways that Hail Query compute can run out of memory. First, consider if you can restructure your code to reduce the amount of work that's happening. For example, if you can filter a LOT of rows early, before doing work, that's ideal!
 
-```
+```python
 # this is doing lots of unnecessary work
 mt = hl.read_matrix_table("very large table")
 mt = mt.annotate_rows(new_col = mt.old_col + 1)
@@ -82,7 +82,7 @@ init_batch(
 
 ### File doesn't exist
 
-```
+```raw
 Caused by: is.hail.relocated.com.google.cloud.storage.StorageException: 404 Not Found
 GET https://storage.googleapis.com/download/storage/v1/b/<bucket>/o/path%2Fto_file.txt?alt=media
 No such object: <bucket>/path/to_file.txt
@@ -98,7 +98,7 @@ The file (`gs://<bucket>/path/to_file.txt`) didn't exist, or wasn't available to
 
 ## The worker failed, but you're looking at a driver job
 
-```
+```raw
 ServiceBackendAPI: ERROR: A worker failed. The exception was written for Python but we will also throw an exception to fail this driver job.
 JVMEntryway: ERROR: QoB Job threw an exception.
 ```
