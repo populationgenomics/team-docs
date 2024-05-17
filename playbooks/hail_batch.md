@@ -4,7 +4,7 @@
 
 ### Tool reports out of memory, but VM resources don't agree?
 
-Some tools run inside they're own virtual machine, inside the virtual machine (like docker on your computer). You can configure these tools to:
+Some tools run inside their own virtual machine, inside the virtual machine (like docker on your computer). You can configure these tools to:
 
 - Use the system memory,
     - but often they don't know how much system memory there is, sometimes they keep allocating if they need it, without releasing memory back.
