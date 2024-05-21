@@ -11,7 +11,7 @@ Problems happen, we get it! If you've tried searching this site and still no dic
 > You should almost certainly include:
 >
 > - Links to failing batches
-> - Links to your code (even better with line numbers)
+> - Links to your code (even better with line numbers, and a specific Git Hash or branch name)
 >
 > Extra tips:
 >

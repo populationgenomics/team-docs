@@ -42,7 +42,7 @@ Pro tips, make sure your function that you're calling is as self sufficient as p
       - instead write the file to cloud storage in an efficient format,
       - pass the PATH to the python job, and reload.
 
-### Runs out of memory on job start-up
+### Runs out of memory on job start-up / set-up job takes a very long time
 
 You're probably passing a fully formed object to a python job in a loop. Hail does something weird here:
 

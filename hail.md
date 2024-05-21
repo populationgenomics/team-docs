@@ -58,6 +58,7 @@ mt = mt.checkpoint(tmp_path)  # write + read matrix table to tmp_location
 mt.show()                     # just read
 ```
 
+Another consideration when processing large datasets is the number of partitions your data is divided into. If you have all your data in a single partition, each filter or annotation will be run sequentially. If your data is divided into a thousand partitions, Hail Query will operate on each partition in parallel, greatly reducing the overall runtime, and reducing the memory required for each individual operation. There's no exact right or wrong partition size to aim for, but repartitioning data can be done when checkpointing to allow efficiency gains in downstream operations. A useful Zulip thread with syntax on how to repartition a dataset is [here](https://discuss.hail.is/t/best-way-to-repartition-heavily-filtered-matrix-tables/2140)
 ## Hail Batch
 
 [Hail Batch](https://hail.is/docs/batch/service.html) is a generic job scheduling system: you describe a workflow using a Python API as a series of jobs consisting of Docker container commands, input and output files, and job interdependencies. Hail Batch then runs that workflow in GCP using a dynamically scaled pool of workers.

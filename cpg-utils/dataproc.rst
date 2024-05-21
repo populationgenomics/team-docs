@@ -11,7 +11,7 @@ The analysis-runner package includes helper functions for managing Dataproc clus
 
 .. code-block:: python
 
-   from analysis_runner import dataproc
+   from cpg_utils import dataproc
    from cpg_utils.hail_batch import get_batch
 
    b = get_batch()
