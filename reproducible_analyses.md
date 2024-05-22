@@ -24,4 +24,4 @@ of new code.
 
 4. _Treat output data as immutable._
 
-   If you overwrite (or delete) outputs, any data that has previously been derived from those outputs gets implicitly invalidated. By default we therefore heavily suggest you should only create new data in our [storage policies](storage_policies).
+   If you overwrite (or delete) outputs, any data that has previously been derived from those outputs gets implicitly invalidated. By default we therefore heavily suggest you should only create new data in our [storage policies](storage_policies/README.md).

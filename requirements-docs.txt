@@ -1,0 +1,6 @@
+docutils
+sphinx
+sphinx_book_theme
+recommonmark
+cpg-utils >= 5.0.2
+cpg-workflows

@@ -10,10 +10,21 @@ We strongly recommend using `pyenv` to manage versions of Python. This makes it 
 
 ```shell
 brew install pyenv
+```
 
+You will need to run the following to set up `pyenv` on `zsh`. Make sure to source the `.zshrc` file before running `pyenv` in the next step:
+
+```shell
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+```
+
+```shell
 pyenv install 3.10.12
 pyenv global 3.10.12
 ```
+
 
 ### Named virtual environments
 
@@ -46,6 +57,23 @@ _activate_completion() {
 }
 complete -F _activate_completion activate
 ```
+
+## Typing
+
+Since the release of PEP 604 in Python 3.10, we are able to use type annotations such as:
+
+```python
+x: str | None = None
+```
+
+which is preferred over:
+
+```python
+from typing import Optional
+x: Optional[str] = None
+```
+
+due to some caveats with the use of `Optional` but also to keep the codebase simpler, and less reliant on the use of additional modules.
 
 ## Visual Studio Code
 

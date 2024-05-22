@@ -217,22 +217,22 @@ There are 3 categories of machines:
       kubectl --namespace $NAMESPACE exec -it auth-6d559bd9b6-npw56 -- /bin/bash
       ```
 
-   1. On the pod, connect to the SQL instance and set the `$NAMESPACE` variable (the one you exported earlier is not available to the pod). From `sql-config.cnf`, set the variable `$HOST`, and note the `password`.
+   1. On the pod, connect to the SQL instance and set the `$NAMESPACE` variable (the one you exported earlier is not available to the pod). From `sql-config.cnf`, set the variable `$HOST`, and note the `password`. You may need to install the mysql client if the command isn't available, this can be done with `apt update` and `apt install mysql-client`.
 
       ```bash
       cd /sql-config
       cat /sql-config/sql-config.cnf
       export NAMESPACE="<janedoe>"
       export HOST="<host-from-sql-config.cnf>"
-      mysql --ssl-ca=server-ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem --host=$HOST --user=$NAMESPACE --password
+      mysql --ssl-ca=server-ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem --host=$HOST --user=$NAMESPACE-auth-user --password
       ```
 
    1. Within `mysql>`, run the following, but note that you'll have to replace `$NAMESPACE`, `$EMAIL`, and `$TOKEN` manually:
 
       ```sql
-      use $NAMESPACE;
+      use $NAMESPACE-auth;
 
-      INSERT INTO users (state, username, email, is_developer, is_service_account, tokens_secret_name, hail_identity, hail_credentials_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
+      INSERT INTO users (state, username, login_id, is_developer, is_service_account, tokens_secret_name, hail_identity, hail_credentials_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
 
       INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', 6);
       ```
@@ -263,7 +263,8 @@ There are 3 categories of machines:
    ```python
    #!/usr/bin/env python3
 
-   import hailtctl.batch as hb
+   import hailtop.batch as hb
+   from shlex import quote
 
    name_to_print = "Jane doe"
 
@@ -311,6 +312,9 @@ There are 3 categories of machines:
    alias hail-cleanup="kubectl --namespace $NAMESPACE delete deployment --all"
    hail-cleanup
    ```
+
+Deleting the deployment will not remove the database so to recreate your dev instance you can just run `hailctl dev deploy --branch populationgenomics/hail:$BRANCH --steps deploy_batch` again.
+
 
 ### Debugging
 
@@ -407,7 +411,7 @@ When users submit a batch, they specify a billing project which will be charged 
 
 Billing projects also determine the visibility of batches. If two users use the same billing project, they can see each other's batches submitted under that billing project.
 
-For each of our [datasets](storage_policies), we have a dedicated Hail billing project. Whenever someone gets added to the dataset's permission group, they should also be added to the corresponding Hail Batch billing project.
+For each of our [datasets](storage_policies/README.md), we have a dedicated Hail billing project. Whenever someone gets added to the dataset's permission group, they should also be added to the corresponding Hail Batch billing project.
 
 ## Updating TLS (HTTPS) certificates
 
