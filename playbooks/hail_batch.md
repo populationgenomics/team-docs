@@ -7,10 +7,10 @@
 Some tools run inside their own virtual machine, inside the virtual machine (like docker on your computer). You can configure these tools to:
 
 - Use the system memory,
-    - but often they don't know how much system memory there is, sometimes they keep allocating if they need it, without releasing memory back.
+    - But often they don't know how much system memory there is, sometimes they keep allocating if they need it, without releasing memory back.
 - Use a specific [lower, upper] amount of memory:
     - Sometimes this gets pre-allocated, for example Java with the `-xms` flag will immediately appear to consume that memory, because it's reserving it for the task.
-    - Sometimes it uses it will allocate as required, up to some known limit (`-xmx`). This means Java may report out of memory, even though the host machine still has more memory to consume.
+    - Sometimes memory is allocated as required, up to some known limit (`-xmx`). This means Java may report out of memory, even though the host machine still has more memory to consume.
 
 Linked discussions:
 
@@ -37,10 +37,10 @@ This makes for a really smooth user experience when it works, but a nightmare to
 Pro tips, make sure your function that you're calling is as self sufficient as possible, consider:
 
   - REMOVING type annotations
-  - ensuring all imports are INSIDE the function
+  - Ensuring all imports are INSIDE the function
   - NOT passing fully formed objects (dataframes, matrix tables, lists [which don't work anyway]),
-      - instead write the file to cloud storage in an efficient format,
-      - pass the PATH to the python job, and reload.
+      - Instead write the file to cloud storage in an efficient format,
+      - Pass the PATH to the python job, and reload.
 
 ### Runs out of memory on job start-up / set-up job takes a very long time
 

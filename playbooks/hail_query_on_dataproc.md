@@ -34,7 +34,7 @@ This is due to the hail wheel not being correctly localised to the image. Howeve
         Initialization action failed. Failed action 'gs://cpg-common-main/hail_dataproc/0.2.126/install_common.sh', see output in: gs://<bucket>/google-cloud-dataproc-metainfo/<job-id>/<cluster-name>-m/dataproc-initialization-script-1_output.
         ```
 
-        Very subtly, for `init_notebook.py` the _Initialization action timed out._ The almost certainly means that the python packages we passed to dataproc (in the `--metadata=...|||PKGS=<pkgs>` arg) was challenging for pip to resolve a compatible set of dependencies.
+        Very subtly, for `init_notebook.py` the _Initialization action timed out._ That almost certainly means that the python packages we passed to dataproc (in the `--metadata=...|||PKGS=<pkgs>` arg) were challenging for pip to resolve a compatible set of dependencies.
 
         Long story short, you (+ software team) will need to look at the places python package requirements are specified, and will need to hand resolve some conflicts.
 
