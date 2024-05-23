@@ -5,6 +5,9 @@
     },
     {
       "pattern": "github.com/populationgenomics/cpg-infrastructure-private"
+    },
+    {
+      "pattern": "../"
     }
   ],
   "httpHeaders": [

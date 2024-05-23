@@ -36,6 +36,30 @@ If you have any Hail related questions, feel free to ask on Slack in the `#team-
 
 If you're interested in the Hail internals, this developer focussed [overview](https://github.com/hail-is/hail/blob/main/dev-docs/hail-overview.md) is very helpful. To understand how a query gets translated from Python all the way to the Query backend, see this [description of the query lifecycle](https://github.com/hail-is/hail/blob/main/dev-docs/hail-query/hail-query-lifecycle.md).
 
+### Hail Query Pro Tips
+
+Hail Query uses a deferred execution model - beware! It also does not cache intermediate results. For example:
+
+```python
+mt = hl.read_matrix_table(...)
+mt = mt.filter(filter1)  # does nothing immediately
+mt = mt.filter(filter2)  # does nothing immediately
+mt.show()            # hail query excecutes filters 1 + 2
+mt.show()            # hail query (again) executes filters 1 + 2
+```
+
+You can cache a matrix table using the `.checkpoint("gs://tmp-location")` method, this causes a (relatively uncompressed write), and read, applying any operations during this write. If you're having memory troubles, you may consider checkpointing before other heavy operations to make Hail's life a bit easier.
+
+```python
+mt = hl.read_matrix_table(...)
+mt = mt.filter(filter1)       # does nothing immediately
+mt = mt.checkpoint(tmp_path)  # write + read matrix table to tmp_location
+# make sure you checkpoint BEFORE a show, otherwise you'll double execute
+mt.show()                     # just read
+```
+
+Another consideration when processing large datasets is the number of partitions your data is divided into. If you have all your data in a single partition, each filter or annotation will be run sequentially. If your data is divided into a thousand partitions, Hail Query will operate on each partition in parallel, greatly reducing the overall runtime, and reducing the memory required for each individual operation. There's no exact right or wrong partition size to aim for, but repartitioning data can be done when checkpointing to allow efficiency gains in downstream operations. A useful Zulip thread with syntax on how to repartition a dataset is [here](https://discuss.hail.is/t/best-way-to-repartition-heavily-filtered-matrix-tables/2140)
+
 ## Hail Batch
 
 [Hail Batch](https://hail.is/docs/batch/service.html) is a generic job scheduling system: you describe a workflow using a Python API as a series of jobs consisting of Docker container commands, input and output files, and job interdependencies. Hail Batch then runs that workflow in GCP using a dynamically scaled pool of workers.
