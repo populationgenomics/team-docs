@@ -389,77 +389,77 @@ git push origin upstream  # Create a PR as usual.
 
 1. Check if your .gitconfig includes:
 
-```bash
-[merge]
-   conflictstyle = diff3
-[diff]
-   colorMoved = true
-   indentHeuristic = true
-   tool = difftastic
-   wordRegex = \\w+|\\W
-   #??? wsErrorHighlight = new
-```
+   ```bash
+   [merge]
+      conflictstyle = diff3
+   [diff]
+      colorMoved = true
+      indentHeuristic = true
+      tool = difftastic
+      wordRegex = \\w+|\\W
+      #??? wsErrorHighlight = new
+   ```
 
 1. Get the upstream changes into a new branch:
 
-```bash
-git remote add upstream https://github.com/hail-is/hail.git  # One-time setup.
+   ```bash
+   git remote add upstream https://github.com/hail-is/hail.git  # One-time setup.
 
-git fetch origin
-git fetch upstream
-git checkout -b upstream-XYZ # where XYZ is commit numerical number
-git merge --no-commit SHA_HASH # Commit (SHA_HASH) to be merged, skip the direct commit
-```
+   git fetch origin
+   git fetch upstream
+   git checkout -b upstream-XYZ # where XYZ is commit numerical number
+   git merge --no-commit SHA_HASH # Commit (SHA_HASH) to be merged, skip the direct commit
+   ```
 
 1. Resolve conflicts:
-Use your favourite IDE to resolve conflicts
+   Use your favourite IDE to resolve conflicts
 
 1. Double check the changes, open two terminals.
 
-```bash
-# Terminal ONE run command
-git diff -w da6668bfd58fe915c54f052844db18975ec7abc1..origin/main -- ci/ci/github.py
-```
+   ```bash
+   # Terminal ONE run command
+   git diff -w da6668bfd58fe915c54f052844db18975ec7abc1..origin/main -- ci/ci/github.py
+   ```
 
-Where da6668bfd58fe915c54f052844db18975ec7abc1 is the last commit when we updated our CPG main branch.
-File 'ci/ci/github.py' is an example, replace with the file you want to check.
-This command shows all the changes done to the file since the last update till now on our CPG main branch
+   Where da6668bfd58fe915c54f052844db18975ec7abc1 is the last commit when we updated our CPG main branch.
+   File 'ci/ci/github.py' is an example, replace with the file you want to check.
+   This command shows all the changes done to the file since the last update till now on our CPG main branch
 
-```bash
-# Terminal TWO run command
-git diff -w b7bde56d5 -- ci/ci/github.py
-```
+   ```bash
+   # Terminal TWO run command
+   git diff -w b7bde56d5 -- ci/ci/github.py
+   ```
 
-Where b7bde56d5 is matching the SHA_HASH of the commit we are merging from upstream.
-Again file is just en example, replace with the file you want to check.
-This command shows the changes done to the file with this merging commit after conflict resolution.
+   Where b7bde56d5 is matching the SHA_HASH of the commit we are merging from upstream.
+   Again file is just en example, replace with the file you want to check.
+   This command shows the changes done to the file with this merging commit after conflict resolution.
 
-If conflict resolved properly, there should not be much difference between the changes.
+   If conflict resolved properly, there should not be much difference between the changes.
 
 1. Create a PR for review
 
-```bash
-git push origin upstream-XYZ  # Create a PR as usual.
-```
+   ```bash
+   git push origin upstream-XYZ  # Create a PR as usual.
+   ```
 
 1. Before merging (deploy) run terraform script.
 
-```bash
-# use gcloud compute ssh command to connect to "hail-setup" VM
-cd ~/hail/infra/gcp  # be sure to be in the right folder on the hail-setup VM
-terraform plan -var-file=populationgenomics/global.tfvars # before apply check what will be changed
-terraform apply -var-file=populationgenomics/global.tfvars # apply the changes
-```
+   ```bash
+   # use gcloud compute ssh command to connect to "hail-setup" VM
+   cd ~/hail/infra/gcp  # be sure to be in the right folder on the hail-setup VM
+   terraform plan -var-file=populationgenomics/global.tfvars # before apply check what will be changed
+   terraform apply -var-file=populationgenomics/global.tfvars # apply the changes
+   ```
 
 1. Merge PR, which triggers deploy github action.
 
-Once the merge creates a CI hail batch, it will send a message to slack #production-announcements, follow the link in the message and check the deploy status. When the whole process finishes (usually around 15 mins), go to the next step.
+   Once the merge creates a CI hail batch, it will send a message to slack #production-announcements, follow the link in the message and check the deploy status. When the whole process finishes (usually around 15 mins), go to the next step.
 
 1. Run smoke test to check basic Hail Batch functionality.
 
-```bash
-analysis-runner --access-level test --dataset fewgenomes --description 'Smoke test' --output-dir "$(whoami)/hello-world" hello.py --name-to-print Sparky
-```
+   ```bash
+   analysis-runner --access-level test --dataset fewgenomes --description 'Smoke test' --output-dir "$(whoami)/hello-world" hello.py --name-to-print Sparky
+   ```
 
 ## Upstreaming changes
 
