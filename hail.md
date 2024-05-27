@@ -385,7 +385,7 @@ git merge upstream/main  # Potentially resolve any conflicts.
 git push origin upstream  # Create a PR as usual.
 ```
 
-### Usefull tips and tricks when merging upstream changes
+### Summary of steps when merging upstream changes
 
 1. Check if your .gitconfig includes:
 
@@ -489,6 +489,40 @@ curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
 This will print a link to the [CI dashboard](https://ci.hail.populationgenomics.org.au/batches) batch.
 
 **Warning**: Some changes that involve a database migration will result in the batch service being shut down. You'll then need to [bring it back up manually](https://github.com/hail-is/hail/blob/main/dev-docs/development-process.md#merge--deploy).
+
+### Hail Batch SQL database
+
+Sometimes there is a need to view SQL content of Hail Batch database. To be able to do that, add the following function to your local .zshrc file:
+
+```bash
+kube-hail() {
+# Find all pods that match the input name, get the first one
+local pod_name=$(kubectl get pods --no-headers=true | grep "$1" | head -n 1 | awk '{print $1}')
+
+# Check if a pod name was found
+if [ -z "$pod_name" ]; then
+echo "No matching pod found"
+else
+echo "Connecting to $pod_name"
+# Execute a shell in the found pod
+kubectl exec -it "$pod_name" -- /bin/bash
+fi
+}
+```
+
+Login into the pod:
+
+```bash
+kube-hail batch
+```
+
+Once in, install mysql-client and open SQL client connection:
+
+```bash
+apt update && apt install mysql-client
+mysql --defaults-file=sql-config/sql-config.cnf
+# execute your SQL command
+```
 
 ## Infrastructure
 
