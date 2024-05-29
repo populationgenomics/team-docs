@@ -53,5 +53,7 @@ docker run --platform linux/amd64 \
     pip-compile --output-file=requirements-dev.txt requirements-dev.in requirements.in'
 ```
 
+You would need to similarly pass appropriate environment variables to use `npm` inside `docker run` too.
+
 You can configure the environment variables for additional software using the instructions from: [Adding Custom Certificate to an Application Specific Trust Store
 ](https://help.zscaler.com/zia/adding-custom-certificate-application-specific-trust-store)
