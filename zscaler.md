@@ -34,5 +34,24 @@ For `gcloud` you can add this to your configuration:
 gcloud config set core/custom_ca_certs_file ${CERT_PATH}
 ```
 
+When running `docker` commands, for instance, to run `pip-compile` when managing requirements, you will need to pass your Zscaler certificates:
+
+```shell
+docker run --platform linux/amd64 \
+    -v $(pwd):/opt/metamist \
+    -v /local/path/to/certs/:/etc/ssl/certs:z \
+    -e SSL_CERT_FILE=/etc/ssl/certs/ca.pem \
+    -e SSL_CERT_DIR=/etc/ssl/certs \
+    -e REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca.pem \
+    python:3.11 /bin/bash -c '
+    cd /opt/metamist;
+    pip install pip-tools;
+    echo "Installed pip-tools!";
+    echo "Compiling from requirements.in";
+    pip-compile requirements.in > requirements.txt;
+    echo "Compiling from requirements-dev.in";
+    pip-compile --output-file=requirements-dev.txt requirements-dev.in requirements.in'
+```
+
 You can configure the environment variables for additional software using the instructions from: [Adding Custom Certificate to an Application Specific Trust Store
 ](https://help.zscaler.com/zia/adding-custom-certificate-application-specific-trust-store)
