@@ -92,7 +92,7 @@ The choice of stage type depends on the nature of the output produced by the sta
 
 **Example:** When analyzing a group of SequencingGroups that share common characteristics, producing a single output per Cohort.
 
-#### MultiCohortStage:
+#### MultiCohortStage
 
 **Use this stage when:** There is one output for the entire workflow run, which may involve multiple Cohorts.
 
