@@ -6,11 +6,11 @@ In production pipelines, stages process different types of targets: SequencingGr
 
 ### SequencingGroup
 
-A SequencingGroup represents the sequence data from a single sample. It is effectively the result of running sequencing. 
+A SequencingGroup represents the sequence data from a single sample. It is effectively the result of running sequencing.
 
 Example:
 
-```json 
+```json
 {
     "id": "CPGAAAA",
     "type": "genome",
@@ -99,4 +99,3 @@ The choice of stage type depends on the nature of the output produced by the sta
 **Use this stage when:** There is one output for the entire workflow run, which may involve multiple Cohorts.
 
 **Example:** JointCalling, which produces a VCF for all the GVCFs from all SequencingGroups. Note that a MultiCohort stage can run on a single Cohort or multiple Cohorts.
-
