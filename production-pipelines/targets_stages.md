@@ -1,8 +1,11 @@
 # Targets and Stages
+
 In production pipelines, stages process different types of targets: SequencingGroup, Dataset, Cohort, or MultiCohort. Understanding the characteristics of each target and the corresponding stage type is essential for building workflows effectively.
 
 ## Targets Overview
+
 ### SequencingGroup
+
 A SequencingGroup represents the sequence data from a single sample. It is effectively the result of running sequencing. 
 
 Example:
@@ -16,6 +19,7 @@ Example:
 ```
 
 ### Dataset
+
 A Dataset is a collection of SequencingGroups belonging to the same project. The terms Dataset and Project are used interchangeably at CPG, and each dataset has a 1:1 relationship with a project.
 
 Example:
@@ -33,6 +37,7 @@ Example:
 ```
 
 ### Cohort
+
 A Cohort is a curated group of SequencingGroups that share common characteristics or criteria.
 
 Example:
@@ -47,6 +52,7 @@ Example:
 ```
 
 ### MultiCohort
+
 A MultiCohort is a collection of Cohorts. Unlike other target types, a MultiCohort is not stored or represented in metamist.
 
 Example:
@@ -56,6 +62,7 @@ Example:
 ```
 
 ## Stages Overview
+
 Each stage in a production pipeline acts on a specific type of target. There are four types of stages, each designed to accommodate different targets:
 
 * SequencingGroupStage
@@ -64,9 +71,11 @@ Each stage in a production pipeline acts on a specific type of target. There are
 * MultiCohortStage
 
 ### How to Determine the Appropriate Stage Type
+
 The choice of stage type depends on the nature of the output produced by the stage:
 
 #### SequencingGroupStage
+
 **Use this stage when:** There is one unique output per SequencingGroup.
 
 **Example:** When running alignment, you produce a .cram file for each SequencingGroup.
