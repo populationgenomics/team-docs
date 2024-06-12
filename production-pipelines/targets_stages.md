@@ -9,6 +9,7 @@ In production pipelines, stages process different types of targets: SequencingGr
 A SequencingGroup represents the sequence data from a single sample. It is effectively the result of running sequencing. 
 
 Example:
+
 ```json 
 {
     "id": "CPGAAAA",
@@ -23,6 +24,7 @@ Example:
 A Dataset is a collection of SequencingGroups belonging to the same project. The terms Dataset and Project are used interchangeably at CPG, and each dataset has a 1:1 relationship with a project.
 
 Example:
+
 ```json
 {
     "id": 14,
