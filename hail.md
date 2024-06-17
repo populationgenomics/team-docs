@@ -393,7 +393,7 @@ git push origin upstream  # Create a PR as usual.
    [merge]
       conflictstyle = diff3
    ```
-   
+
    or
 
    ```bash
