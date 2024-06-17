@@ -392,12 +392,13 @@ git push origin upstream  # Create a PR as usual.
    ```bash
    [merge]
       conflictstyle = diff3
-   [diff]
-      colorMoved = true
-      indentHeuristic = true
-      tool = difftastic
-      wordRegex = \\w+|\\W
-      #??? wsErrorHighlight = new
+   ```
+   
+   or
+
+   ```bash
+   [merge]
+      conflictstyle = zdiff3
    ```
 
 1. Get the upstream changes into a new branch:
