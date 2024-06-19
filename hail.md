@@ -502,9 +502,9 @@ local pod_name=$(kubectl get pods --no-headers=true | grep "$1" | head -n 1 | aw
 
 # Check if a pod name was found
 if [ -z "$pod_name" ]; then
-echo "No matching pod found"
+   echo "No matching pod found"
 else
-echo "Connecting to $pod_name"
+   echo "Connecting to $pod_name"
 # Execute a shell in the found pod
 kubectl exec -it "$pod_name" -- /bin/bash
 fi
