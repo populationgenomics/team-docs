@@ -8,8 +8,8 @@ Repository structure
 
 The core of our infrastructure is defined in `cpg-infrastructure <https://github.com/populationgenomics/cpg-infrastructure>`_, and is made up of 3 levels.
 
-1. ``CPGInfrastructure``: 
-    - Infrastructure defined ONCE CPG wide, so all datasets can reuse them. 
+1. ``CPGInfrastructure``:
+    - Infrastructure defined ONCE CPG wide, so all datasets can reuse them.
     - Manages group membership, see below for more details about that.
     - Coordinates the level below.
 2. ``CPGDatasetInfrastructure``
@@ -23,9 +23,9 @@ Configuration
 
 The CPG configures our infrastructure in a private repository, which is structured like:
 
-- ``config-infrastructure.yaml``: 
+- ``config-infrastructure.yaml``:
     - Contains general configuration with org constants and cloud provider details.
-- ``config-datasets.yaml``: 
+- ``config-datasets.yaml``:
     - Contains dataset specific configuration, like the dataset name, and the cloud environments to use for each dataset.
     - This matches the config.
 
@@ -74,17 +74,17 @@ The CPG configures our infrastructure in a private repository, which is structur
         - A map of a dataset group, to a list of users.
         - See the ``setup_externally_specified_members`` method for it's implementation.
     - ``repositories.yaml``:
-        - A list of repositories for which you can run code against within the analysis-runner for this dataset. (Note, there are default repositories). 
+        - A list of repositories for which you can run code against within the analysis-runner for this dataset. (Note, there are default repositories).
         - This is implemented in ``tokens/main.py`` in cpg-infra-private.
 
 Group membership
 ----------------
 
-Groups are used to control access to resources and services. In most places, we add a group to a cloud resource, and let the cloud provider handle the rest. In other cases (like the web service / metamist / analysis-runner), we can't just lookup the group membership from the cloud provider (because it's slow, and it's a little tedious to add members not defined within that cloud), so we have a members cache (a file that stores the group members). 
+Groups are used to control access to resources and services. In most places, we add a group to a cloud resource, and let the cloud provider handle the rest. In other cases (like the web service / metamist / analysis-runner), we can't just lookup the group membership from the cloud provider (because it's slow, and it's a little tedious to add members not defined within that cloud), so we have a members cache (a file that stores the group members).
 
 We bring all group memberships under cpg-infrastructure, this allows us to:
 
-- unwrap groups completely, hence we know the full list of users / accounts that need to access specific resources. 
+- unwrap groups completely, hence we know the full list of users / accounts that need to access specific resources.
 - better version control and store history of group memberships. In the CPG's configuration, we have CODEOWNER policies to manage who can add / remove users from groups.
 
 
@@ -104,7 +104,7 @@ In cpg-infrastructure-private, we have a deploy.yaml GitHub action. This:
     - This internally runs the ``__main__.py`` file, which is the entry point for the pulumi program. This packages up all the configuration in the private repo into:
 
         1. A ``CPGInfrastructureConfig`` object, which contains users.
-        2. A ``list[CPGDatasetConfig]`` objects, which contains the datasets to spin up. 
+        2. A ``list[CPGDatasetConfig]`` objects, which contains the datasets to spin up.
 
 Puluim does the rest!
 

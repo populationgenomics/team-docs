@@ -8,7 +8,7 @@ Overview
 
 The CPG infrastructure is a set of resources that make our analysis possible. It includes resources like buckets for data storage, groups, budget management, and all the permissions to access these resources.
 
-The cpg-infrastructure-private is where all of our configuration lives. You can modify these files to change the configuration of the infrastructure, and it gets automatically released on merge. 
+The cpg-infrastructure-private is where all of our configuration lives. You can modify these files to change the configuration of the infrastructure, and it gets automatically released on merge.
 
 Quick guide
 ------------
@@ -83,7 +83,7 @@ A user was added to a members.yaml file, but the system couldn't find them in th
 DATASET: Has user USER but, but there are no projects / protocols
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A dataset didn't have any protocols / projects in the projects.yaml file. You'll need to talk to the PM team about which protocol best covers your new dataset. 
+A dataset didn't have any protocols / projects in the projects.yaml file. You'll need to talk to the PM team about which protocol best covers your new dataset.
 
 (This error is more common on dataset creation).
 
