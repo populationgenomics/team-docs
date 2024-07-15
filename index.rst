@@ -53,13 +53,21 @@ Where to next?
 
 .. toctree::
    :maxdepth: 1
+   :caption: Infrastructure
+
+   infrastructure.md
+   cpg-infrastructure/user.rst
+   cpg-infrastructure/developer.rst
+
+.. toctree::
+   :maxdepth: 1
    :caption: Guides
 
    notebooks.md
    new_repository.md
    r_style_guide.md
    cpg_utils_config.md
-   infrastructure.md
+
    data_sharing.md
    budgets.md
    bioinformatics/igv.md
