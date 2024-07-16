@@ -38,7 +38,7 @@ What groups can I add a user to?
 - ``metadata-write``
     - Read + write metadata in metamist (includes test projects)
 - ``analysis``
-    - Read metadata in metamist
+    - Read + contributor roles in metamist
     - Read permissions to the main analysis buckets
     - List permissions to all other main buckets
     - Read + write permissions to test buckets

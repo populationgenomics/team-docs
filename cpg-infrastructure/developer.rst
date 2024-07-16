@@ -112,13 +112,16 @@ Puluim does the rest!
 Previewing the workflow locally
 -------------------------------
 
+These instructions will set you up with previewing the production stack locally. You can combine this with `cpg-infra dev stack guide <https://github.com/populationgenomics/cpg-infrastructure-private/blob/main/docs/development.md>`_ to create your own developer stack for infrastructure testing.
+
+
 Prerequisites:
 
 * Have installed:
     * Pulumi
     * google-cloud-sdk
     * azure-cli
-* Get and export the pulumi access token from a CPG team-member
+* Get and export the ``PULUMI_CONFIG_PASSPHRASE`` - ask a CPG team-member.
 * Have both `cpg-infrastructure` and `cpg-infrastructure-private` cloned locally
 * Set-up a python virtual environment, installed cpg-infrastructure.
     * Usually better to `pip install -e .` in the cpg-infrastructure directory.
@@ -136,6 +139,10 @@ Some extra notes:
 .. code-block:: bash
 
     pulumi login gs://cpg-pulumi-state/
+
+    # this is using the production stack, see this guide for alternative stacks
+    # https://github.com/populationgenomics/cpg-infrastructure-private/blob/main/docs/development.md
+
     pulumi stack init production
 
     PULUMI_EXPERIMENTAL=true PULUMI_SKIP_CHECKPOINTS=true pulumi preview \
