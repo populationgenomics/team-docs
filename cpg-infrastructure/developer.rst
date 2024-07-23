@@ -114,6 +114,11 @@ Previewing the workflow locally
 
 These instructions will set you up with previewing the production stack locally. You can combine this with `cpg-infra dev stack guide <https://github.com/populationgenomics/cpg-infrastructure-private/blob/main/docs/development.md>`_ to create your own developer stack for infrastructure testing.
 
+.. warning::
+
+   Pulumi tries to update the "last previewed" timestamp on the state file in the bucket. You may not have write access to this file, this isn't a problem as we'd prefer NOT to write back to this file.
+
+   If you do have write access, CAUTION: if the ``pulumi preview`` is cancelled, it probably won't write the state file correctly, so it can appear like the state file is damaged. You can restore an older version of the state file as the pulumi-state bucket is versioned.
 
 Prerequisites:
 
