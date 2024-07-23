@@ -7,11 +7,15 @@ We run Cromwell in a similar way to Terra:
 - A single deployed instance (with very restrictive credentials)
 - Users submit workflows to our instance, WITH the credentials they want to run as.
 
-This functionality is packaged up into cpg-utils - see [cpg-utils:cromwell](../cpg-utils/cromwell) for the user facing guide.
-
 ## Authenticating to Cromwell
 
 Cromwell is deployed behind GCP's Identity Aware Proxy + OAuth, so you can access it in the web browser. This also makes it challenging to authenticate programatically as an end user.
+
+## Interacting with Cromwell
+
+> Interacting programmatically [with Cromwell within Hail Batch] - see [cpg-utils:cromwell](../cpg-utils/cromwell) for an API reference.
+>
+> Code lives in [cpg-utils/cromwell](https://github.com/populationgenomics/cpg-utils/blob/main/cpg_utils/cromwell.py)
 
 ## Configuring Cromwell
 
@@ -118,7 +122,7 @@ backend {
 
 We allow a user to configure which backend they want to run (provided as a workflow option). The code for workflow option organisation is aware of this backend attribute, and changes the workflow options depending on the backend.
 
-https://github.com/populationgenomics/cpg-utils/blob/214958b7be037e5153ef60f5d4b71b5be8409db8/cpg_utils/cromwell.py#L39-45
+> Code for backend definition in [cpg-utils](https://github.com/populationgenomics/cpg-utils/blob/214958b7be037e5153ef60f5d4b71b5be8409db8/cpg_utils/cromwell.py#L39-45)
 
 #### Life Science Pipelines API (current)
 
@@ -313,10 +317,6 @@ services.MetadataService {
 ### Database
 
 We use a MySQL database (configured with Cloud SQL) for a stateful instance. Note,
-
-## Interacting with Cromwell
-
-> Doc: https://github.com/populationgenomics/cpg-utils/blob/main/cpg_utils/cromwell.py
 
 ```hocon
 database {
