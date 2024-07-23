@@ -9,6 +9,10 @@ We run Cromwell in a similar way to Terra:
 
 This functionality is packaged up into cpg-utils - see [cpg-utils:cromwell](../cpg-utils/cromwell) for the user facing guide.
 
+## Authenticating to Cromwell
+
+Cromwell is deployed behind GCP's Identity Aware Proxy + OAuth, so you can access it in the web browser. This also makes it challenging to authenticate programatically as an end user.
+
 ## Configuring Cromwell
 
 On GCP, Cromwell is deployed using an instance template, and a self-healing instance group - this means instances are spun up automatically through GCP, and if it fails a health test / gets preempted, a new one starts.
