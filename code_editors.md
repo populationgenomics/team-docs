@@ -16,10 +16,11 @@ VSCode is the most prominent IDE at the centre as it very quickly supports langu
 
 For Python, we recommend enabling the following settings:
 
-- Black formatter (on save)
-- Type Checking: strict (through your `settings.json`)
-- Ruff
-- iSort (configure the extra `black` mode in your `settings.json`)
+- Type Checking: basic (or strict, through your `settings.json`)
+- Ruff (by installing the ruff extension)
+- Auto Import Completions: true (makes life so much easier)
+
+Note that ruff should automatically pick up the `pyproject.toml` in the root of the project you're editing.
 
 ![Alt text](code_editors/python-settings.png)
 
@@ -27,26 +28,22 @@ Some cherry-picked `settings.json` options that might be handy:
 
 ```json
 {
-    "python.analysis.typeCheckingMode": "strict",
-    "isort.args": [
-        "--profile=black"
+  "python.analysis.typeCheckingMode": "strict",
+  "[python]": {
+    "editor.formatOnType": true,
+    "editor.rulers": [
+      {
+        "column": 88,
+        "color": "#ff9900"
+      }
     ],
-    "[python]": {
-        "editor.formatOnType": true,
-        "editor.rulers": [
-            {
-                "column": 88,
-                "color": "#ff9900"
-            }
-        ],
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "ms-python.black-formatter",
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": "explicit",
-            "source.fixAll": "explicit"
-        },
-    },
-
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
+    }
+  }
 }
 ```
 
@@ -100,7 +97,7 @@ If you're working on Hail's Scala code, the setup is slightly different. Assumin
 
 - Back in Visual Studio Code, run the _Metals: Import build_ command. This might take a few minutes to complete.
 - Make sure everything worked out by running the _Metals: Run doctor_ command. It should look like this:
- ![Metals doctor](figures/metals_doctor.png)
+  ![Metals doctor](figures/metals_doctor.png)
 
 ### Hail in PyCharm
 

@@ -25,7 +25,6 @@ pyenv install 3.10.12
 pyenv global 3.10.12
 ```
 
-
 ### Named virtual environments
 
 If you like named virtual environments (rather than many `env/` directories in your repos), take inspiration from this snippet you could add to your `.zshrc` file:
@@ -77,4 +76,4 @@ due to some caveats with the use of `Optional` but also to keep the codebase sim
 
 ## Visual Studio Code
 
-See [Code editors](code_editors.md#vscode---python) for more information on configuring Python in VSCode.
+See [Code editors](code_editors.md) for more information on configuring Python in VSCode.
