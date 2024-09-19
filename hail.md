@@ -566,7 +566,7 @@ At the moment, this just covers the Google Cloud deployment.
    ```
 
 
-1. Once connected, you can simply use `curl` or `wget` to fetch the cert renewal script from https://github.com/populationgenomics/hail/blob/main/cert_renewal.sh and run it to automate the next steps, or if you wish to do it manually, clone the GitHub repository (if not already done previously):
+1. Once connected, you can simply use `curl` or `wget` to fetch the cert renewal script from [Hail Cert Renewal Script](https://github.com/populationgenomics/hail/blob/main/cert_renewal.sh) and run it to automate the next steps with `curl -sSL https://raw.githubusercontent.com/populationgenomics/hail/main/cert_renewal.sh | bash`, or if you wish to do it manually, clone the GitHub repository (if not already done previously):
 
    ```bash
    git clone https://github.com/populationgenomics/hail.git
