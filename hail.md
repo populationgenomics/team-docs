@@ -147,7 +147,7 @@ There are 3 categories of machines:
 - `standard`: 4 GB (3.8 GiB) / core
 - `highmem`: 7 GB (6.5 GiB) / core
 
-|  CPUs   |          | 0.25  | 0.5   | 1     | 2     | 4     | 8     | 16     |
+| CPUs    |          | 0.25  | 0.5   | 1     | 2     | 4     | 8     | 16     |
 | ------- | -------- | ----- | ----- | ----- | ----- | ----- | ----- | ------ |
 | **GB**  | lowmem   | 0.25  | 0.5   | 1     | 2     | 4     | 8     | 16     |
 | **GB**  | standard | 1     | 2     | 4     | 8     | 16    | 32    | 64     |
@@ -565,7 +565,8 @@ At the moment, this just covers the Google Cloud deployment.
    sudo usermod -aG docker $USER
    ```
 
-1. Once connected, clone the GitHub repository (if not already done previously):
+
+1. Once connected, you can simply use `curl` or `wget` to fetch the cert renewal script from [Hail Cert Renewal Script](https://github.com/populationgenomics/hail/blob/main/cert_renewal.sh) and run it to automate the next steps with `curl -sSL https://raw.githubusercontent.com/populationgenomics/hail/main/cert_renewal.sh | bash`, or if you wish to do it manually, clone the GitHub repository (if not already done previously):
 
    ```bash
    git clone https://github.com/populationgenomics/hail.git
