@@ -618,4 +618,6 @@ At the moment, this just covers the Google Cloud deployment.
     echo | openssl s_client -servername batch.hail.populationgenomics.org.au -connect batch.hail.populationgenomics.org.au:443 2>/dev/null | openssl x509 -noout -dates
     ```
 
-1. Don't forget to stop the [`hail-setup` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-setup?project=hail-295901). Please don't delete it!
+1. Don't forget to stop the [`hail-dev` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-dev?project=hail-295901). Please don't delete it!
+
+1. Schedule a Slack message or other reminder to do this again in three months!
