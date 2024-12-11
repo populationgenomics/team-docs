@@ -27,7 +27,7 @@ And sometimes a job gets into such a wedged state that Hail's usual cancellation
 In those cases, operator assistance may be required to terminate the job's processes in a very manual Unix way:
 
 1. Check the job web UI page to see what instance (i.e., worker) the job is running on, which will be something like _batch-worker-default-abcde_.
-1. Go to the [Google console](https://console.cloud.google.com/), switch to the appropriate Hail project, and go to the VM Instance page (which can usually be found just by searching for _abcde_).
+1. Go to the [Google console](https://console.cloud.google.com/), switch to the hail project, and go to the VM Instance page (which can usually be found just by searching for _abcde_).
 1. From there, obtain the appropriate `gcloud compute ssh …` command to SSH into the worker.
 1. Once logged on to the worker, attach to Hail's Docker container by identifying it via `docker ps` and attaching with `docker exec -it CONTAINERHASH bash`. (This step may or may not be strictly necessary.)
 1. Now identify the Unix processes that correspond to the wedged job and are identifiably wedged themselves, and **carefully** terminate these processes in the usual `kill -9` way.
