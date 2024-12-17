@@ -72,6 +72,7 @@ Where to next?
    budgets.md
    bioinformatics/igv.md
    docker_images.rst
+   kubernetes.md
 
 .. toctree::
    :maxdepth: 1
