@@ -1,11 +1,8 @@
 # Docker Images
 
-## Why would one want to create an image
+## Why create docker images?
 
-At CPG we have already set of docker images prepared, if you can't find image you need, then you are able to create your own.
-You can consider creating a new image, when you are developing pipelines, you are using third party software
-tool.
-Images allow you to compartmentalise and control your environment.
+At CPG, we maintain a set of prebuilt Docker images. If you can't find the image you need, you have the flexibility to create a custom one. Consider creating a new image when developing pipelines or working with third-party software that requires a specific environment. Docker images help you standardize, isolate, and control dependencies, ensuring consistency across development and production environments.
 
 ## Getting started
 
