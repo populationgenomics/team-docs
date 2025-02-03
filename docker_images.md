@@ -27,3 +27,5 @@ To view the images available for use in CPG you can browse them in
 7. Test your newly created image depending on your use case.
 
 8. Once tested and approved, merged your PR. This will automatically deploy image to [production version of Artifact Registry](https://console.cloud.google.com/artifacts/docker/cpg-common/australia-southeast1/images?orgonly=true&project=cpg-common&supportedpurview=project)
+
+By following this process, you ensure a structured, repeatable, and efficient way to manage Docker images within CPG.
