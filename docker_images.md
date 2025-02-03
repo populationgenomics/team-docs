@@ -25,7 +25,7 @@ To view the images available for use in CPG you can browse them in
 4. **_TODO_ Base Image Versioning (Decision Required)**
 
     **When building an image based on an existing CPG image, should you use latest or a fixed version?**
-    
+
    **If latest is not allowed, a migration task will be necessary to update all existing Dockerfiles accordingly.**
 
 5. **Commit and Push Your Changes**
