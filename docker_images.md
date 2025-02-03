@@ -13,13 +13,14 @@ To view the images available for use in CPG you can browse them in
 
 1. **Create a Branch**
 
-* In the [images](https://github.com/populationgenomics/images) repository, create a new branch for your image.
+    In the [images](https://github.com/populationgenomics/images) repository, create a new branch for your image.
+
 2. **Set Up the New Image Directory**
 
-* Create a new folder named after the tool or software you are packaging.
+    Create a new folder named after the tool or software you are packaging.
 3. **Write the Dockerfile**
 
-* Inside the newly created folder, create a Dockerfile and define the necessary instructions to build your image.
+    Inside the newly created folder, create a Dockerfile and define the necessary instructions to build your image.
 
 4. **_TODO_ Base Image Versioning (Decision Required)**
 
