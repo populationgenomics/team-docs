@@ -12,25 +12,30 @@ To view the images available for use in CPG you can browse them in
 ## How to create an image
 
 1. **Create a Branch**
+
 * In the [images](https://github.com/populationgenomics/images) repository, create a new branch for your image.
 
 2. **Set Up the New Image Directory**
+
 * Create a new folder named after the tool or software you are packaging.
 
 3. **Write the Dockerfile**
+
 * Inside the newly created folder, create a Dockerfile and define the necessary instructions to build your image.
 
 4. **_TODO_ Base Image Versioning (Decision Required)**
+
 * When building an image based on an existing CPG image, should you use latest or a fixed version?
 
 * If latest is not allowed, a migration task will be necessary to update all existing Dockerfiles accordingly.
 
 5. **Commit and Push Your Changes**
+
 * Once your Dockerfile is ready, commit the changes and create a pull request (PR) in the repository.
 
 6. **Continuous Integration (CI) and Image Deployment**
 
-* When CI completes, the new image is automatically built and pushed to the [images-dev folder of Artifact Registry](https://console.cloud.google.com/artifacts/docker/cpg-common/australia-southeast1/images-dev?orgonly=true&project=cpg-common&supportedpurview=project). 
+* When CI completes, the new image is automatically built and pushed to the [images-dev folder of Artifact Registry](https://console.cloud.google.com/artifacts/docker/cpg-common/australia-southeast1/images-dev?orgonly=true&project=cpg-common&supportedpurview=project).
 
 7. **Test Your Image**
 
