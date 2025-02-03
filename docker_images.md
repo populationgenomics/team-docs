@@ -24,22 +24,24 @@ To view the images available for use in CPG you can browse them in
 
 4. **_TODO_ Base Image Versioning (Decision Required)**
 
-* When building an image based on an existing CPG image, should you use latest or a fixed version?
-
-* If latest is not allowed, a migration task will be necessary to update all existing Dockerfiles accordingly.
+    **When building an image based on an existing CPG image, should you use latest or a fixed version?**
+    
+   **If latest is not allowed, a migration task will be necessary to update all existing Dockerfiles accordingly.**
 
 5. **Commit and Push Your Changes**
 
-* Once your Dockerfile is ready, commit the changes and create a pull request (PR) in the repository.
+    Once your Dockerfile is ready, commit the changes and create a pull request (PR) in the repository.
 
 6. **Continuous Integration (CI) and Image Deployment**
 
-* When CI completes, the new image is automatically built and pushed to the [images-dev folder of Artifact Registry](https://console.cloud.google.com/artifacts/docker/cpg-common/australia-southeast1/images-dev?orgonly=true&project=cpg-common&supportedpurview=project).
+    When CI completes, the new image is automatically built and pushed to the [images-dev folder of Artifact Registry](https://console.cloud.google.com/artifacts/docker/cpg-common/australia-southeast1/images-dev?orgonly=true&project=cpg-common&supportedpurview=project).
 
 7. **Test Your Image**
 
-* Depending on your use case, thoroughly test your newly built image to ensure it functions as expected.
+    Depending on your use case, thoroughly test your newly built image to ensure it functions as expected.
 
 8. **Merge and Deploy**
 
-* Once testing is complete and the image is approved, merge the PR. This triggers an automatic deployment to the production version of the Artifact Registry.
+    Once testing is complete and the image is approved, merge the PR. This triggers an automatic deployment to the production version of the Artifact Registry.
+
+By following this process, you ensure a structured, repeatable, and efficient way to manage Docker images within CPG.
