@@ -11,21 +11,31 @@ To view the images available for use in CPG you can browse them in
 
 ## How to create an image
 
-1. In repo [images](https://github.com/populationgenomics/images) create new branch
+1. **Create a Branch**
+* In the [images](https://github.com/populationgenomics/images) repository, create a new branch for your image.
 
-2. Create a new folder, name it according to the name of the tool.
+2. **Set Up the New Image Directory**
+* Create a new folder named after the tool or software you are packaging.
 
-3. Create dockerfile in the newly created folder.
+3. **Write the Dockerfile**
+* Inside the newly created folder, create a Dockerfile and define the necessary instructions to build your image.
 
-4. TODO When building image based on CPG existing images, do we allow to use 'latest' or should that be fixed version.
-**If do not allow latest, then we need to do a migration tasks for all existing dockerfiles !!!**
+4. **_TODO_ Base Image Versioning (Decision Required)**
+* When building an image based on an existing CPG image, should you use latest or a fixed version?
 
-5. Commit your changes and create PR.
+* If latest is not allowed, a migration task will be necessary to update all existing Dockerfiles accordingly.
 
-6. Once CI is completed it creates image in [images-dev folder of Artifact Registry](https://console.cloud.google.com/artifacts/docker/cpg-common/australia-southeast1/images-dev?orgonly=true&project=cpg-common&supportedpurview=project)
+5. **Commit and Push Your Changes**
+* Once your Dockerfile is ready, commit the changes and create a pull request (PR) in the repository.
 
-7. Test your newly created image depending on your use case.
+6. **Continuous Integration (CI) and Image Deployment**
 
-8. Once tested and approved, merged your PR. This will automatically deploy image to [production version of Artifact Registry](https://console.cloud.google.com/artifacts/docker/cpg-common/australia-southeast1/images?orgonly=true&project=cpg-common&supportedpurview=project)
+* When CI completes, the new image is automatically built and pushed to the [images-dev folder of Artifact Registry](https://console.cloud.google.com/artifacts/docker/cpg-common/australia-southeast1/images-dev?orgonly=true&project=cpg-common&supportedpurview=project). 
 
-By following this process, you ensure a structured, repeatable, and efficient way to manage Docker images within CPG.
+7. **Test Your Image**
+
+* Depending on your use case, thoroughly test your newly built image to ensure it functions as expected.
+
+8. **Merge and Deploy**
+
+* Once testing is complete and the image is approved, merge the PR. This triggers an automatic deployment to the production version of the Artifact Registry.
