@@ -13,7 +13,7 @@ To view the images available for use in CPG you can browse them in
 
 1. **Create a Branch**
 
-    In the [images](https://github.com/populationgenomics/images) repository, create a new branch for your image.
+    In your local checkout of the [images](https://github.com/populationgenomics/images) repository, create a new branch for your image development work.
 
 2. **Set Up the New Image Directory**
 
