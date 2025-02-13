@@ -18,6 +18,7 @@ To view the images available for use in CPG you can browse them in
 2. **Set Up the New Image Directory**
 
     Create a new folder named after the tool or software you are packaging.
+
 3. **Write the Dockerfile**
 
     Inside the newly created folder, create a Dockerfile and define the necessary instructions to build your image.
