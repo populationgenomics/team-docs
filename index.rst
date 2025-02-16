@@ -71,6 +71,7 @@ Where to next?
    data_sharing.md
    budgets.md
    bioinformatics/igv.md
+   kubernetes.md
 
 .. toctree::
    :maxdepth: 1
