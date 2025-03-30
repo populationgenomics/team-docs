@@ -374,19 +374,6 @@ devbin/sync.py \
 
 We try to keep our Hail fork as close as possible to the upstream repository. We merge after each major release, or if there are specific security updates:
 
-```bash
-git remote add upstream https://github.com/hail-is/hail.git  # One-time setup.
-
-git fetch origin
-git fetch upstream
-git checkout -b upstream
-git reset --hard origin/main
-git merge upstream/main  # Potentially resolve any conflicts.
-git push origin upstream  # Create a PR as usual.
-```
-
-### Summary of steps when merging upstream changes
-
 1. Check if your .gitconfig includes:
 
    ```bash
@@ -402,6 +389,7 @@ git push origin upstream  # Create a PR as usual.
    ```
 
 1. Get the upstream changes into a new branch:
+   Set SHA_HASH to the particular hash or upstream/main
 
    ```bash
    git remote add upstream https://github.com/hail-is/hail.git  # One-time setup.
@@ -444,6 +432,7 @@ git push origin upstream  # Create a PR as usual.
    ```
 
 1. Before merging (deploy) run terraform script.
+   This step only applies if there have been upstream changes to terraform.
 
    ```bash
    # use gcloud compute ssh command to connect to "hail-setup" VM
@@ -461,6 +450,12 @@ git push origin upstream  # Create a PR as usual.
    ```bash
    analysis-runner --access-level test --dataset fewgenomes --description 'Smoke test' --output-dir "$(whoami)/hello-world" hello.py --name-to-print Sparky
    ```
+
+1. After deploying the new version to production, we need to update depeneding projects with the new hail version:
+   - cpg-flow
+   - analysis-runner
+   - cpg-utils
+   - cpg-workflows (will be deprecated)
 
 ## Upstreaming changes
 
@@ -556,8 +551,15 @@ At the moment, this just covers the Google Cloud deployment.
 1. Connect to the VM using SSH:
 
    ```bash
-   gcloud --project=hail-295901 compute ssh hail-dev
+   gcloud compute ssh --zone "australia-southeast1-b" "hail-dev" --project "hail-295901"
    ```
+
+1. Check if your user anem is in the `docker` group, if yes skip the next step:
+
+   ```bash
+   id
+   ```
+
 
 1. Add yourself to the `docker` group (if not already done previously). Make sure to log out and back in again after running this command:
 
@@ -566,8 +568,13 @@ At the moment, this just covers the Google Cloud deployment.
    # Log out and back in again
    ```
 
+1. Once connected, you can simply use `curl` or `wget` to fetch the cert renewal script from [Hail Cert Renewal Script](https://github.com/populationgenomics/hail/blob/main/cert_renewal.sh) and run it to automate the next steps with (skip the manual steps, go to step 12 after this command):
 
-1. Once connected, you can simply use `curl` or `wget` to fetch the cert renewal script from [Hail Cert Renewal Script](https://github.com/populationgenomics/hail/blob/main/cert_renewal.sh) and run it to automate the next steps with `curl -sSL https://raw.githubusercontent.com/populationgenomics/hail/main/cert_renewal.sh | bash`, or if you wish to do it manually, clone the GitHub repository (if not already done previously):
+   ```bash
+   curl -sSL https://raw.githubusercontent.com/populationgenomics/hail/main/cert_renewal.sh | bash
+   ```
+
+1. If you wish to do it manually, follow the next steps, clone the GitHub repository (if not already done previously):
 
    ```bash
    git clone https://github.com/populationgenomics/hail.git
