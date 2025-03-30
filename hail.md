@@ -554,7 +554,7 @@ At the moment, this just covers the Google Cloud deployment.
    gcloud compute ssh --zone "australia-southeast1-b" "hail-dev" --project "hail-295901"
    ```
 
-1. Check if your user anem is in the `docker` group, if yes skip the next step:
+1. Check if your user name is in the `docker` group, if yes skip the next step:
 
    ```bash
    id
