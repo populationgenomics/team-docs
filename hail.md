@@ -451,7 +451,7 @@ We try to keep our Hail fork as close as possible to the upstream repository. We
    analysis-runner --access-level test --dataset fewgenomes --description 'Smoke test' --output-dir "$(whoami)/hello-world" hello.py --name-to-print Sparky
    ```
 
-1. After deploying the new version to production, we need to update depeneding projects with the new hail version:
+1. After deploying the new version to production, we need to update depending projects with the new hail version:
    - cpg-flow
    - analysis-runner
    - cpg-utils
