@@ -264,7 +264,7 @@ There are 3 categories of machines:
       Find the column that contains your new inserted user and note the user_id. Replace that in the following command with the $TOKEN that you saved earlier in your terminal (the env variable will not work here).
   
       ```sql
-      INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', $USER_ID);
+      INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', '$USER_ID');
       ```
 
    1. Close the connection to the database and the pod.
