@@ -262,20 +262,19 @@ There are 3 categories of machines:
       ```
 
       Find the column that contains your new inserted user and note the user_id. Replace that in the following command with the $TOKEN that you saved earlier in your terminal (the env variable will not work here).
-  
+
       ```sql
       INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', '$USER_ID');
       ```
 
    1. Close the connection to the database and the pod.
-  
    1. Add the correct OAuth redirect url to this page (one time step).
       On the [Google Cloud Clients Page](https://console.cloud.google.com/auth/clients?invt=AbuErA&project=hail-295901) under `Hail` add the following url:
 
       ```bash
       https://internal.hail.populationgenomics.org.au/$NAMESPACE/auth/oauth2callback
       ```
-       
+
    1. Navigate to `https://internal.hail.populationgenomics.org.au/$NAMESPACE/batch/batches` in your browser. Select Batch > Billing Projects and add `$NAMESPACE` to the `test` billing project.
 
    1. Give your `$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com` Google Service Account the following permissions:
