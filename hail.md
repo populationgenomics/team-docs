@@ -268,7 +268,8 @@ There are 3 categories of machines:
       ```
 
    1. Close the connection to the database and the pod.
-   1. Add the correct OAuth redirect url to this page (one time step).
+
+   1. Add the correct OAuth redirect url to this page (one-time step).
       On the [Google Cloud Clients Page](https://console.cloud.google.com/auth/clients?invt=AbuErA&project=hail-295901) under `Hail` add the following url:
 
       ```bash
