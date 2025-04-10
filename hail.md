@@ -258,7 +258,7 @@ There are 3 categories of machines:
 
       INSERT INTO users (state, username, login_id, is_developer, is_service_account, tokens_secret_name, hail_identity, hail_credentials_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
 
-      SELECT * FROM users;
+      SELECT id, state, username, login_id FROM users;
       ```
 
       Find the column that contains your new inserted user and note the user_id. Replace that in the following command with the $TOKEN that you saved earlier in your terminal (the env variable will not work here).
