@@ -258,10 +258,23 @@ There are 3 categories of machines:
 
       INSERT INTO users (state, username, login_id, is_developer, is_service_account, tokens_secret_name, hail_identity, hail_credentials_secret_name, namespace_name) VALUES ('active', '$NAMESPACE', '$EMAIL@populationgenomics.org.au', 1, 0, '$NAMESPACE-dev-tokens', '$NAMESPACE-dev@hail-295901.iam.gserviceaccount.com', '$NAMESPACE-dev-gsa-key', '$NAMESPACE');
 
-      INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', 6);
+      SELECT id, state, username, login_id FROM users;
+      ```
+
+      Find the column that contains your new inserted user and note the user_id. Replace that in the following command with the $TOKEN that you saved earlier in your terminal (the env variable will not work here).
+
+      ```sql
+      INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', '$USER_ID');
       ```
 
    1. Close the connection to the database and the pod.
+
+   1. Add the correct OAuth redirect url to this page (one-time step).
+      On the [Google Cloud Clients Page](https://console.cloud.google.com/auth/clients?project=hail-295901) under `Hail` add the following url:
+
+      ```bash
+      https://internal.hail.populationgenomics.org.au/$NAMESPACE/auth/oauth2callback
+      ```
 
    1. Navigate to `https://internal.hail.populationgenomics.org.au/$NAMESPACE/batch/batches` in your browser. Select Batch > Billing Projects and add `$NAMESPACE` to the `test` billing project.
 
