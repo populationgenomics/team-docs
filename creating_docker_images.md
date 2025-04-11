@@ -1,4 +1,4 @@
-# Docker Images
+# Creating Docker Images
 
 ## Why create docker images?
 

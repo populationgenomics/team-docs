@@ -71,6 +71,7 @@ Where to next?
    data_sharing.md
    budgets.md
    bioinformatics/igv.md
+   docker_images.rst
 
 .. toctree::
    :maxdepth: 1
