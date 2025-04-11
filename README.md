@@ -26,4 +26,4 @@ the `#team-data` or `#software-questions` channels).
     - [R style guide](r_style_guide.md)
     - [`cpg-utils` config guide](cpg_utils_config.md)
     - [Budgets](budgets.md)
-    - [Docker images](docker_images.md)
+    - [Docker images](docker_images.rst)
