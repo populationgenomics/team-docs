@@ -7,14 +7,13 @@ At CPG, we maintain a set of prebuilt Docker images. If you can't find the image
 ## Getting started
 
 To view the images available for use in CPG you can browse them in
-[GCP Artifact Registry](https://console.cloud.google.com/artifacts/docker/cpg-common/australia-southeast1/images?orgonly=true&project=cpg-common&supportedpurview=project)
+[GCP Artifact Registry](https://console.cloud.google.com/artifacts/docker/cpg-common/australia-southeast1/images?orgonly=true&project=cpg-common&supportedpurview=project).
 
 ## How to create an image
 
 1. **Create a Branch**
 
-    In the [images](https://github.com/populationgenomics/images) repository, create a new branch for your image.
-
+    In your local checkout of the [images](https://github.com/populationgenomics/images) repository, create a new branch for your image development work.
 2. **Set Up the New Image Directory**
 
     Create a new folder named after the tool or software you are packaging.
