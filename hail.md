@@ -246,9 +246,7 @@ There are 3 categories of machines:
       ```bash
       cd /sql-config
       cat /sql-config/sql-config.cnf
-      export NAMESPACE="<janedoe>"
-      export HOST="<host-from-sql-config.cnf>"
-      mysql --ssl-ca=server-ca.pem --ssl-cert=client-cert.pem --ssl-key=client-key.pem --host=$HOST --user=$NAMESPACE-auth-user --password
+      mysql --defaults-file=/sql-config/sql-config.cnf
       ```
 
    1. Within `mysql>`, run the following, but note that you'll have to replace `$NAMESPACE`, `$EMAIL`, and `$TOKEN` manually:
@@ -542,6 +540,23 @@ Please don't modify any properties for the `hail-295901` project (e.g. permissio
 ```bash
 cd infra
 terraform apply -var-file=global.tfvars
+```
+
+### Copy an image to the Artifact Registry (Optional)
+
+In the event that you may need to copy over an image to our Artifact Registry, you can launch the `hail-dev` VM which has `skopeo` installed:
+
+```bash
+cd docker/third-party
+make copy NAMESPACE=default
+```
+
+You can also inspect the following files for more fine grained control over what/how you are copying:
+
+```txt
+- docker/third-party/Makefile
+- docker/third-party/copy_images.sh
+- docker/copy_image.sh
 ```
 
 ### Billing projects
