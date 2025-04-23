@@ -123,7 +123,9 @@ The [Hail dev-docs](https://github.com/hail-is/hail/tree/main/dev-docs) have art
 
 1. Instead of using the standard sign-up link, ask another existing Hail developer to create a Hail developer account for you. If you've already signed up, that's okay too, but [a little more work to fix](https://github.com/hail-is/hail/blob/main/dev-docs/services/creating-a-developer-account.md).
 1. Ask to be added to the `hail-dev@populationgenomics.org.au` permissions group.
-1. Follow the instructions to add an [OAuth 2.0 redirect URI](https://github.com/hail-is/hail/blob/main/dev-docs/services/creating-a-developer-account.md), but note that our GCP project is called `hail-295901`. If your email address is `jane.doe@populationgenomics.org.au`, your Hail `$USERNAME` will be `janedoe` (i.e. does not contain a dot).
+1. Follow the instructions to add an [OAuth 2.0 redirect URI](https://github.com/hail-is/hail/blob/main/dev-docs/services/creating-a-developer-account.md), but note that our GCP project is called `hail-295901`.
+Where those instructions say "Click _auth_", our equivalent is _Hail_ --- click on the existing Client ID entry to add another personalised redirect URI within it.
+If your email address is `jane.doe@populationgenomics.org.au`, your Hail `$USERNAME` will be `janedoe` (i.e. does not contain a dot).
 
 ## Hail Batch Job Resources
 
@@ -229,7 +231,7 @@ There are 3 categories of machines:
       echo $TOKEN
       ```
 
-   1. You'll now need to add your user to the "auth table" in the SQL instance. First, get a list of all pods, then pick an auth pod, e.g. "auth-6d559bd9b6-npw56".
+   1. Once the dev deploy batch has finished, you'll now need to add your user to the "auth table" in the SQL instance. First, get a list of all pods, then pick an auth pod, e.g. "auth-6d559bd9b6-npw56".
 
       ```bash
       kubectl --namespace $NAMESPACE get pod
@@ -641,3 +643,41 @@ At the moment, this just covers the Google Cloud deployment.
 1. Don't forget to stop the [`hail-dev` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-dev?project=hail-295901). Please don't delete it!
 
 1. Schedule a Slack message or other reminder to do this again in three months!
+
+## Building a new boot disk image
+
+From time to time, upstream hail updates mean that we need to build a new [`batch-worker-NN` boot disk image](https://console.cloud.google.com/compute/images?project=hail-295901&tab=images).
+This is another process that is done on the `hail-dev` VM.
+
+1. Start the [`hail-dev` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-dev?project=hail-295901).
+
+1. Connect to the VM using SSH:
+
+   ```bash
+   gcloud --project=hail-295901 compute ssh hail-dev
+   ```
+
+1. Clone CPG's hail repository (if you haven't previously on this VM) and ensure the branch from which you wish to build a boot disk is checked out:
+
+   ```bash
+   git clone https://github.com/populationgenomics/hail.git
+   git fetch
+   git switch BRANCH
+   ```
+
+1. Set a `$HAIL` environment variable (very few scripts in the hail repository actually use this and probably none involved in this process, but it doesn't hurt). You probably also need to have the various `gcloud config` credentials set up as per SSL renewal.
+
+   ```bash
+   cd hail
+   export HAIL=$PWD
+   ```
+
+1. Run hail's batch-worker creation script:
+
+   ```bash
+   NAMESPACE=default $HAIL/batch/gcp-create-worker-image.sh
+   ```
+
+1. Verify that the expected [boot dist image has appeared](https://console.cloud.google.com/compute/images?project=hail-295901&tab=images).
+
+1. Don't forget to stop the [`hail-dev` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-dev?project=hail-295901). Please don't delete it!
