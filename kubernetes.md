@@ -35,12 +35,19 @@ Useful options include:
 * `--tail=10` to show the most recent 10 lines
 * `-f` to show log lines as they appear, as with `tail -f`
 
+If there are no logs, e.g., because a pod is failing during startup, the following can be informative:
+
+```bash
+kubectl [-n <namespace>] describe pods
+```
+
 
 ## Log in to a node
 
 ```bash
 kubectl [-n <namespace>] exec -it <pod> -- bash
 ```
+
 
 ## Restart a node
 
