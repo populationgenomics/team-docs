@@ -500,6 +500,15 @@ curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
 This will print a link to the [CI dashboard](https://ci.hail.populationgenomics.org.au/batches) batch.
 
 **Warning**: Some changes that involve a database migration will result in the batch service being shut down. You'll then need to [bring it back up manually](https://github.com/hail-is/hail/blob/main/dev-docs/development-process.md#merge--deploy).
+This is another process done on the `hail-dev` VM:
+
+```bash
+cd ~/hail
+make clean-image-targets
+make -C batch deploy NAMESPACE=default
+```
+
+As usual, don't forget to stop the [`hail-dev` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-dev?project=hail-295901) afterwards.
 
 ### Hail Batch SQL database
 
