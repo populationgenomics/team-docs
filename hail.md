@@ -504,7 +504,6 @@ This is another process done on the `hail-dev` VM:
 
 ```bash
 cd ~/hail
-make clean-image-targets
 make -C batch deploy NAMESPACE=default
 ```
 
