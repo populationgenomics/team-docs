@@ -2,7 +2,7 @@
 
 The CPG is mostly a Python shop! We strongly recommend using virtual environments (over conda) to manage Python.
 
-We try to stay relatively up-to-date, most of our tools use Python 3.10 (with a few rare 3.8 exceptions), some are using 3.11 and 3.12. This can be super confusing!
+We try to stay relatively up-to-date, most of our tools use Python 3.11 (with a few rare 3.8 exceptions), some are using 3.10 or 3.12. This can be super confusing!
 
 ## Managing Python versions
 
@@ -21,8 +21,8 @@ echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 ```
 
 ```shell
-pyenv install 3.10.12
-pyenv global 3.10.12
+pyenv install 3.11.12
+pyenv global 3.11.12
 ```
 
 ### Named virtual environments
