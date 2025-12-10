@@ -491,10 +491,9 @@ After a change has been merged to the `main` branch, it is automatically deploye
 cd ~/hail
 git fetch origin
 GITHUB_SHA=$(git rev-parse origin/main)
-curl -X POST -H "Authorization: Bearer $(jq -r .default ~/.hail/tokens.json)" \
-    -H "Content-Type:application/json" \
-    -d "{'sha': '$GITHUB_SHA', 'steps': $STEPS}" \
-    https://ci.hail.populationgenomics.org.au/api/v1alpha/prod_deploy
+hailctl curl default ci /api/v1alpha/prod_deploy \
+    -X POST -H 'Content-Type: application/json'  \
+    -d '{"sha": "'$GITHUB_SHA'", "steps": '"$STEPS"'}'
 ```
 
 This will print a link to the [CI dashboard](https://ci.hail.populationgenomics.org.au/batches) batch.
