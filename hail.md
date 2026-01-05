@@ -508,6 +508,22 @@ make -C batch deploy NAMESPACE=default
 
 As usual, don't forget to stop the [`hail-dev` VM](https://console.cloud.google.com/compute/instancesDetail/zones/australia-southeast1-b/instances/hail-dev?project=hail-295901) afterwards.
 
+**Very occasionally** we rotate the `vdc` GKE cluster credentials, which causes CI deployment batches to fail until the Hail cluster configuration's copy of those credentials is updated.
+(This typically manifests as a `kubectl apply` failure in the `default_ns` job.)
+The endpoint URL is stored within a kubernetes secret named `global-config`, which is updated by applying the terraform in _$HAIL/infra/gcp_ and then restarting the CI pod.
+The certificate and service account auth tokens are stored in `ci-agent-token`, `admin-token`, and `test-batch-sa-token` kubernetes secrets.
+These can be updated by deleting and recreating these three secrets, e.g.:
+
+```bash
+# First regenerate your local k8s configuration so `kubectl` can work locally
+gcloud container clusters get-credentials vdc --location=australia-southeast1-b
+
+# Then regenerate these Hail cluster secrets so Hail can run `kubectl`
+kubectl delete secret ci-agent-token
+kubectl apply -f …subset of $HAIL/ci/ci-agent.yaml…
+# etc
+```
+
 ### Hail Batch SQL database
 
 Sometimes there is a need to view SQL content of Hail Batch database. To be able to do that, add the following function to your local .zshrc file:
