@@ -114,7 +114,7 @@ increase.
 - **Main use case**: Hail tables (e.g. merged GVCF files), SV caller
   outputs, transcript abundance files, etc.
 - **Storage**: [Autoclass](https://cloud.google.com/storage/docs/autoclass).
-- **Access**: Human users only get listing permissions, but viewer permissions
+- **Access**: Human users only get listing permission by default, but can be granted temporary read access via PAM. Viewer permissions
   are granted indirectly through the [analysis runner](#analysis-runner)
   described below. This avoids high costs through code that hasn't been
   reviewed. See the _test_ bucket below if you're developing / prototyping a new
