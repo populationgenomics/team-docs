@@ -667,6 +667,15 @@ At the moment, this just covers the Google Cloud deployment.
 
 1. Schedule a Slack message or other reminder to do this again in three months!
 
+### Regenerating the `hail-root` certificate
+
+The pod certificates last for three months and are regenerated as per the instructions above.
+Externally (on hostnames such as `batch.hail.populationgenomics.org.au`) these are signed by Let's Encrypt.
+Internally within the kubernetes cluster (on hostnames such as `batch.default`) they are signed by a self-signed `hail-root` certificate, which needs to be regenerated annually, currently in February.
+
+This is done by following the [instructions in _tls-cookbook.md_](https://github.com/hail-is/hail/blob/main/dev-docs/services/tls-cookbook.md#regenerate-all-the-certificates).
+The initial steps of this process can be done by running the `generate_ssl_certs` function from _$HAIL/infra/bootstrap_utils.sh_.
+
 ## Building a new boot disk image
 
 From time to time, upstream hail updates mean that we need to build a new [`batch-worker-NN` boot disk image](https://console.cloud.google.com/compute/images?project=hail-295901&tab=images).
