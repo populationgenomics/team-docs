@@ -24,6 +24,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
     "recommonmark",
+    "sphinx_markdown_tables",
 ]
 
 templates_path = ["_templates"]
