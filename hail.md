@@ -160,7 +160,7 @@ There are 3 categories of machines:
 | **GiB** | highmem  | 1.625 | 3.25  | 6.5   | 13    | 26    | 52    | 104    |
 
 
-### Developer deploy
+## Developer deploy
 
 1. Install Hail and login:
 
