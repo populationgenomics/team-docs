@@ -241,11 +241,9 @@ There are 3 categories of machines:
       kubectl --namespace $NAMESPACE exec -it auth-6d559bd9b6-npw56 -- /bin/bash
       ```
 
-   1. On the pod, connect to the SQL instance and set the `$NAMESPACE` variable (the one you exported earlier is not available to the pod). From `sql-config.cnf`, set the variable `$HOST`, and note the `password`. You may need to install the mysql client if the command isn't available, this can be done with `apt update` and `apt install mysql-client`.
+   1. On the pod, connect to the SQL instance. You may need to install the mysql client if the command isn't available, this can be done with `apt update` and `apt install mysql-client`.
 
       ```bash
-      cd /sql-config
-      cat /sql-config/sql-config.cnf
       mysql --defaults-file=/sql-config/sql-config.cnf
       ```
 
@@ -362,7 +360,7 @@ kubectl --namespace $NAMESPACE exec -it $POD -- /bin/bash
 
 # connect to the database:
 apt update && apt install -y mysql-client
-mysql --defaults-file=sql-config/sql-config.cnf
+mysql --defaults-file=/sql-config/sql-config.cnf
 ```
 
 ### Syncing local changes to pod
@@ -527,7 +525,7 @@ Once in, install mysql-client and open SQL client connection:
 
 ```bash
 apt update && apt install mysql-client
-mysql --defaults-file=sql-config/sql-config.cnf
+mysql --defaults-file=/sql-config/sql-config.cnf
 # execute your SQL command
 ```
 
@@ -547,11 +545,12 @@ terraform apply -var-file=global.tfvars
 In the event that you may need to copy over an image to our Artifact Registry, you can launch the `hail-dev` VM which has `skopeo` installed:
 
 ```bash
+cd ...your hail checkout...
 cd docker/third-party
-make copy NAMESPACE=default
+make NAMESPACE=default copy
 ```
 
-You can also inspect the following files for more fine grained control over what/how you are copying:
+You can also inspect the following files for more fine-grained control over what/how you are copying:
 
 ```txt
 - docker/third-party/Makefile
