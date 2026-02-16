@@ -134,18 +134,19 @@ Specifying resources in Hail Batch is straight forward, if you note that:
 - The number of CPUs is restricted to powers of 2 (0.25, 0.5, 1, 2, 4, 8, 16)
 - The memory is intrinsicially tied to the number of CPUs.
 
-> Note the difference between the between Gigabytes (GB) and Gibibytes (GiB), that:
-> | Unit | Standard | Binary |
-> | - | ----------- | -------------- |
-> | k | kB (1000^1) | kiB (1024^1)   |
-> | M | MB (1000^2) | MiB (1024 ^ 2) |
-> | G | GB (1000^3) | GiB (1024 ^ 3) |
-> | T | TB (1000^4) | TB (1024 ^ 4)  |
-> | P | PB (1000^5) | PB (1024 ^ 5)  |
+Note the difference between the between Gigabytes (GB) and Gibibytes (GiB), thus:
+
+| Unit | Standard | Binary |
+| - | ----------- | ------------ |
+| k | kB (1000^1) | KiB (1024^1) |
+| M | MB (1000^2) | MiB (1024^2) |
+| G | GB (1000^3) | GiB (1024^3) |
+| T | TB (1000^4) | TiB (1024^4) |
+| P | PB (1000^5) | PiB (1024^5) |
 
 There are 3 categories of machines:
 
-- `lowmem`: ` 1 GB (0.902 GiB) / core
+- `lowmem`: 1 GB (0.902 GiB) / core
 - `standard`: 4 GB (3.8 GiB) / core
 - `highmem`: 7 GB (6.5 GiB) / core
 
