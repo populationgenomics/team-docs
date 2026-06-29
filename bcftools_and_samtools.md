@@ -113,7 +113,9 @@ GCS_OAUTH_TOKEN=$(gcloud auth application-default print-access-token) samtools v
 `GCS_OAUTH_TOKEN` is the environment variable used by HTSlib to find an authentication token for interacting with `GCS`. The example command above shows how you can create a new token and assign it to `GCS_OAUTH_TOKEN` as part of the command, but you can also generate it once and use across multiple commands:
 
 ```commandline
-export
+export GCS_OAUTH_TOKEN=$(gcloud auth application-default print-access-token)
+bcftools view -h gs://path-to-a-cpg-vcf/permission/required
+bcftools view -h gs://path-to-a-different-vcf/permission/required
 ```
 
 You can also create a helper method in your `~/.bashrc` or `~/.zshrc` with a tidy alias:
@@ -124,4 +126,10 @@ gcs_auth() {
 }
 ```
 
-Calling this within a terminal session will set an authentication token until the end of your session/tab. You can also add the export directly to your `.bashrc/.zshrc`, with the caveat that it will run every time you open a new tab, even if you don't plan to use it.
+Calling this within a terminal session will set an authentication token until the end of your session/tab:
+
+```commandline
+gcs_auth
+bcftools view -h gs://path-to-a-cpg-vcf/permission/required
+```
+You can also add the export directly to your `.bashrc/.zshrc`, with the caveat that it will run every time you open a new tab, even if you don't plan to use it
