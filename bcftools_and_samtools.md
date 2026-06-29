@@ -132,4 +132,5 @@ Calling this within a terminal session will set an authentication token until th
 gcs_auth
 bcftools view -h gs://path-to-a-cpg-vcf/permission/required
 ```
+
 You can also add the export directly to your `.bashrc/.zshrc`, with the caveat that it will run every time you open a new tab, even if you don't plan to use it
