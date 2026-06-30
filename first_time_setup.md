@@ -12,6 +12,10 @@ Depending on the institute your hardware has been provided by, the restrictions 
 
 Key to communications at CPG, you should get Slack installed sharpish. Garvan staff can install Slack directly from the `Garvan IT Self Service` App, or you can source it from the [Slack download page](https://slack.com/intl/en-au/downloads/mac). Once installed, you will want to authenticate using `SSO`, which will route your login through a web browser.
 
+## Google Authenticator
+
+For 2-factor logins you will need to install Google Authenticator on a second device (i.e. mobile phone)
+
 ## Zoom, Chrome
 
 As with Slack, Garvan staff will find these available through the `self-service` application. For non-Garvan or manual installs you can download [Zoom](https://zoom.us/download) and [Chrome](https://www.google.com/intl/en_au/chrome/) download pages should be accessed directly.
@@ -48,7 +52,7 @@ sudo xcodebuild -license
 
 ## Git
 
-GitHub is where CPG stores all its repositories. Once Git is installed (by `XCode`, if it's not already present on startup), you will need to authenticate your local git instance. See advice [here](git.md#connection-protocol) for information on setting up SSH and GPG keys to authenticate with GitHub. 
+GitHub is where CPG stores all its repositories. Once Git is installed (by `XCode`, if it's not already present on startup), you will need to authenticate your local git instance. See advice [here](git.md#connection-protocol) for information on setting up SSH and GPG keys to authenticate with GitHub.
 
 > **n.b.** when running `ssh-keygen` on a Mac, it may default to generating `rsa` keys. The `rsa` algorithm is not sufficiently secure and will be rejected by GitHub. You should use the `ed25519` algorithm instead.
 
@@ -99,3 +103,13 @@ If you were provided with a Dock to connect your laptop to power/external monito
 ## Hail Batch
 
 If you plan to launch workflows using Hail Batch, and you have not previously set up an account, check out the section [here](hail.md#hail-batch-developer-setup) section for required steps.
+
+## Extra tools
+
+There are hundreds of optional ways to streamline your experience, some are listed here:
+
+- [AutoJump](https://github.com/wting/autojump) - a terminal navigation tool which remembers your most common directories for easy navigation
+- [OhMyZsh](https://ohmyz.sh/) and [PowerLevel10k](https://github.com/romkatv/powerlevel10k) - Terminal UI improvements and customisation
+- [Amphetamine](https://apps.apple.com/au/app/amphetamine/id937984704?l=en-GB&mt=12Amphetamine) - a handy tool for keeping your screen awake. Do not use in a public setting.
+
+If you have additional essential or useful tools to mention, open a PR and update this page!
