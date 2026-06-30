@@ -56,6 +56,10 @@ If you want to pull (or push) Docker Images from the GCP Artifactory, you will n
 gcloud auth configure-docker australia-southeast1-docker.pkg.dev
 ```
 
+# BCFtools and SAMtools
+
+If you interact with genomic data formats, locally or in GCS, you will likely use both BCFtools and SAMtools. See the [setup guide here](bcftools_and_samtools.md), noting that for most users the majority of that guide can be replaced with a simple [Homebrew](homebrew.md) installation. The [Authentication](bcftools_and_samtools.md#auth-token) section would be relevant for all users interacting directly with files in GCP.   
+
 ## Other Installations
 
 Depending on the institute your hardware has been provided by, the restrictions may vary. If your device was provided by Garvan IT, you should have a taskbar daemon called `Endpoint Privilege Management`. When you try to install software this will often pop up, prompting you to provide a reason for the action, usually "required for a one-time installation" will remove the block and allow you to complete an installation.
