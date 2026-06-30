@@ -4,7 +4,7 @@ Homebrew is a package manager which can make software installations trivially ea
 
 Homebrew's [website](https://brew.sh) contains details, and installation instructions.
 
-## Install 
+## Install
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

@@ -53,5 +53,5 @@ This is essential for generating an OAuth token for use in tools which access Go
 
 ```bash
 export GCS_OAUTH_TOKEN=$(gcloud auth application-default print-access-token)
-bcftools COMMAND [ARGS, ] 
+bcftools COMMAND [ARGS, ]
 ```
