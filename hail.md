@@ -366,6 +366,95 @@ apt update && apt install -y mysql-client
 mysql --defaults-file=/sql-config/sql-config.cnf
 ```
 
+### Troubleshooting: dev deploy fails with `Unauthorized`
+
+If a dev deploy fails with an error like:
+
+```
+error: You must be logged in to the server (Unauthorized)
+```
+
+this is usually **not** a problem with the step that reports it — it means the
+Kubernetes token the deploy jobs use to talk to the cluster has stopped working, so
+every `kubectl` call in the deploy fails.
+
+You'll typically see it first in the `create_test_database_server_config` job (the
+earliest step that runs `kubectl`), on its very first command:
+
+```
+Running: SECRET_JSON=$(kubectl get secret database-server-config -n $NAMESPACE -o json)
+error: You must be logged in to the server (Unauthorized)
+```
+
+and it recurs in later `kubectl` steps such as `create_ssl_config_hail_root`:
+
+```
+error: failed to create secret Unauthorized
+error: You must be logged in to the server (Unauthorized)
+```
+
+#### Root cause
+
+Deploy steps that run `kubectl` (those with a `serviceAccount:` in `build.yaml`)
+authenticate as the `admin` service account in your namespace. The CI driver reads
+the token from the `admin-token` secret in your namespace, builds a kubeconfig from
+it, and mounts it into the job.
+
+That `admin-token` is a **legacy service-account token**. GKE progressively
+invalidates legacy service-account tokens that haven't been used for a while (the
+`LegacyServiceAccountTokenCleanUp` behaviour), so after a gap between deploys the
+stored token stops authenticating and every `kubectl` call returns `401 Unauthorized`.
+Re-running the deploy doesn't help: the `default_ns` step applies the secret with
+`kubectl apply`, which won't regenerate the token of an already-existing secret.
+
+#### Diagnose locally
+
+Point `kubectl` at the `vdc` cluster and test the stored token directly. These are
+all read-only checks:
+
+```bash
+export NAMESPACE=<your-hail-username>
+gcloud container clusters get-credentials vdc --location=australia-southeast1-b
+
+# The service account, RBAC and secret usually all still exist and look fine:
+kubectl -n $NAMESPACE get sa admin
+kubectl -n $NAMESPACE get secret admin-token
+kubectl -n $NAMESPACE get role,rolebinding
+
+# The tell-tale check — try to authenticate as admin using the *stored* token:
+TOKEN=$(kubectl -n $NAMESPACE get secret admin-token -o jsonpath='{.data.token}' | base64 -d)
+kubectl auth whoami --token="$TOKEN"
+```
+
+If that last command prints `error: You must be logged in to the server (Unauthorized)`
+instead of `system:serviceaccount:$NAMESPACE:admin`, the stored token is the problem.
+
+#### Fix
+
+Delete and recreate the `admin-token` secret so the token controller mints a fresh,
+valid token:
+
+```bash
+kubectl -n $NAMESPACE delete secret admin-token
+kubectl -n $NAMESPACE apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: admin-token
+  namespace: $NAMESPACE
+  annotations:
+    kubernetes.io/service-account.name: admin
+EOF
+
+# Verify it now authenticates (should print system:serviceaccount:$NAMESPACE:admin):
+sleep 3
+TOKEN=$(kubectl -n $NAMESPACE get secret admin-token -o jsonpath='{.data.token}' | base64 -d)
+kubectl auth whoami --token="$TOKEN"
+```
+
+Once `kubectl auth whoami` reports the `admin` service account, re-run your dev deploy.
+
 ### Syncing local changes to pod
 
 Instead of manually dev-deploying for every change, you can synchronise your local changes with the k8s pod, using the `devbin/sync.py` script in the Hail repository.
