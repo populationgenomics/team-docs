@@ -370,7 +370,7 @@ mysql --defaults-file=/sql-config/sql-config.cnf
 
 If deploy steps that run `kubectl` fail with:
 
-```
+```text
 error: You must be logged in to the server (Unauthorized)
 ```
 
