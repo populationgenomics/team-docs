@@ -403,6 +403,17 @@ We try to keep our Hail fork as close as possible to the upstream repository. We
 1. Get the upstream changes into a new branch:
    Set SHA_HASH to the particular hash or upstream/main
 
+   Merge upstream/main
+
+   ```bash
+   git fetch origin
+   git fetch upstream
+   git checkout -b draft-<month>
+   git merge --no-commit upstream/main
+   ```
+
+   Merge up to a specific commit hash in the upstream
+
    ```bash
    git remote add upstream https://github.com/hail-is/hail.git  # One-time setup.
 
