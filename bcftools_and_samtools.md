@@ -4,11 +4,13 @@
 
 [SAMtools](https://github.com/samtools/SAMtools) is a similar tool, aimed at reading and manipulating read files (SAM/BAM/CRAM).
 
-This guide walks through the steps required to install a GCS-compatible BCFtools & SAMtools install, avoiding pitfalls like a reliance on MacOS' standard libcurl install which doesn't play nicely with HTSlib.
+> **Note**: Both tools can be installed correctly by [Homebrew](homebrew.md), please consider that as a first option, and only continue with this guide if that installation is unsuccessful.
+
+This guide walks through the steps required to install a GCS-compatible BCFtools & SAMtools install, avoiding issues with MacOS' standard libcurl install which may not play nicely with HTSlib.
 
 ## Prerequisites
 
-* install XCode from App store (general purpose build utilities). This installs gcc and other compilers
+* install XCode from App store (general purpose build utilities). This installs gcc and other compilers. The relevant parts of XCode tools would also be installed as part of a Homebrew installation.
 
 * run `gcc` to open the xcode license agreement. This will prompt you to run the xcode license agreement in sudo, scroll through and agree to terms:
 
@@ -24,7 +26,7 @@ brew install autoconf
 
 * use homebrew to install `libcurl`. Note that homebrew does not install this as the main curl/libcurl, so the installation needs to be referenced explicitly when the build process takes place, which is done using the export commands
 
-```commandline
+```bash
 brew install curl xz libdeflate
 export PKG_CONFIG_PATH="/opt/homebrew/opt/curl/lib/pkgconfig:$PKG_CONFIG_PATH"
 export LDFLAGS="-L/opt/homebrew/opt/curl/lib"
