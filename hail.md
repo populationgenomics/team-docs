@@ -265,6 +265,17 @@ There are 3 categories of machines:
       INSERT INTO sessions (session_id, user_id) VALUES ('$TOKEN', '$USER_ID');
       ```
 
+      Hail recently introduced a role-based permission scheme, so you'll need to give yourself some permissions.
+      In particular, you will need the `create_billing_projects` permission. Find a `role_id` giving that permission
+      and add yourself to that role:
+
+      ```sql
+      SELECT * FROM system_role_permissions srp, system_permissions sp
+      WHERE srp.permission_id = sp.id AND sp.name = 'create_billing_projects';
+
+      INSERT INTO users_system_roles (user_id, role_id, assigned_at) VALUES (user_id, role_id, now());
+      ```
+
    1. Close the connection to the database and the pod.
 
    1. Add the correct OAuth redirect url to this page (one-time step).
