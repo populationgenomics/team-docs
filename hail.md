@@ -377,6 +377,53 @@ apt update && apt install -y mysql-client
 mysql --defaults-file=/sql-config/sql-config.cnf
 ```
 
+### Troubleshooting: dev deploy fails with `Unauthorized`
+
+If deploy steps that run `kubectl` fail with:
+
+```text
+error: You must be logged in to the server (Unauthorized)
+```
+
+the problem usually isn't the reporting step. Those steps authenticate as the `admin`
+service account using the token in your namespace's `admin-token` secret, which is a
+**legacy service-account token**. GKE invalidates legacy tokens that haven't been used
+for a while (`LegacyServiceAccountTokenCleanUp`), so after a gap between deploys the
+stored token stops working and every `kubectl` call fails. Re-running won't fix it —
+`kubectl apply` doesn't regenerate the token of an existing secret.
+
+Confirm the stored token is dead:
+
+```bash
+export NAMESPACE=<your-hail-username>
+gcloud container clusters get-credentials vdc --location=australia-southeast1-b
+
+TOKEN=$(kubectl -n $NAMESPACE get secret admin-token -o jsonpath='{.data.token}' | base64 -d)
+kubectl auth whoami --token="$TOKEN"
+```
+
+If this prints `Unauthorized` instead of `system:serviceaccount:$NAMESPACE:admin`,
+delete and recreate the secret so a fresh token is minted:
+
+```bash
+kubectl -n $NAMESPACE delete secret admin-token
+kubectl -n $NAMESPACE apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: admin-token
+  namespace: $NAMESPACE
+  annotations:
+    kubernetes.io/service-account.name: admin
+EOF
+
+# Verify (should now print system:serviceaccount:$NAMESPACE:admin), then re-run the deploy:
+sleep 3
+TOKEN=$(kubectl -n $NAMESPACE get secret admin-token -o jsonpath='{.data.token}' | base64 -d)
+kubectl auth whoami --token="$TOKEN"
+```
+
 ### Syncing local changes to pod
 
 Instead of manually dev-deploying for every change, you can synchronise your local changes with the k8s pod, using the `devbin/sync.py` script in the Hail repository.
