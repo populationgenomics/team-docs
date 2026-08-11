@@ -4,8 +4,13 @@ Welcome to the Centre for Population Genomics! We're glad to have you here :)
 
 This repository contains documentation you might find useful as you onboard and as an ongoing reference. We sometimes let these docs fall out of date, so please have a chat on Slack if something seems unclear - or open a pull request!
 
-If you need help more urgently, don't hesitate to ask directly on Slack (e.g. in
-the `#team-data` or `#software-questions` channels).
+If you need help more urgently, don't hesitate to ask directly on Slack (e.g. in the `#team-data` or `#software-questions` channels).
+
+## First Time Laptop Setup
+
+[This guide](first_time_setup.md) goes through a number of key software installs which will let you hit the ground running
+
+## Various other guides
 
 - [Getting started](getting_started.md)
 - Setup:

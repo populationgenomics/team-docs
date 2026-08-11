@@ -41,7 +41,7 @@ We strongly encourage setting up the [Github x Slack notification bot](https://s
 
 ### Connection protocol
 
-Checking out a repo using both SSH and HTTPS are fine. SSH mayb be more secure as it's usually possible to extract the GitHub password from the credential manager (eg: keychain on MacOS), but some institites internet may block SSH.
+Checking out a repo using both SSH and HTTPS are fine. SSH maybe more secure as it's usually possible to extract the GitHub password from the credential manager (eg: keychain on MacOS), but some institites internet may block SSH.
 
 If using SSH, we recommend generating a key with the ed25519 algorithm. This guide from Github gives a good overview of [generating and uploading SSH keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
