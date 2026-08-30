@@ -9,7 +9,6 @@ the `#team-data` or `#software-questions` channels).
 
 - [Getting started](getting_started.md)
 - Setup:
-    - [Getting started](getting_started.md)
     - [Setting up your terminal](terminal.md)
     - [Setting up certificates from ZScaler](zscaler.md)
     - [Git + Github](git.md)
