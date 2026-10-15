@@ -590,7 +590,7 @@ terraform apply -var-file=global.tfvars
 
 ### Copy an image to the Artifact Registry (Optional)
 
-In the event that you may need to copy over an image to our Artifact Registry, you can launch the `hail-dev` VM which has `skopeo` installed:
+In the event that you may need to copy over an image to our Artifact Registry, you can either run locally with skopeo installed or launch the `hail-dev` VM which has `skopeo` installed:
 
 ```bash
 cd ...your hail checkout...
