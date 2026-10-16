@@ -170,9 +170,10 @@ There are 3 categories of machines:
    pip install hail
    hailctl auth login
    ```
+
 1. Prepare a change and push it to `$BRANCH` in our Hail fork.
 
-1. Because of the changing `ubuntu:noble-XXXXXX` image tage at the bottom of hail/docker/third-party/images.txt you will *most likely* need to copy over the updated images. You can either run locally with skopeo installed or launch the `hail-dev` VM which has `skopeo` installed. If running on `hail-dev` remember to pull the correct `$BRANCH` e.g. `draft-<month>-<year>`:
+1. Because of the changing `ubuntu:noble-XXXXXX` image tage at the bottom of hail/docker/third-party/images.txt you will _most likely_ need to copy over the updated images. You can either run locally with skopeo installed or launch the `hail-dev` VM which has `skopeo` installed. If running on `hail-dev` remember to pull the correct `$BRANCH` e.g. `draft-<month>-<year>`:
 
 ```bash
 cd ...your hail checkout...
