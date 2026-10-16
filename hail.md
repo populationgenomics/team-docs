@@ -171,7 +171,26 @@ There are 3 categories of machines:
    hailctl auth login
    ```
 
-1. Prepare a change and push it to `$BRANCH` in our Hail fork. Then run a `dev deploy`, which will run the steps you specify as defined in the `build.yaml` file in your branch. The corresponding Kubernetes deployments will be brought up in your own separate namespace, so they won't interfere with the production deployment.
+1. Prepare a change and push it to `$BRANCH` in our Hail fork.
+
+1. Because of the changing `ubuntu:noble-XXXXXX` image tage at the bottom of hail/docker/third-party/images.txt you will _most likely_ need to copy over the updated images. You can either run locally with skopeo installed or launch the `hail-dev` VM which has `skopeo` installed. If running on `hail-dev` remember to pull the correct `$BRANCH` e.g. `draft-<month>-<year>`:
+
+```bash
+cd ...your hail checkout...
+git checkout $BRANCH
+cd docker/third-party
+make NAMESPACE=default copy
+```
+
+You can also inspect the following files for more fine-grained control over what/how you are copying:
+
+```txt
+- docker/third-party/Makefile
+- docker/third-party/copy_images.sh
+- docker/copy_image.sh
+```
+
+1. Then run a `dev deploy`, which will run the steps you specify as defined in the `build.yaml` file in your branch. The corresponding Kubernetes deployments will be brought up in your own separate namespace, so they won't interfere with the production deployment.
 
    ```bash
    hailctl dev deploy --branch populationgenomics/hail:$BRANCH --steps deploy_batch
@@ -590,7 +609,7 @@ terraform apply -var-file=global.tfvars
 
 ### Copy an image to the Artifact Registry (Optional)
 
-In the event that you may need to copy over an image to our Artifact Registry, you can launch the `hail-dev` VM which has `skopeo` installed:
+In the event that you may need to copy over an image to our Artifact Registry, you can either run locally with skopeo installed or launch the `hail-dev` VM which has `skopeo` installed:
 
 ```bash
 cd ...your hail checkout...
